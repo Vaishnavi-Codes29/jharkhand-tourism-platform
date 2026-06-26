@@ -1,64 +1,37 @@
-# Jharkhand Tourism - Setup Guide
+# 🌿 Jharkhand Tourism Platform
+### Smart India Hackathon 2026 | Problem Statement #25032
 
-## Quick Start
+A Smart Digital Platform to Promote Eco & Cultural Tourism in Jharkhand
 
-### 1. Install dependencies
-```bash
-pip install -r requirements.txt
-```
+## 🚀 Features
+- AI Chatbot (Groq LLaMA)
+- Tourist, Provider & Admin Dashboards
+- Booking System
+- Interactive Map
+- Homestay Listings
+- OTP Authentication
+- Role-based Access Control
 
-### 2. Set your Anthropic API key (REQUIRED for chatbot)
+## 🛠️ Tech Stack
+- **Backend:** Python, Flask, SQLAlchemy
+- **Database:** SQLite
+- **AI:** Groq LLaMA3
+- **Frontend:** HTML, CSS, JavaScript
 
-**Option A — Environment variable (recommended):**
-```bash
-# Linux/Mac
-export ANTHROPIC_API_KEY=sk-ant-your-key-here
-python app.py
+## ⚙️ Setup
+1. Clone the repo
+2. Create virtual environment: `python -m venv venv`
+3. Activate: `venv\Scripts\activate`
+4. Install packages: `pip install -r requirements.txt`
+5. Add your `.env` file (see `.env.example`)
+6. Run: `python app.py`
 
-# Windows
-set ANTHROPIC_API_KEY=sk-ant-your-key-here
-python app.py
-```
+## 🔑 Demo Credentials
+| Role | Email | Password |
+|------|-------|----------|
+| Tourist | priya@gmail.com | Priya@123 |
+| Provider | raju@gmail.com | Raju@123! |
+| Admin | admin@jharkhand.gov.in | Admin@123# |
 
-**Option B — Edit app.py directly:**
-Open `app.py` and replace line:
-```python
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "your-anthropic-api-key-here")
-```
-with:
-```python
-ANTHROPIC_API_KEY = "sk-ant-your-actual-key-here"
-```
-
-Get your API key at: https://console.anthropic.com
-
-### 3. Run the server
-```bash
-python app.py
-```
-
-### 4. Open in browser
-Visit: http://localhost:5000
-
----
-
-## Admin Login
-- Email: admin@jharkhand.gov.in
-- Password: Admin@123#
-
-## Demo Tourist Login
-- Email: priya@gmail.com
-- Password: Priya@123
-
-## Demo Provider Login
-- Email: raju@gmail.com
-- Password: Raju@123!
-
----
-
-## Features
-- AI chatbot powered by Claude (via `/chat` backend endpoint)
-- Admin can see all provider requests, tourist bookings, approve/reject providers
-- Tourist dashboard with bookings, trip planner, marketplace
-- Provider dashboard with listings and booking management
-- Session-based authentication with SQLite database
+## 👥 Team
+- Vaishnavi (Team Leader)
