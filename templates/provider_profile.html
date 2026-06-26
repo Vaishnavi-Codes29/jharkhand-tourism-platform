@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provider Profile - Jharkhand Tourism</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid #f5576c;
+            padding-bottom: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #f5576c;
+            background: #fff0f3;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+        
+        .profile-section {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            align-items: start;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .profile-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .rating {
+            color: #ffd700;
+            margin: 0.25rem 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+        
+        .btn-secondary:hover {
+            background: #e8e8e8;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        .services-list {
+            list-style: none;
+        }
+        
+        .service-item {
+            background: #f0f0f0;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .service-info h4 {
+            margin-bottom: 0.25rem;
+        }
+        
+        .service-info p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .service-price {
+            font-weight: bold;
+            color: #f5576c;
+            font-size: 1.1rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-icon {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-icon:hover {
+            background: #764ba2;
+        }
+        
+        .btn-icon.delete {
+            background: #e74c3c;
+        }
+        
+        .btn-icon.delete:hover {
+            background: #c0392b;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+        }
+        
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .button-group .btn {
+            flex: 1;
+        }
+        
+        .success-message, .error-message {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #f5576c;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-section {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar will be included here -->
+    <div id="navbar"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <section class="header">
+            <h1>🏢 Provider Profile</h1>
+            <p>Manage your services and business information</p>
+        </section>
+        
+        <div class="success-message" id="successMsg"></div>
+        <div class="error-message" id="errorMsg"></div>
+        
+        <!-- Profile Information -->
+        <section class="section">
+            <div class="section-title">👤 Business Information</div>
+            
+            <div class="profile-section">
+                <div class="profile-avatar">🏢</div>
+                <div class="profile-info">
+                    <h3 id="businessName">Your Business Name</h3>
+                    <p class="rating">⭐ 4.8 (125 reviews)</p>
+                    <p id="businessType" style="color: #666;">Service Type</p>
+                </div>
+            </div>
+            
+            <form id="profileForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="businessName">Business Name *</label>
+                        <input type="text" id="businessNameInput" name="businessName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="businessType">Service Type *</label>
+                        <select id="businessTypeInput" name="businessType" required>
+                            <option value="">Select service type...</option>
+                            <option value="hotel">Hotel</option>
+                            <option value="resort">Resort</option>
+                            <option value="guide">Tour Guide</option>
+                            <option value="transport">Transportation</option>
+                            <option value="restaurant">Restaurant</option>
+                            <option value="activity">Activity Provider</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Business Description</label>
+                    <textarea id="description" name="description" placeholder="Describe your services..."></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="city">City/District</label>
+                        <input type="text" id="city" name="city">
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="btn">Save Profile</button>
+                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </section>
+        
+        <!-- Services Management -->
+        <section class="section">
+            <div class="section-title">📋 My Services</div>
+            
+            <ul class="services-list" id="servicesList">
+                <li class="empty-state">
+                    <div class="empty-state-icon">📭</div>
+                    <p>No services added yet</p>
+                </li>
+            </ul>
+            
+            <button class="btn" onclick="document.getElementById('addServiceForm').style.display = 'block'" style="width: 100%; margin-top: 1rem;">
+                + Add New Service
+            </button>
+        </section>
+        
+        <!-- Add Service Form (Hidden) -->
+        <section class="section" id="addServiceForm" style="display: none;">
+            <div class="section-title">➕ Add New Service</div>
+            
+            <form id="serviceForm">
+                <div class="form-group">
+                    <label for="serviceName">Service Name *</label>
+                    <input type="text" id="serviceName" name="serviceName" placeholder="e.g., Deluxe Room with Breakfast" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="serviceDescription">Description</label>
+                    <textarea id="serviceDescription" name="serviceDescription" placeholder="Describe this service..."></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="servicePrice">Price per Day/Person ($) *</label>
+                        <input type="number" id="servicePrice" name="servicePrice" min="0" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="serviceCapacity">Capacity *</label>
+                        <input type="number" id="serviceCapacity" name="serviceCapacity" min="1" required>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="btn">Add Service</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('addServiceForm').style.display = 'none'">Cancel</button>
+                </div>
+            </form>
+        </section>
+        
+        <!-- Business Verification -->
+        <section class="section">
+            <div class="section-title">✅ Business Verification</div>
+            
+            <div style="background: #f0f0f0; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                <p><strong>Verification Status:</strong> <span style="color: #27ae60;">✓ Verified</span></p>
+                <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Your business has been verified and is visible to customers.</p>
+            </div>
+            
+            <button class="btn btn-secondary" style="width: 100%;">📄 Update Documents</button>
+        </section>
+        
+        <!-- Danger Zone -->
+        <section class="section">
+            <div class="section-title" style="border-bottom-color: #e74c3c;">⚠️ Danger Zone</div>
+            
+            <p style="color: #666; margin-bottom: 1rem;">These actions are permanent and cannot be undone.</p>
+            
+            <button class="btn btn-danger" style="width: 100%; margin-bottom: 0.5rem;">🔐 Change Password</button>
+            <button class="btn btn-danger" style="width: 100%;">🗑️ Delete Account</button>
+        </section>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+            
+            if (!user.id) {
+                window.location.href = '/login';
+                return;
+            }
+            
+            // Load provider profile
+            try {
+                const res = await fetch('/profile');
+                const data = await res.json();
+                
+                if (data.user) {
+                    document.getElementById('businessNameInput').value = data.user.name || '';
+                    document.getElementById('email').value = data.user.email || '';
+                    document.getElementById('phone').value = data.user.phone || '';
+                }
+            } catch (err) {
+                console.error('Error loading profile:', err);
+            }
+        });
+        
+        // Handle profile form submission
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            
+            try {
+                const res = await fetch('/profile', {
+                    method: 'PUT',
+                    body: formData
+                });
+                
+                const data = await res.json();
+                
+                if (data.status === 'success') {
+                    document.getElementById('successMsg').textContent = 'Profile updated successfully!';
+                    document.getElementById('successMsg').style.display = 'block';
+                } else {
+                    document.getElementById('errorMsg').textContent = data.message || 'Error updating profile';
+                    document.getElementById('errorMsg').style.display = 'block';
+                }
+            } catch (err) {
+                document.getElementById('errorMsg').textContent = 'Error updating profile';
+                document.getElementById('errorMsg').style.display = 'block';
+                console.error('Profile update error:', err);
+            }
+        });
+        
+        // Handle service form submission
+        document.getElementById('serviceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const serviceData = {
+                name: document.getElementById('serviceName').value,
+                description: document.getElementById('serviceDescription').value,
+                price: parseFloat(document.getElementById('servicePrice').value),
+                capacity: parseInt(document.getElementById('serviceCapacity').value)
+            };
+            
+            try {
+                const res = await fetch('/services', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(serviceData)
+                });
+                
+                const data = await res.json();
+                
+                if (data.status === 'success') {
+                    document.getElementById('serviceForm').reset();
+                    document.getElementById('addServiceForm').style.display = 'none';
+                    document.getElementById('successMsg').textContent = 'Service added successfully!';
+                    document.getElementById('successMsg').style.display = 'block';
+                    // Reload services list
+                    location.reload();
+                }
+            } catch (err) {
+                document.getElementById('errorMsg').textContent = 'Error adding service';
+                document.getElementById('errorMsg').style.display = 'block';
+                console.error('Service add error:', err);
+            }
+        });
+    </script>
+</body>
+</html>

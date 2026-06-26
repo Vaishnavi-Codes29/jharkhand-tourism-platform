@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Booking - Jharkhand Tourism</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .booking-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            opacity: 0.9;
+        }
+        
+        .form-section {
+            padding: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+        
+        .price-estimate {
+            background: #f0f0f0;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .price-row.total {
+            border-top: 2px solid #667eea;
+            padding-top: 0.5rem;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+        
+        .btn-secondary:hover {
+            background: #e8e8e8;
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid #c33;
+        }
+        
+        .success-message {
+            background: #efe;
+            color: #3c3;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid #3c3;
+        }
+        
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .button-group .btn {
+            margin: 0;
+        }
+
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 90px;
+            padding: 0.8rem 0.7rem;
+            border-radius: 10px;
+            background: #f5f7ff;
+            color: #667eea;
+            border: 1px solid #d7def8;
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .step.active {
+            background: #667eea;
+            color: #fff;
+            border-color: #5a66d4;
+        }
+
+        .step.completed {
+            background: #dfe7ff;
+            color: #334fbd;
+        }
+
+        .step-pane {
+            display: none;
+        }
+
+        .step-pane.active {
+            display: block;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .summary-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .summary-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.85rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-list li:last-child {
+            border-bottom: none;
+        }
+
+        .payment-methods {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .payment-option {
+            padding: 0.85rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .payment-option:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.12);
+        }
+
+        .payment-option input {
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-container">
+        <div class="header">
+            <h1>🎫 New Booking</h1>
+            <p>Plan your Jharkhand adventure</p>
+        </div>
+        
+        <div class="form-section">
+            <div class="error-message" id="errorMsg"></div>
+            <div class="success-message" id="successMsg"></div>
+            
+            <div class="stepper" id="bookingStepper">
+                <div class="step active" data-step="1">1. Discovery</div>
+                <div class="step" data-step="2">2. Configuration</div>
+                <div class="step" data-step="3">3. Availability</div>
+                <div class="step" data-step="4">4. Guest Details</div>
+                <div class="step" data-step="5">5. Payment</div>
+                <div class="step" data-step="6">6. Confirmation</div>
+            </div>
+
+            <form id="bookingForm">
+                <div class="step-pane active" data-step="1">
+                    <div class="section-title">📍 Discovery</div>
+                    <div class="form-group">
+                        <label for="destination">Select Destination *</label>
+                        <select id="destination" name="destination" required>
+                            <option value="">Choose a destination...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="budget">Budget per Person</label>
+                        <input type="number" id="budget" name="budget" placeholder="Optional" min="0">
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+                        <button type="button" class="btn" onclick="goToStep(2)">Continue</button>
+                    </div>
+                </div>
+
+                <div class="step-pane" data-step="2">
+                    <div class="section-title">📅 Configuration</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="startDate">Start Date *</label>
+                            <input type="date" id="startDate" name="startDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate">End Date *</label>
+                            <input type="date" id="endDate" name="endDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="guests">Number of Guests *</label>
+                            <input type="number" id="guests" name="guests" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="accommodation">Accommodation Type</label>
+                            <select id="accommodation" name="accommodation">
+                                <option value="">No preference</option>
+                                <option value="luxury">Luxury Hotel</option>
+                                <option value="comfort">Comfort Hotel</option>
+                                <option value="budget">Budget Hotel</option>
+                                <option value="homestay">Homestay</option>
+                                <option value="resort">Resort</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="section-title">✨ Services</div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="guide" name="guide">
+                        <label for="guide">Professional Guide (+$50/day)</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="transport" name="transport">
+                        <label for="transport">Transportation (+$30/day)</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="meals" name="meals">
+                        <label for="meals">Meal Package (+$20/day)</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="insurance" name="insurance">
+                        <label for="insurance">Travel Insurance (+$15)</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Special Requests</label>
+                        <textarea id="notes" name="notes" placeholder="Any special requests or preferences..."></textarea>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(1)">Back</button>
+                        <button type="button" class="btn" onclick="goToStep(3)">Check Availability</button>
+                    </div>
+                </div>
+
+                <div class="step-pane" data-step="3">
+                    <div class="section-title">✅ Availability Check</div>
+                    <p>Verify if your preferred dates and destination are available before continuing.</p>
+                    <ul class="summary-list">
+                        <li><span>Destination</span><strong id="summaryDestination">—</strong></li>
+                        <li><span>Dates</span><strong id="summaryDates">—</strong></li>
+                        <li><span>Guests</span><strong id="summaryGuests">—</strong></li>
+                        <li><span>Accommodation</span><strong id="summaryAccommodation">—</strong></li>
+                        <li><span>Selected Extras</span><strong id="summaryExtras">—</strong></li>
+                    </ul>
+                    <div class="form-group">
+                        <div class="section-title">⏳ Availability Status</div>
+                        <div id="availabilityStatus" style="color:#334fbd; padding:0.75rem 0;">Press "Run Check" to confirm availability.</div>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(2)">Back</button>
+                        <button type="button" class="btn" id="availabilityCheckBtn" onclick="performAvailabilityCheck()">Run Check</button>
+                    </div>
+                </div>
+
+                <div class="step-pane" data-step="4">
+                    <div class="section-title">👤 Guest Details</div>
+                    <div class="form-group">
+                        <label for="guestName">Full Name *</label>
+                        <input type="text" id="guestName" name="guestName" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guestEmail">Email Address *</label>
+                        <input type="email" id="guestEmail" name="guestEmail" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+91 XXXXXXXXXX" required>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="newsletter" name="newsletter" checked>
+                        <label for="newsletter">Receive updates about my booking</label>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(3)">Back</button>
+                        <button type="button" class="btn" onclick="goToStep(5)">Proceed to Payment</button>
+                    </div>
+                </div>
+
+                <div class="step-pane" data-step="5">
+                    <div class="section-title">💳 Payment</div>
+                    <div class="price-estimate">
+                        <div class="price-row"><span>Base Package:</span><span id="basePrice">$0</span></div>
+                        <div class="price-row"><span>Add-ons:</span><span id="addonsPrice">$0</span></div>
+                        <div class="price-row total"><span>Total Estimate:</span><span id="totalPrice">$0</span></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Method *</label>
+                        <div class="payment-methods">
+                            <label class="payment-option"><input type="radio" name="paymentMethod" value="card"> Credit / Debit Card</label>
+                            <label class="payment-option"><input type="radio" name="paymentMethod" value="upi"> UPI</label>
+                            <label class="payment-option"><input type="radio" name="paymentMethod" value="cod"> Pay on Arrival</label>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(4)">Back</button>
+                        <button type="button" class="btn" onclick="goToStep(6)">Review & Confirm</button>
+                    </div>
+                </div>
+
+                <div class="step-pane" data-step="6">
+                    <div class="section-title">🎉 Confirmation</div>
+                    <p>Review your booking details before confirming.</p>
+                    <ul class="summary-list">
+                        <li><span>Destination</span><strong id="confirmDestination">—</strong></li>
+                        <li><span>Dates</span><strong id="confirmDates">—</strong></li>
+                        <li><span>Guests</span><strong id="confirmGuests">—</strong></li>
+                        <li><span>Accommodation</span><strong id="confirmAccommodation">—</strong></li>
+                        <li><span>Extras</span><strong id="confirmExtras">—</strong></li>
+                        <li><span>Contact</span><strong id="confirmContact">—</strong></li>
+                        <li><span>Payment</span><strong id="confirmPayment">—</strong></li>
+                        <li class="price-row total"><span>Total Payable</span><strong id="confirmTotal">$0</strong></li>
+                    </ul>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(5)">Back</button>
+                        <button type="submit" class="btn">Confirm Booking</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const totalSteps = 6;
+        let currentStep = 1;
+        let availabilityConfirmed = false;
+
+        function setStepIndicator(step) {
+            document.querySelectorAll('.step').forEach(el => {
+                const stepNumber = Number(el.dataset.step);
+                el.classList.toggle('active', stepNumber === step);
+                el.classList.toggle('completed', stepNumber < step);
+            });
+        }
+
+        function showStep(step) {
+            if (step < 1 || step > totalSteps) return;
+            currentStep = step;
+            document.querySelectorAll('.step-pane').forEach(pane => {
+                pane.classList.toggle('active', Number(pane.dataset.step) === step);
+            });
+            setStepIndicator(step);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (step === 3) {
+                updateAvailabilitySummary();
+            }
+            if (step === 5 || step === 6) {
+                updatePriceEstimate();
+            }
+            if (step === 6) {
+                updateConfirmationSummary();
+            }
+        }
+
+        function goToStep(step) {
+            clearMessages();
+            if (step > currentStep && !validateStep(currentStep)) return;
+            if (step === 4 && !availabilityConfirmed) {
+                document.getElementById('availabilityStatus').textContent = 'Please run availability check before moving on.';
+                document.getElementById('availabilityStatus').style.color = '#c33';
+                return;
+            }
+            showStep(step);
+        }
+
+        function validateStep(step) {
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.style.display = 'none';
+            errorMsg.textContent = '';
+
+            if (step === 1) {
+                const destination = document.getElementById('destination').value;
+                if (!destination) {
+                    errorMsg.textContent = 'Please select a destination to continue.';
+                    errorMsg.style.display = 'block';
+                    return false;
+                }
+            }
+
+            if (step === 2) {
+                const start = document.getElementById('startDate').value;
+                const end = document.getElementById('endDate').value;
+                const guests = Number(document.getElementById('guests').value);
+                if (!start || !end) {
+                    errorMsg.textContent = 'Please select both start and end dates.';
+                    errorMsg.style.display = 'block';
+                    return false;
+                }
+                if (new Date(end) <= new Date(start)) {
+                    errorMsg.textContent = 'End date must be after start date.';
+                    errorMsg.style.display = 'block';
+                    return false;
+                }
+                if (guests < 1) {
+                    errorMsg.textContent = 'Please enter at least one guest.';
+                    errorMsg.style.display = 'block';
+                    return false;
+                }
+            }
+
+            if (step === 4) {
+                const name = document.getElementById('guestName').value.trim();
+                const email = document.getElementById('guestEmail').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!name || !email || !phone) {
+                    errorMsg.textContent = 'Please complete all guest details.';
+                    errorMsg.style.display = 'block';
+                    return false;
+                }
+                if (!emailReg.test(email)) {
+                    errorMsg.textContent = 'Please enter a valid email address.';
+                    errorMsg.style.display = 'block';
+                    return false;
+                }
+                if (phone.replace(/\D/g, '').length < 10) {
+                    errorMsg.textContent = 'Please enter a valid mobile number.';
+                    errorMsg.style.display = 'block';
+                    return false;
+                }
+            }
+
+            if (step === 5) {
+                const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+                if (!paymentMethod) {
+                    errorMsg.textContent = 'Please choose a payment method before continuing.';
+                    errorMsg.style.display = 'block';
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function clearMessages() {
+            ['errorMsg', 'successMsg'].forEach(id => {
+                const el = document.getElementById(id);
+                el.style.display = 'none';
+                el.textContent = '';
+            });
+        }
+
+        async function loadDestinations() {
+            try {
+                const res = await fetch('/destinations');
+                const data = await res.json();
+                const destinationSelect = document.getElementById('destination');
+                if (data.destinations) {
+                    data.destinations.forEach(dest => {
+                        const option = document.createElement('option');
+                        option.value = dest.id;
+                        option.textContent = dest.name;
+                        destinationSelect.appendChild(option);
+                    });
+                }
+            } catch (err) {
+                console.error('Error loading destinations:', err);
+            }
+        }
+
+        function updateAvailabilitySummary() {
+            const destination = document.getElementById('destination');
+            const start = document.getElementById('startDate').value;
+            const end = document.getElementById('endDate').value;
+            const guests = document.getElementById('guests').value;
+            const accommodation = document.getElementById('accommodation').value || 'No preference';
+            const extras = [];
+            ['guide', 'transport', 'meals', 'insurance'].forEach(id => {
+                if (document.getElementById(id).checked) extras.push(document.querySelector(`label[for="${id}"]`).textContent);
+            });
+            document.getElementById('summaryDestination').textContent = destination.selectedOptions[0]?.textContent || '—';
+            document.getElementById('summaryDates').textContent = start && end ? `${start} → ${end}` : '—';
+            document.getElementById('summaryGuests').textContent = `${guests} guest${guests === '1' ? '' : 's'}`;
+            document.getElementById('summaryAccommodation').textContent = accommodation;
+            document.getElementById('summaryExtras').textContent = extras.length ? extras.join(', ') : 'None';
+            document.getElementById('availabilityStatus').textContent = 'Press "Run Check" to confirm availability.';
+            document.getElementById('availabilityStatus').style.color = '#334fbd';
+            availabilityConfirmed = false;
+        }
+
+        function performAvailabilityCheck() {
+            if (!validateStep(2)) {
+                return;
+            }
+            availabilityConfirmed = true;
+            document.getElementById('availabilityStatus').textContent = '✅ Availability confirmed for your selected dates.';
+            document.getElementById('availabilityStatus').style.color = '#1a7f18';
+        }
+
+        function updatePriceEstimate() {
+            const guests = parseInt(document.getElementById('guests').value) || 1;
+            const days = calculateDays();
+            let basePrice = 100 * guests * days;
+            let addonsPrice = 0;
+            if (document.getElementById('guide').checked) addonsPrice += 50 * days;
+            if (document.getElementById('transport').checked) addonsPrice += 30 * days;
+            if (document.getElementById('meals').checked) addonsPrice += 20 * days;
+            if (document.getElementById('insurance').checked) addonsPrice += 15;
+            document.getElementById('basePrice').textContent = `$${basePrice}`;
+            document.getElementById('addonsPrice').textContent = `$${addonsPrice}`;
+            document.getElementById('totalPrice').textContent = `$${basePrice + addonsPrice}`;
+            document.getElementById('confirmTotal').textContent = `$${basePrice + addonsPrice}`;
+        }
+
+        function calculateDays() {
+            const start = new Date(document.getElementById('startDate').value);
+            const end = new Date(document.getElementById('endDate').value);
+            const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+            return Math.max(1, days);
+        }
+
+        function updateConfirmationSummary() {
+            document.getElementById('confirmDestination').textContent = document.getElementById('destination').selectedOptions[0]?.textContent || '—';
+            const start = document.getElementById('startDate').value;
+            const end = document.getElementById('endDate').value;
+            document.getElementById('confirmDates').textContent = start && end ? `${start} → ${end}` : '—';
+            document.getElementById('confirmGuests').textContent = `${document.getElementById('guests').value || 1} guest${document.getElementById('guests').value === '1' ? '' : 's'}`;
+            document.getElementById('confirmAccommodation').textContent = document.getElementById('accommodation').value || 'No preference';
+            const extras = [];
+            ['guide', 'transport', 'meals', 'insurance'].forEach(id => {
+                if (document.getElementById(id).checked) extras.push(document.querySelector(`label[for="${id}"]`).textContent);
+            });
+            document.getElementById('confirmExtras').textContent = extras.length ? extras.join(', ') : 'None';
+            document.getElementById('confirmContact').textContent = `${document.getElementById('guestName').value || '—'} · ${document.getElementById('guestEmail').value || '—'}`;
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+            document.getElementById('confirmPayment').textContent = paymentMethod ? paymentMethod.value.toUpperCase() : '—';
+            updatePriceEstimate();
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadDestinations();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate').min = today;
+            document.getElementById('endDate').min = today;
+            showStep(1);
+            [ 'guests', 'startDate', 'endDate', 'guide', 'transport', 'meals', 'insurance' ].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', updatePriceEstimate);
+            });
+            updatePriceEstimate();
+        });
+
+        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!validateStep(5)) return;
+            clearMessages();
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'cod';
+            const bookingData = {
+                destination_id: document.getElementById('destination').value,
+                start_date: document.getElementById('startDate').value,
+                end_date: document.getElementById('endDate').value,
+                guests: Number(document.getElementById('guests').value),
+                budget: Number(document.getElementById('budget').value) || 0,
+                accommodation: document.getElementById('accommodation').value,
+                phone: document.getElementById('phone').value,
+                name: document.getElementById('guestName').value,
+                email: document.getElementById('guestEmail').value,
+                notes: document.getElementById('notes').value,
+                payment_method: paymentMethod,
+                services: {
+                    guide: document.getElementById('guide').checked,
+                    transport: document.getElementById('transport').checked,
+                    meals: document.getElementById('meals').checked,
+                    insurance: document.getElementById('insurance').checked
+                }
+            };
+            try {
+                const res = await fetch('/book', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bookingData)
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    successMsg.textContent = 'Booking confirmed! Redirecting to dashboard...';
+                    successMsg.style.display = 'block';
+                    setTimeout(() => window.location.href = '/tourist_dashboard', 2000);
+                } else {
+                    errorMsg.textContent = data.message || 'Booking failed. Please try again.';
+                    errorMsg.style.display = 'block';
+                }
+            } catch (err) {
+                errorMsg.textContent = 'Error creating booking. Please try again.';
+                errorMsg.style.display = 'block';
+                console.error('Booking error:', err);
+            }
+        });
+    </script>
+</body>
+</html>

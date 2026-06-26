@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experience Jharkhand – Tourist Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --forest: #1a3520;
+            --moss: #3a6b35;
+            --earth: #8b5e3c;
+            --clay: #c97d4e;
+            --gold: #d4a843;
+            --sand: #f5e6c8;
+            --cream: #fdf6ec;
+            --bark: #5c3d1e;
+            --leaf: #6aaa4e;
+            --danger: #c0392b;
+            --white: #ffffff;
+            --text-dark: #1e1008;
+            --text-mid: #5a3e28;
+            --text-light: #8b7355;
+            --radius: 12px;
+            --shadow: 0 4px 24px rgba(90, 60, 20, 0.13);
+            --shadow-lg: 0 12px 48px rgba(90, 60, 20, 0.18);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background: rgba(26, 53, 32, 0.98);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4%;
+            height: 68px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--gold);
+            letter-spacing: 0.6px;
+        }
+
+        .nav-logo span {
+            font-style: italic;
+            color: var(--sand);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 14px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--sand);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--gold);
+            background: rgba(212, 168, 67, 0.12);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-bookings-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(212, 168, 67, 0.15);
+            border: 1px solid rgba(212, 168, 67, 0.4);
+            color: var(--gold);
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-bookings-btn:hover {
+            background: rgba(212, 168, 67, 0.28);
+        }
+
+        .nav-badge {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--clay);
+            color: var(--white);
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .nav-cta {
+            background: var(--clay);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .nav-cta:hover {
+            background: var(--gold);
+            color: var(--forest);
+        }
+
+        .page-content {
+            padding-top: 88px;
+        }
+
+        .hero {
+            min-height: 78vh;
+            background: linear-gradient(160deg, var(--forest) 0%, var(--moss) 100%);
+            color: var(--sand);
+            padding: 96px 4% 72px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cpolygon points='60,5 115,32 115,88 60,115 5,88 5,32' stroke='%23d4a843' stroke-width='0.6' stroke-opacity='0.12'/%3E%3Ccircle cx='60' cy='60' r='20' stroke='%23d4a843' stroke-width='0.5' stroke-opacity='0.1'/%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.45;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 680px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(212, 168, 67, 0.18);
+            border: 1px solid rgba(212, 168, 67, 0.4);
+            color: var(--gold);
+            padding: 8px 18px;
+            border-radius: 24px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 em {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .hero p {
+            max-width: 520px;
+            font-size: 1.02rem;
+            color: rgba(245, 230, 200, 0.88);
+            line-height: 1.75;
+            margin-bottom: 34px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 44px;
+        }
+
+        .btn-primary {
+            background: var(--clay);
+            color: var(--white);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold);
+            color: var(--forest);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--sand);
+            border: 1.5px solid rgba(245, 230, 200, 0.45);
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-chip {
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(245, 230, 200, 0.18);
+            border-radius: 16px;
+            padding: 20px 22px;
+            min-width: 145px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-chip strong {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .stat-chip span {
+            color: rgba(245, 230, 200, 0.9);
+            font-size: 0.88rem;
+            line-height: 1.4;
+        }
+
+        .section {
+            padding: 72px 4%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(139, 94, 60, 0.1);
+            color: var(--earth);
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: var(--forest);
+            line-height: 1.2;
+            margin-bottom: 14px;
+        }
+
+        .section-header p {
+            max-width: 580px;
+            margin: 0 auto;
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .divider {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--clay), var(--gold));
+            margin: 18px auto 0;
+            border-radius: 2px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .booking-card,
+        .favorite-card,
+        .recommend-card,
+        .action-card,
+        .profile-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(139, 94, 60, 0.08);
+        }
+
+        .booking-card {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .booking-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .booking-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.12rem;
+            color: var(--forest);
+        }
+
+        .status-pill {
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-confirmed {
+            background: rgba(106, 170, 78, 0.15);
+            color: var(--leaf);
+        }
+
+        .status-pending {
+            background: rgba(212, 168, 67, 0.12);
+            color: var(--earth);
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            color: var(--text-mid);
+            font-size: 0.95rem;
+        }
+
+        .booking-details span {
+            display: block;
+        }
+
+        .booking-details strong {
+            color: var(--text-dark);
+        }
+
+        .booking-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-top: 1px solid rgba(139, 94, 60, 0.12);
+            padding-top: 16px;
+        }
+
+        .booking-price {
+            font-weight: 700;
+            color: var(--forest);
+        }
+
+        .favorite-card {
+            background: linear-gradient(150deg, var(--forest), var(--moss) 85%);
+            color: var(--sand);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .favorite-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top left, rgba(212, 168, 67, 0.18), transparent 35%);
+        }
+
+        .favorite-card-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .dest-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--sand);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            margin-bottom: 16px;
+        }
+
+        .favorite-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+
+        .favorite-stars {
+            color: var(--gold);
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+
+        .favorite-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .favorite-actions button {
+            background: rgba(255, 255, 255, 0.12);
+            color: var(--sand);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 10px;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .favorite-actions button:hover {
+            background: rgba(212, 168, 67, 0.2);
+            color: var(--gold);
+        }
+
+        .recommend-row {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .recommend-card {
+            min-width: 260px;
+            flex: 0 0 auto;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            scroll-snap-align: start;
+            cursor: default;
+        }
+
+        .recommend-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--forest);
+            font-size: 1.1rem;
+        }
+
+        .recommend-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .recommend-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-mid);
+            font-size: 0.92rem;
+        }
+
+        .recommend-card .btn-primary {
+            width: fit-content;
+            padding: 10px 20px;
+            font-size: 0.88rem;
+        }
+
+        .recommend-card.dark {
+            background: linear-gradient(135deg, rgba(26, 53, 32, 0.06), rgba(106, 170, 78, 0.08));
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .action-card {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border: 1px solid rgba(139, 94, 60, 0.12);
+        }
+
+        .action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .action-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: rgba(106, 170, 78, 0.14);
+            display: grid;
+            place-items: center;
+            font-size: 1.5rem;
+        }
+
+        .action-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--forest);
+        }
+
+        .profile-card {
+            padding: 26px;
+            display: grid;
+            gap: 22px;
+        }
+
+        .profile-top {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .profile-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--clay), var(--earth));
+            color: var(--white);
+            display: grid;
+            place-items: center;
+            font-size: 2rem;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+        }
+
+        .profile-name {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .profile-name h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--forest);
+        }
+
+        .profile-name p {
+            color: var(--text-mid);
+            font-size: 0.95rem;
+        }
+
+        .profile-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .meta-row {
+            background: rgba(106, 170, 78, 0.08);
+            border-radius: 14px;
+            padding: 14px 16px;
+        }
+
+        .meta-label {
+            font-size: 0.78rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .meta-value {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .profile-actions .btn-primary {
+            padding: 12px 24px;
+        }
+
+        .profile-actions .btn-secondary {
+            border: 1.5px solid rgba(139, 94, 60, 0.2);
+            background: transparent;
+            color: var(--forest);
+            transition: all 0.25s ease;
+        }
+
+        .profile-actions .btn-secondary:hover {
+            color: var(--gold);
+            border-color: var(--gold);
+            background: rgba(212, 168, 67, 0.1);
+        }
+
+        .card-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .booking-empty {
+            text-align: center;
+            padding: 44px 24px;
+        }
+
+        .booking-empty .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            color: var(--forest);
+        }
+
+        .booking-record {
+            background: var(--cream);
+            border-radius: var(--radius);
+            padding: 22px;
+            margin-bottom: 18px;
+            border-left: 4px solid var(--clay);
+            box-shadow: var(--shadow);
+        }
+
+        .booking-record-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .br-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.12rem;
+            color: var(--forest);
+        }
+
+        .br-status {
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .br-status.confirmed {
+            background: rgba(106, 170, 78, 0.12);
+            color: var(--leaf);
+        }
+
+        .br-status.pending {
+            background: rgba(212, 168, 67, 0.12);
+            color: var(--earth);
+        }
+
+        .br-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .br-item {
+            font-size: 0.92rem;
+            color: var(--text-mid);
+        }
+
+        .br-item strong {
+            color: var(--text-dark);
+        }
+
+        .br-total {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px dashed rgba(139, 94, 60, 0.18);
+            font-weight: 700;
+            color: var(--forest);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 53, 32, 0.88);
+            backdrop-filter: blur(6px);
+            z-index: 1100;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .bookings-modal {
+            background: var(--white);
+            border-radius: 20px;
+            max-width: 760px;
+            width: 100%;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.28);
+            animation: slideUp 0.35s ease;
+            margin: auto;
+        }
+
+        .bookings-modal-header {
+            background: linear-gradient(135deg, var(--forest), var(--moss));
+            padding: 30px 32px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .bookings-modal-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--sand);
+            font-size: 1.7rem;
+        }
+
+        .bookings-modal-header p {
+            color: rgba(245, 230, 200, 0.78);
+            font-size: 0.95rem;
+            max-width: 620px;
+        }
+
+        .bookings-modal-body {
+            padding: 28px 32px 32px;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--forest);
+            color: var(--sand);
+            padding: 14px 22px;
+            border-radius: 12px;
+            border-left: 4px solid var(--gold);
+            font-size: 0.92rem;
+            z-index: 1200;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transition: all 0.35s ease;
+            max-width: 360px;
+            text-align: center;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+            background: var(--danger);
+        }
+
+        .toast.success {
+            border-left-color: var(--gold);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(32px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 980px) {
+            .nav-links li:nth-child(n+5) {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 110px;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 3.5%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 110px 3.5% 48px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .cards-grid,
+            .actions-grid,
+            .profile-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .recommend-row {
+                padding-left: 3.5%;
+                padding-right: 3.5%;
+            }
+
+            .recommend-card {
+                min-width: 100%;
+            }
+
+            .bookings-modal {
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-right {
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-logo">Experience Jharkhand <span>/ Tourist Portal</span></div>
+        <ul class="nav-links">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#bookings">My Bookings</a></li>
+            <li><a href="#explore">Explore</a></li>
+            <li><a href="#favorites">Favorites</a></li>
+            <li><a href="#profile">Profile</a></li>
+        </ul>
+        <div class="nav-right">
+            <button class="nav-bookings-btn" onclick="openBookingsModal()">
+                📋 My Bookings
+                <span class="nav-badge" id="navbarBookingCount">3</span>
+            </button>
+            <button class="nav-cta" onclick="showToast('Welcome back to Jharkhand!')">Traveler Menu</button>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <section class="hero" id="home">
+            <div class="hero-inner">
+                <div class="hero-badge">🌿 Tourist Portal</div>
+                <h1>Welcome back, <em>Aanya</em> 👋</h1>
+                <p>Your Jharkhand journey awaits — explore forest villages, tribal homestays and unforgettable cultural escapes.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary" onclick="document.getElementById('bookings').scrollIntoView({behavior:'smooth'})">View Bookings</button>
+                    <button class="btn-outline" onclick="document.getElementById('explore').scrollIntoView({behavior:'smooth'})">Start Exploring</button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-chip">
+                        <strong>{{ active_bookings|length }}</strong>
+                        <span>Active Bookings</span>
+                    </div>
+                    <div class="stat-chip">
+                        <strong>{{ favorite_count }}</strong>
+                        <span>Saved Favorites</span>
+                    </div>
+                    <div class="stat-chip">
+                        <strong>{{ review_count }}</strong>
+                        <span>Reviews Given</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bookings">
+            <div class="section-header">
+                <div class="section-tag">📌 Active Bookings</div>
+                <h2>Your Upcoming Stays</h2>
+                <p>Review your current homestay reservations, check arrival details, and make a new booking in just one tap.</p>
+                <div class="divider"></div>
+            </div>
+            <div class="cards-grid">
+                {% if active_bookings %}
+                    {% for booking in active_bookings %}
+                        <article class="booking-card">
+                            <div class="booking-card-header">
+                                <div>
+                                    <div class="booking-name">{{ booking.destination or 'Unknown destination' }}</div>
+                                    <span style="color: var(--text-light); font-size:0.92rem;">{{ booking.destination or 'Jharkhand' }}</span>
+                                </div>
+                                <div class="status-pill {% if booking.status == 'confirmed' %}status-confirmed{% else %}status-pending{% endif %}">{{ booking.status.title() }}</div>
+                            </div>
+                            <div class="booking-details">
+                                <div><strong>Check-in</strong><span>{{ booking.start_date }}</span></div>
+                                <div><strong>Check-out</strong><span>{{ booking.end_date }}</span></div>
+                                <div><strong>Guests</strong><span>{{ booking.guests }} guest{{ 's' if booking.guests != 1 else '' }}</span></div>
+                                <div><strong>Total</strong><span>₹{{ booking.total_price or 0 }}</span></div>
+                            </div>
+                            <div class="booking-card-footer">
+                                <span class="booking-price">₹{{ booking.total_price or 0 }} total</span>
+                                <button class="btn-primary" onclick="showToast('Opening booking details...')">View details</button>
+                            </div>
+                        </article>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state" style="grid-column:1/-1; padding:2rem;">
+                        <p>No active bookings yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+            <div style="margin-top: 26px; display:flex; justify-content:center;">
+                <button class="btn-primary" onclick="showToast('New booking flow coming soon!')">New Booking</button>
+            </div>
+        </section>
+
+        <section id="favorites">
+            <div class="section-header">
+                <div class="section-tag">❤️ Saved Favorites</div>
+                <h2>Your Favorite Destinations</h2>
+                <p>Keep your preferred Jharkhand escapes close. Tap a destination to remove it or explore other places nearby.</p>
+                <div class="divider"></div>
+            </div>
+            <div class="cards-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+                <article class="favorite-card">
+                    <div class="favorite-card-inner">
+                        <div class="dest-tag">Santhal Hills</div>
+                        <h3 class="favorite-name">Sundari Lakeview</h3>
+                        <div class="favorite-stars">⭐⭐⭐⭐☆</div>
+                        <div class="favorite-actions">
+                            <span>Ranchi, Simdega</span>
+                            <button onclick="removeFavorite(this)">❤️ Remove</button>
+                        </div>
+                    </div>
+                </article>
+                <article class="favorite-card">
+                    <div class="favorite-card-inner">
+                        <div class="dest-tag">Oraon Region</div>
+                        <h3 class="favorite-name">Thakur Homestead</h3>
+                        <div class="favorite-stars">⭐⭐⭐⭐⭐</div>
+                        <div class="favorite-actions">
+                            <span>Dumka Valley</span>
+                            <button onclick="removeFavorite(this)">❤️ Remove</button>
+                        </div>
+                    </div>
+                </article>
+                <article class="favorite-card">
+                    <div class="favorite-card-inner">
+                        <div class="dest-tag">Ho Village</div>
+                        <h3 class="favorite-name">Kisan Forest Lodge</h3>
+                        <div class="favorite-stars">⭐⭐⭐⭐☆</div>
+                        <div class="favorite-actions">
+                            <span>West Singhbhum</span>
+                            <button onclick="removeFavorite(this)">❤️ Remove</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div style="margin-top: 26px; display:flex; justify-content:center;">
+                <button class="btn-outline" onclick="showToast('Exploring more favorites...')">Explore More</button>
+            </div>
+        </section>
+
+        <section id="explore">
+            <div class="section-header">
+                <div class="section-tag">✨ Recommended For You</div>
+                <h2>Curated Jharkhand Escapes</h2>
+                <p>Handpicked recommendations based on your booking history and favourite regions.</p>
+                <div class="divider"></div>
+            </div>
+            <div class="recommend-row">
+                <article class="recommend-card dark">
+                    <h3>Sunrise at Betla</h3>
+                    <div class="recommend-meta"><span>Palamau</span><strong>⭐⭐⭐⭐⭐</strong></div>
+                    <p>Wake up to sunrise safaris and tribal storytelling steps from the national park.</p>
+                    <button class="btn-primary" onclick="bookNow('Sunrise at Betla')">Book Now</button>
+                </article>
+                <article class="recommend-card dark">
+                    <h3>Rice Terrace Retreat</h3>
+                    <div class="recommend-meta"><span>Chaibasa</span><strong>⭐⭐⭐⭐☆</strong></div>
+                    <p>Stay among terraced fields and learn rural farming rituals with a local host.</p>
+                    <button class="btn-primary" onclick="bookNow('Rice Terrace Retreat')">Book Now</button>
+                </article>
+                <article class="recommend-card dark">
+                    <h3>Jungle Drum Nights</h3>
+                    <div class="recommend-meta"><span>Hazaribagh</span><strong>⭐⭐⭐⭐⭐</strong></div>
+                    <p>Camp beside a forest stream and join an evening drum circle beneath starry skies.</p>
+                    <button class="btn-primary" onclick="bookNow('Jungle Drum Nights')">Book Now</button>
+                </article>
+                <article class="recommend-card dark">
+                    <h3>Cultural River Camp</h3>
+                    <div class="recommend-meta"><span>Daltonganj</span><strong>⭐⭐⭐⭐☆</strong></div>
+                    <p>Experience river-side crafts, bamboo cooking and a dawn boat ride with elders.</p>
+                    <button class="btn-primary" onclick="bookNow('Cultural River Camp')">Book Now</button>
+                </article>
+                <article class="recommend-card dark">
+                    <h3>Netarhat Nature Stay</h3>
+                    <div class="recommend-meta"><span>Netarhat</span><strong>⭐⭐⭐⭐⭐</strong></div>
+                    <p>Comfortable lodge with hillside views, guided forest walks, and community meals by the sunset.</p>
+                    <button class="btn-primary" onclick="bookNow('Netarhat Nature Stay')">Book Now</button>
+                </article>
+                <article class="recommend-card dark">
+                    <h3>Riverside Heritage Hotel</h3>
+                    <div class="recommend-meta"><span>Ranchi</span><strong>⭐⭐⭐⭐</strong></div>
+                    <p>Modern comfort close to city attractions, with curated day trips to forests, waterfalls and tribal markets.</p>
+                    <button class="btn-primary" onclick="bookNow('Riverside Heritage Hotel')">Book Now</button>
+                </article>
+            </div>
+        </section>
+
+        <section id="hotels">
+            <div class="section-header">
+                <div class="section-tag">🏨 Stays & Hotels</div>
+                <h2>Top Hotels, Lodges and Homestays</h2>
+                <p>Choose from curated stays across Jharkhand, from authentic tribal homes to lakeside lodges.</p>
+                <div class="divider"></div>
+            </div>
+            <div class="recommend-row">
+                <article class="recommend-card">
+                    <h3>Patratu Lake Cottage</h3>
+                    <div class="recommend-meta"><span>Hazaribagh</span><strong>⭐⭐⭐⭐☆</strong></div>
+                    <p>Cozy cottage by the lake with boating, local cuisine and easy access to scenic hilltop trails.</p>
+                    <button class="btn-primary" onclick="bookNow('Patratu Lake Cottage')">Book Now</button>
+                </article>
+                <article class="recommend-card">
+                    <h3>Ranchi Riverside Retreat</h3>
+                    <div class="recommend-meta"><span>Ranchi</span><strong>⭐⭐⭐⭐⭐</strong></div>
+                    <p>Quiet stay near the river, ideal for culture lovers and families seeking both comfort and adventure.</p>
+                    <button class="btn-primary" onclick="bookNow('Ranchi Riverside Retreat')">Book Now</button>
+                </article>
+                <article class="recommend-card">
+                    <h3>Jharkhand Heritage Hotel</h3>
+                    <div class="recommend-meta"><span>Daltonganj</span><strong>⭐⭐⭐⭐</strong></div>
+                    <p>Heritage-inspired hotel with elegant rooms, a restaurant serving regional flavours, and guided tours.</p>
+                    <button class="btn-primary" onclick="bookNow('Jharkhand Heritage Hotel')">Book Now</button>
+                </article>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <div class="section-tag">⚡ Quick Actions</div>
+                <h2>Quick Actions</h2>
+                <p>One-touch access for the tasks you use most on your Jharkhand adventure.</p>
+                <div class="divider"></div>
+            </div>
+            <div class="actions-grid">
+                <button class="action-card" onclick="showToast('Start a new booking')">
+                    <div class="action-icon">📍</div>
+                    <div class="action-title">New Booking</div>
+                </button>
+                <button class="action-card" onclick="showToast('Opening profile details')">
+                    <div class="action-icon">👤</div>
+                    <div class="action-title">My Profile</div>
+                </button>
+                <button class="action-card" onclick="showToast('Opening messages')">
+                    <div class="action-icon">💬</div>
+                    <div class="action-title">Messages</div>
+                </button>
+                <button class="action-card" onclick="showToast('Write a review')">
+                    <div class="action-icon">⭐</div>
+                    <div class="action-title">Write a Review</div>
+                </button>
+            </div>
+        </section>
+
+        <section id="profile">
+            <div class="section-header">
+                <div class="section-tag">👤 Profile Summary</div>
+                <h2>Traveler Profile</h2>
+                <p>Manage your account details, membership and contact information from one place.</p>
+                <div class="divider"></div>
+            </div>
+            <div class="profile-card">
+                <div class="profile-top">
+                    <div class="profile-avatar">A</div>
+                    <div class="profile-name">
+                        <h3>Aanya Verma</h3>
+                        <p>aanya.verma@example.com</p>
+                        <p>+91 98765 43210</p>
+                    </div>
+                </div>
+                <div class="profile-meta">
+                    <div class="meta-row">
+                        <div class="meta-label">Member since</div>
+                        <div class="meta-value">March 2024</div>
+                    </div>
+                    <div class="meta-row">
+                        <div class="meta-label">Total Trips</div>
+                        <div class="meta-value">12</div>
+                    </div>
+                    <div class="meta-row">
+                        <div class="meta-label">Local Guides</div>
+                        <div class="meta-value">5</div>
+                    </div>
+                    <div class="meta-row">
+                        <div class="meta-label">Review score</div>
+                        <div class="meta-value">4.8 / 5</div>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button class="btn-primary" onclick="showToast('Edit profile opened')">Edit Profile</button>
+                    <button class="btn-secondary" onclick="showToast('Password settings')">Change Password</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal-overlay" id="bookingsModal" aria-hidden="true">
+        <div class="bookings-modal" role="dialog" aria-modal="true" aria-labelledby="bookingsTitle">
+            <div class="bookings-modal-header">
+                <div>
+                    <h2 id="bookingsTitle">My Bookings</h2>
+                    <p>All of your current reservations and booking details are shown here. Manage your stays or browse more homestays.</p>
+                </div>
+                <button class="nav-cta" onclick="closeBookingsModal()">Close</button>
+            </div>
+            <div class="bookings-modal-body">
+                <div class="booking-record">
+                    <div class="booking-record-header">
+                        <div class="br-name">Sita's Forest Homestay</div>
+                        <div class="br-status confirmed">Confirmed</div>
+                    </div>
+                    <div class="br-grid">
+                        <div class="br-item"><strong>Booking ID:</strong> JH-3421</div>
+                        <div class="br-item"><strong>Location:</strong> Kajra, Gumla</div>
+                        <div class="br-item"><strong>Tribe:</strong> Oraon</div>
+                        <div class="br-item"><strong>Dates:</strong> 08 Jun – 12 Jun</div>
+                        <div class="br-item"><strong>Guests:</strong> 2 adults</div>
+                        <div class="br-item"><strong>Food:</strong> Village meals</div>
+                    </div>
+                    <div class="br-total">Total paid: ₹6,400</div>
+                </div>
+                <div class="booking-record">
+                    <div class="booking-record-header">
+                        <div class="br-name">Ranchhandi Homestead</div>
+                        <div class="br-status confirmed">Confirmed</div>
+                    </div>
+                    <div class="br-grid">
+                        <div class="br-item"><strong>Booking ID:</strong> JH-3987</div>
+                        <div class="br-item"><strong>Location:</strong> Panchghagh, Pakur</div>
+                        <div class="br-item"><strong>Tribe:</strong> Santhal</div>
+                        <div class="br-item"><strong>Dates:</strong> 21 Jun – 25 Jun</div>
+                        <div class="br-item"><strong>Guests:</strong> 4 guests</div>
+                        <div class="br-item"><strong>Food:</strong> Family feast</div>
+                    </div>
+                    <div class="br-total">Total paid: ₹11,200</div>
+                </div>
+                <div class="booking-record">
+                    <div class="booking-record-header">
+                        <div class="br-name">Munda Hills Retreat</div>
+                        <div class="br-status pending">Pending</div>
+                    </div>
+                    <div class="br-grid">
+                        <div class="br-item"><strong>Booking ID:</strong> JH-4023</div>
+                        <div class="br-item"><strong>Location:</strong> Khunti Road, Khunti</div>
+                        <div class="br-item"><strong>Tribe:</strong> Munda</div>
+                        <div class="br-item"><strong>Dates:</strong> 02 Jul – 05 Jul</div>
+                        <div class="br-item"><strong>Guests:</strong> 3 guests</div>
+                        <div class="br-item"><strong>Food:</strong> Tribal kitchen</div>
+                    </div>
+                    <div class="br-total">Total paid: ₹8,100</div>
+                </div>
+                <div class="booking-empty">
+                    <div class="empty-icon">🏡</div>
+                    <p>Want to browse more homestays? Find the next forest retreat that fits your travel plans.</p>
+                    <button class="btn-primary" style="margin-top: 18px;" onclick="window.location.href='/homestays'">Browse Homestays</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toastMessage"></div>
+
+    <script>
+        function openBookingsModal() {
+            document.getElementById('bookingsModal').classList.add('open');
+            document.getElementById('bookingsModal').setAttribute('aria-hidden', 'false');
+        }
+
+        function closeBookingsModal() {
+            document.getElementById('bookingsModal').classList.remove('open');
+            document.getElementById('bookingsModal').setAttribute('aria-hidden', 'true');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toastMessage');
+            toast.textContent = message;
+            toast.className = `toast show ${type}`;
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => {
+                toast.className = 'toast';
+            }, 3200);
+        }
+
+        function removeFavorite(button) {
+            const card = button.closest('.favorite-card');
+            if (!card) return;
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.98)';
+            setTimeout(() => card.remove(), 200);
+            showToast('Destination removed from favorites', 'success');
+        }
+
+        function bookNow(destination) {
+            showToast(`Booked ${destination}!`, 'success');
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeBookingsModal();
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,4061 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --forest: #1a3c2e;
+      --forest-deep: #0d2018;
+      --earth: #7c4a1e;
+      --gold: #d4a017;
+      --gold-light: #f0c040;
+      --amber: #e8821a;
+      --cream: #f5efe0;
+      --cream-soft: #fdf8f0;
+      --leaf: #4a7c59;
+      --leaf-light: #6aab7a;
+      --rust: #b5451b;
+      --sky: #2d6a8a;
+      --shadow-sm: 0 2px 12px rgba(26, 60, 46, 0.10);
+      --shadow-md: 0 6px 28px rgba(26, 60, 46, 0.15);
+      --shadow-lg: 0 16px 48px rgba(26, 60, 46, 0.20);
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--cream-soft);
+      color: var(--forest);
+      min-height: 100vh;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--leaf);
+      border-radius: 3px;
+    }
+
+    /* ===== DESTINATION DETAIL PAGE ===== */
+    .dest-detail-hero {
+      position: relative;
+      height: 420px;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--forest), var(--leaf));
+    }
+
+    .dest-detail-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.65);
+    }
+
+    .dest-detail-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13, 32, 24, 0.85) 0%, transparent 60%);
+    }
+
+    .dest-detail-back {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      z-index: 10;
+      background: rgba(13, 32, 24, 0.7);
+      backdrop-filter: blur(10px);
+      color: var(--gold);
+      border: 1px solid rgba(212, 160, 23, 0.3);
+      border-radius: 8px;
+      padding: 8px 18px;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dest-detail-back:hover {
+      background: var(--gold);
+      color: var(--forest-deep);
+    }
+
+    .dest-detail-hero-content {
+      position: absolute;
+      bottom: 30px;
+      left: 40px;
+      right: 40px;
+    }
+
+    .dest-detail-hero-content h1 {
+      font-family: 'Cormorant Garamond', serif;
+      color: #fff;
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 10px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .dest-detail-hero-content .meta-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .dest-detail-meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .dest-detail-rating-tag {
+      background: rgba(212, 160, 23, 0.9);
+      color: var(--forest-deep);
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+
+    .dest-detail-body {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 40px 80px;
+    }
+
+    .dest-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 32px;
+    }
+
+    .dest-detail-main h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      color: var(--forest);
+      margin-bottom: 14px;
+      margin-top: 28px;
+    }
+
+    .dest-detail-main h2:first-child {
+      margin-top: 0;
+    }
+
+    .dest-detail-main p {
+      color: #555;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .dest-detail-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .dest-info-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #f0f0f0;
+    }
+
+    .dest-info-card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--amber);
+      margin-bottom: 14px;
+    }
+
+    .dest-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #f5f5f5;
+      font-size: 14px;
+    }
+
+    .dest-info-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .dest-info-row .key {
+      color: #999;
+    }
+
+    .dest-info-row .val {
+      color: var(--forest);
+      font-weight: 600;
+    }
+
+    .dest-tip-box {
+      background: linear-gradient(135deg, #fffbeb, #fef9ee);
+      border: 1px solid rgba(212, 160, 23, 0.3);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .dest-tip-box h3 {
+      font-size: 13px;
+      color: var(--amber);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .dest-tip-box p {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.7;
+    }
+
+    .dest-book-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--forest), var(--leaf));
+      color: var(--gold);
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.25s;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 16px rgba(26, 60, 46, 0.25);
+    }
+
+    .dest-book-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(26, 60, 46, 0.35);
+    }
+
+    .dest-nearby-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .dest-nearby-card {
+      background: var(--cream-soft);
+      border-radius: 10px;
+      padding: 14px;
+      border: 1px solid #eee;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .dest-nearby-card:hover {
+      border-color: var(--gold);
+      background: #fffbef;
+    }
+
+    .dest-nearby-card .n-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--forest);
+    }
+
+    .dest-nearby-card .n-cat {
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 2px;
+    }
+
+    /* ===== DASHBOARD SELECTION PAGE ===== */
+    .dash-select-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, var(--forest-deep) 0%, #163328 60%, #1a3c2e 100%);
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dash-select-page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a017' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .dash-select-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    .dash-select-inner .welcome-name {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+
+    .dash-select-inner h1 {
+      font-family: 'Cormorant Garamond', serif;
+      color: #fff;
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .dash-select-inner h1 em {
+      color: var(--gold-light);
+      font-style: italic;
+    }
+
+    .dash-select-inner .sub {
+      color: rgba(245, 239, 224, 0.5);
+      font-size: 15px;
+      margin-bottom: 48px;
+      font-weight: 300;
+    }
+
+    .dash-choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .dash-choice-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(212, 160, 23, 0.25);
+      border-radius: 16px;
+      padding: 36px 28px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dash-choice-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(212, 160, 23, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .dash-choice-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .dash-choice-card:hover::before {
+      opacity: 1;
+    }
+
+    .dash-choice-icon {
+      font-size: 52px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .dash-choice-card h3 {
+      color: var(--gold);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .dash-choice-card p {
+      color: rgba(245, 239, 224, 0.5);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .dash-choice-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(212, 160, 23, 0.15);
+      border: 1px solid rgba(212, 160, 23, 0.3);
+      color: var(--gold);
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 600;
+    }
+
+    .dash-logout-link {
+      color: rgba(245, 239, 224, 0.3);
+      font-size: 13px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Outfit', sans-serif;
+      transition: color 0.2s;
+    }
+
+    .dash-logout-link:hover {
+      color: var(--gold);
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: rgba(13, 32, 24, 0.95);
+      backdrop-filter: blur(16px);
+      padding: 0 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(212, 160, 23, 0.2);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+    }
+
+    .logo-sub {
+      color: rgba(245, 239, 224, 0.5);
+      font-size: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-btns {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .nav-btn {
+      padding: 8px 20px;
+      border: 1px solid rgba(212, 160, 23, 0.4);
+      color: rgba(245, 239, 224, 0.8);
+      background: transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+    }
+
+    .nav-btn:hover,
+    .nav-btn.active {
+      background: var(--gold);
+      color: var(--forest-deep);
+      border-color: var(--gold);
+      font-weight: 600;
+    }
+
+    .nav-btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--amber));
+      color: var(--forest-deep);
+      border-color: transparent;
+      font-weight: 600;
+    }
+
+    .nav-btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* ===== PAGES ===== */
+    .page {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&q=80');
+      background-size: cover;
+      background-position: center 30%;
+      filter: brightness(0.55);
+      transform: scale(1.02);
+      transition: transform 8s ease;
+    }
+
+    .hero:hover .hero-bg {
+      transform: scale(1.05);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(13, 32, 24, 0.6) 0%, rgba(13, 32, 24, 0.2) 50%, rgba(124, 74, 30, 0.4) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 20px;
+      max-width: 780px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(212, 160, 23, 0.2);
+      border: 1px solid rgba(212, 160, 23, 0.5);
+      color: var(--gold-light);
+      padding: 7px 18px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      color: #fff;
+      font-size: 72px;
+      font-weight: 700;
+      line-height: 1.0;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero h1 em {
+      color: var(--gold-light);
+      font-style: italic;
+    }
+
+    .hero p {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 18px;
+      max-width: 520px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 100%);
+      color: var(--forest-deep);
+      padding: 15px 34px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.25s;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 20px rgba(212, 160, 23, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(212, 160, 23, 0.5);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      padding: 15px 34px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      transition: all 0.25s;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-outline:hover {
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Hero stats bar */
+    .hero-stats {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      background: rgba(13, 32, 24, 0.85);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(212, 160, 23, 0.2);
+    }
+
+    .hero-stat {
+      flex: 1;
+      max-width: 200px;
+      padding: 18px 24px;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-stat:last-child {
+      border-right: none;
+    }
+
+    .hero-stat .num {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--gold);
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .hero-stat .lbl {
+      font-size: 11px;
+      color: rgba(245, 239, 224, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    /* ===== SECTION TITLES ===== */
+    .section {
+      padding: 64px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 12px;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 24px;
+      height: 2px;
+      background: var(--amber);
+    }
+
+    .section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 46px;
+      font-weight: 700;
+      color: var(--forest);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .section h2 em {
+      color: var(--earth);
+      font-style: italic;
+    }
+
+    .section-sub {
+      color: #888;
+      font-size: 16px;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    /* ===== DESTINATION CARDS ===== */
+    .dest-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+
+    .dest-card {
+      background: #fff;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .dest-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .dest-img {
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--forest), var(--leaf));
+    }
+
+    .dest-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .dest-card:hover .dest-img img {
+      transform: scale(1.08);
+    }
+
+    .dest-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13, 32, 24, 0.7) 0%, transparent 60%);
+    }
+
+    .dest-cat-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(13, 32, 24, 0.75);
+      backdrop-filter: blur(8px);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border: 1px solid rgba(212, 160, 23, 0.3);
+    }
+
+    .dest-rating-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(212, 160, 23, 0.9);
+      color: var(--forest-deep);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .dest-body {
+      padding: 18px 20px 20px;
+    }
+
+    .dest-body h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--forest);
+    }
+
+    .dest-meta {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dest-meta .dot {
+      color: #ddd;
+    }
+
+    .dest-desc {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .dest-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dest-reviews {
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    .dest-btn {
+      background: var(--forest);
+      color: var(--gold);
+      padding: 7px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .dest-btn:hover {
+      background: var(--leaf);
+    }
+
+    /* ===== FEATURES STRIP ===== */
+    .features-strip {
+      background: linear-gradient(135deg, var(--forest-deep) 0%, #163328 100%);
+      padding: 56px 40px;
+    }
+
+    .features-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 32px;
+    }
+
+    .feature-item {
+      text-align: center;
+      padding: 8px;
+    }
+
+    .feature-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      margin: 0 auto 16px;
+      background: rgba(212, 160, 23, 0.1);
+      border: 1px solid rgba(212, 160, 23, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .feature-item h3 {
+      color: var(--gold);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-item p {
+      color: rgba(245, 239, 224, 0.55);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    /* ===== GALLERY STRIP ===== */
+    .gallery-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: 280px;
+      gap: 4px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+      filter: brightness(0.85);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+      filter: brightness(1);
+    }
+
+    .gallery-item:first-child {
+      grid-column: span 2;
+    }
+
+    /* ===== AUTH MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 36px;
+      width: 100%;
+      max-width: 460px;
+      max-height: 92vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #bbb;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #f5f5f5;
+      color: #666;
+    }
+
+    .modal h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      margin-bottom: 6px;
+      color: var(--forest);
+    }
+
+    .modal-sub {
+      font-size: 13px;
+      color: #aaa;
+      margin-bottom: 24px;
+    }
+
+    .tab-row {
+      display: flex;
+      gap: 0;
+      margin-bottom: 24px;
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: #fafafa;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Outfit', sans-serif;
+      color: #aaa;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--forest);
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #888;
+      margin-bottom: 7px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e8e8e8;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Outfit', sans-serif;
+      background: #fff;
+      transition: all 0.2s;
+      color: var(--forest);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--leaf);
+      box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.08);
+    }
+
+    .form-group input.error {
+      border-color: var(--rust);
+    }
+
+    .form-group input::placeholder {
+      color: #ccc;
+    }
+
+    .pw-wrap {
+      position: relative;
+    }
+
+    .pw-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #aaa;
+    }
+
+    .pw-rules {
+      font-size: 11px;
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pw-rules span {
+      display: inline-block;
+      padding: 3px 8px;
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+
+    .pw-rules span.ok {
+      background: #ecfdf5;
+      color: #065f46;
+    }
+
+    .pw-rules span.fail {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+
+    .strength-bar {
+      height: 4px;
+      border-radius: 2px;
+      margin-top: 8px;
+      background: #eee;
+    }
+
+    .strength-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .err-msg {
+      color: var(--rust);
+      font-size: 12px;
+      margin-top: 4px;
+      background: #fff5f5;
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+
+    .success-msg {
+      color: #065f46;
+      font-size: 13px;
+      text-align: center;
+      margin: 10px 0;
+      font-weight: 500;
+      background: #ecfdf5;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--forest);
+      color: var(--gold);
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      margin-top: 8px;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+    }
+
+    .submit-btn:hover {
+      background: var(--leaf);
+      transform: translateY(-1px);
+    }
+
+    /* ===== DASHBOARD ===== */
+    .dash-layout {
+      display: flex;
+      min-height: calc(100vh - 64px);
+    }
+
+    .sidebar {
+      width: 240px;
+      background: var(--forest-deep);
+      padding: 0;
+      flex-shrink: 0;
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .sidebar-user {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 8px;
+    }
+
+    .sidebar-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold), var(--amber));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .sidebar-user .uname {
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 3px;
+    }
+
+    .sidebar-user .urole {
+      color: rgba(245, 239, 224, 0.4);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 20px;
+      color: rgba(245, 239, 224, 0.5);
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+      border-left: 3px solid transparent;
+      margin: 1px 0;
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--gold);
+      border-left-color: var(--gold);
+    }
+
+    .sidebar-nav a .icon {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .sidebar-nav .nav-sep {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.06);
+      margin: 12px 0;
+    }
+
+    .dash-main {
+      flex: 1;
+      padding: 32px 36px;
+      overflow-y: auto;
+      background: var(--cream-soft);
+    }
+
+    .dash-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--forest);
+      line-height: 1.2;
+    }
+
+    /* Stats cards */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #f0f0f0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--amber));
+    }
+
+    .stat-card .val {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--forest);
+      font-family: 'Cormorant Garamond', serif;
+      line-height: 1;
+    }
+
+    .stat-card .lbl {
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 600;
+    }
+
+    .stat-card .stat-icon {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 28px;
+      opacity: 0.15;
+    }
+
+    /* Table */
+    .table-wrap {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      margin-bottom: 24px;
+      border: 1px solid #f0f0f0;
+    }
+
+    .table-wrap h3 {
+      padding: 18px 22px;
+      border-bottom: 1px solid #f5f5f5;
+      font-size: 15px;
+      color: var(--forest);
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th {
+      background: #f8f9fa;
+      color: #888;
+      padding: 11px 16px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #fafafa;
+      color: #444;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: #fdf8f4;
+    }
+
+    /* Status badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-pending {
+      background: #fff7e6;
+      color: #b45309;
+      border: 1px solid #fcd34d40;
+    }
+
+    .badge-approved {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #6ee7b740;
+    }
+
+    .badge-rejected {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fca5a540;
+    }
+
+    .badge-confirmed {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe40;
+    }
+
+    .badge-tourist {
+      background: #f0f9ff;
+      color: var(--sky);
+      border: 1px solid #bae6fd40;
+    }
+
+    .badge-provider {
+      background: #fff7ed;
+      color: var(--earth);
+      border: 1px solid #fed7aa40;
+    }
+
+    .badge-admin {
+      background: #faf5ff;
+      color: #6b21a8;
+      border: 1px solid #e9d5ff40;
+    }
+
+    /* Action buttons */
+    .act-btn {
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 4px;
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.15s;
+    }
+
+    .act-approve {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #6ee7b7;
+    }
+
+    .act-approve:hover {
+      background: #065f46;
+      color: #fff;
+    }
+
+    .act-reject {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    .act-reject:hover {
+      background: #991b1b;
+      color: #fff;
+    }
+
+    .act-revoke {
+      background: #f5f5f5;
+      color: #666;
+      border: 1px solid #e0e0e0;
+    }
+
+    .act-confirm {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+
+    .act-confirm:hover {
+      background: #1e40af;
+      color: #fff;
+    }
+
+    /* Destinations grid */
+    .t-dest-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    /* Product cards */
+    .prod-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 18px;
+    }
+
+    .prod-card {
+      background: #fff;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #f0f0f0;
+      transition: all 0.25s;
+    }
+
+    .prod-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .prod-img {
+      height: 140px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #f5efe0, #e8d8b8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .prod-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .prod-img .emoji-fallback {
+      font-size: 48px;
+    }
+
+    .prod-body {
+      padding: 14px;
+      text-align: center;
+    }
+
+    .prod-body h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--forest);
+    }
+
+    .prod-body .pdesc {
+      color: #aaa;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .prod-body .price {
+      color: var(--earth);
+      font-weight: 800;
+      font-size: 18px;
+      margin-bottom: 10px;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Alert */
+    .alert {
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .alert a {
+      color: var(--earth);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Itinerary */
+    .itin-day {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+      border-left: 4px solid var(--gold);
+      border: 1px solid #f0f0f0;
+      border-left: 4px solid var(--gold);
+    }
+
+    .itin-day h4 {
+      color: var(--forest);
+      margin-bottom: 8px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .itin-day p {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* Guide cards */
+    .guide-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border: 1px solid #f0f0f0;
+      transition: all 0.2s;
+    }
+
+    .guide-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .guide-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--forest), var(--leaf));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .guide-info h4 {
+      font-size: 15px;
+      margin-bottom: 4px;
+      font-weight: 600;
+      color: var(--forest);
+    }
+
+    .guide-info p {
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    .guide-price {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--earth);
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* DB Section */
+    .db-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .db-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.5
+      }
+    }
+
+    /* Review area */
+    .review-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #f0f0f0;
+    }
+
+    .review-card .stars {
+      color: var(--gold);
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .review-card .reviewer {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--forest);
+    }
+
+    .review-card .text {
+      color: #666;
+      font-size: 14px;
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+
+    .stars-input {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .star-btn {
+      font-size: 28px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      opacity: 0.25;
+      transition: all 0.15s;
+      padding: 0;
+    }
+
+    .star-btn.active {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    select.form-ctrl,
+    input.form-ctrl,
+    textarea.form-ctrl {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #e8e8e8;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Outfit', sans-serif;
+      margin-bottom: 12px;
+      color: var(--forest);
+      transition: all 0.2s;
+    }
+
+    select.form-ctrl:focus,
+    input.form-ctrl:focus,
+    textarea.form-ctrl:focus {
+      outline: none;
+      border-color: var(--leaf);
+      box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.08);
+    }
+
+    textarea.form-ctrl {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--cream);
+      color: var(--earth);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--forest-deep);
+      padding: 40px;
+      text-align: center;
+      border-top: 1px solid rgba(212, 160, 23, 0.15);
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .footer-sub {
+      color: rgba(245, 239, 224, 0.3);
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .footer-links a {
+      color: rgba(245, 239, 224, 0.4);
+      font-size: 13px;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .footer-copy {
+      color: rgba(245, 239, 224, 0.2);
+      font-size: 12px;
+    }
+
+    /* ===== AI CHATBOT ===== */
+    #chat-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 9999;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 100%);
+      border: none;
+      cursor: pointer;
+      font-size: 26px;
+      box-shadow: 0 6px 24px rgba(212, 160, 23, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      color: var(--forest-deep);
+    }
+
+    #chat-fab:hover {
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 10px 32px rgba(212, 160, 23, 0.55);
+    }
+
+    #chat-fab .chat-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--rust);
+      color: #fff;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--cream-soft);
+    }
+
+    #chat-window {
+      position: fixed;
+      bottom: 100px;
+      right: 28px;
+      z-index: 9998;
+      width: 380px;
+      height: 560px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(26, 60, 46, 0.25);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid rgba(212, 160, 23, 0.2);
+      animation: chatSlideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    #chat-window.open {
+      display: flex;
+    }
+
+    @keyframes chatSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, var(--forest-deep) 0%, var(--forest) 100%);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(212, 160, 23, 0.2);
+      flex-shrink: 0;
+    }
+
+    .chat-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold), var(--amber));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .chat-header-info {
+      flex: 1;
+    }
+
+    .chat-header-name {
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 15px;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .chat-header-status {
+      color: rgba(245, 239, 224, 0.5);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .chat-online-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      flex-shrink: 0;
+    }
+
+    .chat-close-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: rgba(245, 239, 224, 0.7);
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .chat-close-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--cream-soft);
+    }
+
+    .chat-messages::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: var(--leaf);
+      border-radius: 2px;
+    }
+
+    .chat-msg {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      max-width: 90%;
+    }
+
+    .chat-msg.user {
+      flex-direction: row-reverse;
+      align-self: flex-end;
+    }
+
+    .chat-msg.bot {
+      align-self: flex-start;
+    }
+
+    .msg-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .msg-avatar.bot-av {
+      background: linear-gradient(135deg, var(--gold), var(--amber));
+    }
+
+    .msg-avatar.user-av {
+      background: linear-gradient(135deg, var(--leaf), var(--forest));
+      color: #fff;
+      font-size: 13px;
+    }
+
+    .msg-bubble {
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      max-width: 260px;
+      word-wrap: break-word;
+    }
+
+    .chat-msg.bot .msg-bubble {
+      background: #fff;
+      color: var(--forest);
+      border: 1px solid #e8e8e8;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .chat-msg.user .msg-bubble {
+      background: linear-gradient(135deg, var(--forest), var(--leaf));
+      color: var(--gold-light);
+      border-bottom-right-radius: 4px;
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 4px 2px;
+    }
+
+    .typing-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--leaf);
+      animation: typingBounce 1.2s infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typingBounce {
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0);
+        opacity: 0.4;
+      }
+
+      30% {
+        transform: translateY(-6px);
+        opacity: 1;
+      }
+    }
+
+    .chat-quick-btns {
+      padding: 10px 14px 4px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+      background: var(--cream-soft);
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .quick-btn {
+      padding: 5px 11px;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      font-size: 11.5px;
+      cursor: pointer;
+      color: var(--forest);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .quick-btn:hover {
+      background: var(--gold);
+      color: var(--forest-deep);
+      border-color: var(--gold);
+    }
+
+    .chat-input-row {
+      padding: 12px 14px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: #fff;
+      border-top: 1px solid #f0f0f0;
+      flex-shrink: 0;
+    }
+
+    #chat-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1.5px solid #e8e8e8;
+      border-radius: 22px;
+      font-size: 13.5px;
+      font-family: 'Outfit', sans-serif;
+      outline: none;
+      color: var(--forest);
+      background: var(--cream-soft);
+      transition: border-color 0.2s;
+    }
+
+    #chat-input:focus {
+      border-color: var(--leaf);
+    }
+
+    #chat-send-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--amber));
+      border: none;
+      cursor: pointer;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      box-shadow: 0 3px 10px rgba(212, 160, 23, 0.3);
+    }
+
+    #chat-send-btn:hover {
+      transform: scale(1.1);
+    }
+
+    #chat-send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* responsive */
+    @media(max-width:768px) {
+      #chat-window {
+        width: calc(100vw - 20px);
+        right: 10px;
+        bottom: 90px;
+        height: 500px;
+      }
+
+      .hero h1 {
+        font-size: 44px
+      }
+
+      .hero-stats {
+        display: none
+      }
+
+      .dash-layout {
+        flex-direction: column
+      }
+
+      .sidebar {
+        width: 100%;
+        padding: 12px
+      }
+
+      .sidebar-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px
+      }
+
+      .sidebar-nav a {
+        padding: 8px 12px;
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        border-radius: 6px;
+        font-size: 13px
+      }
+
+      .sidebar-nav a.active {
+        border-bottom-color: var(--gold);
+        border-left: none;
+        background: rgba(255, 255, 255, 0.08)
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .section {
+        padding: 40px 20px
+      }
+
+      .gallery-strip {
+        grid-template-columns: 1fr 1fr;
+        height: auto
+      }
+
+      .gallery-strip .gallery-item {
+        height: 140px
+      }
+
+      .gallery-item:first-child {
+        grid-column: span 2
+      }
+
+      .dash-main {
+        padding: 20px
+      }
+
+      .header {
+        padding: 0 16px
+      }
+
+      /* Detail page responsive */
+      .dest-detail-hero {
+        height: 280px;
+      }
+
+      .dest-detail-hero-content h1 {
+        font-size: 32px;
+      }
+
+      .dest-detail-hero-content {
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+      }
+
+      .dest-detail-body {
+        padding: 24px 20px 60px;
+      }
+
+      .dest-detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dest-nearby-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      /* Dashboard select responsive */
+      .dash-choice-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dash-select-inner h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">🌿</div>
+      <div>
+        <div class="logo-text">Jharkhand Tourism</div>
+        <div class="logo-sub">Discover the Soul of India</div>
+      </div>
+    </div>
+    <div class="nav-btns" id="headerNav">
+      <button class="nav-btn" onclick="showPage('home')">Home</button>
+      <button class="nav-btn" onclick="window.location.href='/map'">Map</button>
+      <button class="nav-btn" onclick="openModal('login')">Login</button>
+      <button class="nav-btn nav-btn-primary" onclick="openModal('register')">Register Free</button>
+    </div>
+  </div>
+
+  <!-- ===== HOME PAGE ===== -->
+  <div class="page active" id="page-home">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-badge">🌿 Jharkhand Tourism Portal</div>
+        <h1>Explore <em>Wild</em><br>Jharkhand</h1>
+        <p>Waterfalls, tribal culture, ancient forests and living traditions — all waiting in one incredible
+          destination.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="openModal('register')">Start Your Journey</button>
+          <button class="btn-outline" onclick="openModal('login')">Sign In</button>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="num">9+</div>
+          <div class="lbl">Destinations</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">500+</div>
+          <div class="lbl">Happy Tourists</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">50+</div>
+          <div class="lbl">Local Guides</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">4.7★</div>
+          <div class="lbl">Avg. Rating</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GALLERY STRIP -->
+    <div class="gallery-strip">
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=800&q=75" alt="Waterfall in Jharkhand"
+          loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=600&q=75" alt="Tiger in forest"
+          loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1585150430822-a7f6f6c9d3a7?w=600&q=75" alt="Tribal art"
+          loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1609340004050-5e53bacc6e22?w=600&q=75" alt="Temple" loading="lazy">
+      </div>
+    </div>
+
+    <!-- FEATURED DESTINATIONS -->
+    <div class="section">
+      <div class="section-label">Explore</div>
+      <h2>Featured <em>Destinations</em></h2>
+      <p class="section-sub">9 breathtaking places waiting to be discovered</p>
+      <div class="dest-grid" id="homeDestGrid"></div>
+      <div style="text-align:center;margin-top:8px;">
+        <button class="btn-primary" onclick="openModal('login')">Login to Book & Explore All →</button>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="features-strip">
+      <div class="features-inner">
+        <div class="feature-item">
+          <div class="feature-icon">🗺️</div>
+          <h3>AI Trip Planner</h3>
+          <p>Get a personalized itinerary tailored to your interests and available days.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">👥</div>
+          <h3>Verified Guides</h3>
+          <p>Connect with government-vetted local guides, homestays and artisans.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🛒</div>
+          <h3>Tribal Marketplace</h3>
+          <p>Buy authentic Sohrai paintings, Dokra figurines and handwoven crafts.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">⭐</div>
+          <h3>Honest Reviews</h3>
+          <p>Read and write verified reviews from real travellers like you.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="footer-logo">🌿 Jharkhand Tourism</div>
+      <div class="footer-sub">Official Tourism Platform of Jharkhand</div>
+      <div class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+        <a href="#">For Providers</a>
+      </div>
+      <div class="footer-copy">© 2025 Jharkhand Tourism Department. All rights reserved.</div>
+    </div>
+  </div>
+
+  <!-- ===== TOURIST DASHBOARD ===== -->
+  <div class="page" id="page-tourist">
+    <div class="dash-layout">
+      <div class="sidebar">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">🌿</div>
+          <div class="uname" id="t-username">Tourist</div>
+          <div class="urole">Tourist Account</div>
+        </div>
+        <nav class="sidebar-nav">
+          <a class="active" onclick="tNav('overview')" id="tnav-overview"><span class="icon">📊</span>Dashboard</a>
+          <a onclick="tNav('destinations')" id="tnav-destinations"><span class="icon">🏞️</span>Destinations</a>
+          <a onclick="tNav('planner')" id="tnav-planner"><span class="icon">🗺️</span>Trip Planner</a>
+          <a onclick="tNav('guides')" id="tnav-guides"><span class="icon">👥</span>Guides</a>
+          <a onclick="tNav('homestays')" id="tnav-homestays"><span class="icon">👥</span>Homestays</a>
+          <a onclick="tNav('market')" id="tnav-market"><span class="icon">🛒</span>Marketplace</a>
+          <a onclick="tNav('bookings')" id="tnav-bookings"><span class="icon">📋</span>My Bookings</a>
+          <div class="nav-sep"></div>
+          <a onclick="goHome()" style="color:rgba(245,239,224,0.6)!important;"><span class="icon">🏠</span>Home</a>
+          <a onclick="logout()" style="color:#ff7777!important;"><span class="icon">🚪</span>Logout</a>
+        </nav>
+      </div>
+      <div class="dash-main">
+        <!-- Overview -->
+        <div id="t-overview">
+          <div class="dash-title" id="t-welcome">Welcome back!</div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-icon">📋</div>
+              <div class="val" id="t-stat-book">0</div>
+              <div class="lbl">Total Bookings</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">✅</div>
+              <div class="val" id="t-stat-confirm">0</div>
+              <div class="lbl">Confirmed Trips</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">⭐</div>
+              <div class="val" id="t-stat-reviews">0</div>
+              <div class="lbl">Reviews Written</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🏞️</div>
+              <div class="val">9</div>
+              <div class="lbl">Destinations</div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <h3>Recent Bookings</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="t-recent-bookings">
+                <tr>
+                  <td colspan="4" style="text-align:center;color:#ccc;padding:30px;">No bookings yet. Explore
+                    destinations to book!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Destinations -->
+        <div id="t-destinations" style="display:none">
+          <div class="dash-title">Explore Jharkhand</div>
+          <div class="dest-grid" id="t-dest-grid"></div>
+        </div>
+        <!-- Planner -->
+        <div id="t-planner" style="display:none">
+          <div class="dash-title">Trip Planner</div>
+          <div
+            style="background:#fff;border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm);margin-bottom:24px;max-width:520px;border:1px solid #f0f0f0;">
+            <div class="form-group">
+              <label>Travel Interest</label>
+              <select id="plan-interest" class="form-ctrl">
+                <option value="adventure">🏕️ Adventure</option>
+                <option value="culture">🎭 Culture</option>
+                <option value="religious">🙏 Religious</option>
+                <option value="eco">🌿 Eco-Tourism</option>
+                <option value="everything">✨ Everything</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Duration</label>
+              <select id="plan-duration" class="form-ctrl">
+                <option value="1">1 Day</option>
+                <option value="2">Weekend (2 Days)</option>
+                <option value="3">3 Days</option>
+                <option value="5">5 Days</option>
+              </select>
+            </div>
+            <button class="submit-btn" onclick="generatePlan()">Generate My Itinerary →</button>
+          </div>
+          <div id="plan-output"></div>
+        </div>
+        <!-- Guides -->
+        <div id="t-guides" style="display:none">
+          <div class="dash-title">Guides </div>
+          <div id="guide-list"></div>
+        </div>
+        <!-- Homestays -->
+        <div id="t-homestays" style="display:none">
+
+          <div class="dash-title">Homestays</div>
+
+          <button onclick="window.location.href='/homestays'">
+            Browse Homestays
+          </button>
+
+        </div>
+        <!-- Market -->
+        <div id="t-market" style="display:none">
+          <div class="dash-title">Tribal Marketplace</div>
+          <div class="prod-grid" id="prod-grid"></div>
+        </div>
+        <!-- Bookings -->
+        <div id="t-bookings" style="display:none">
+          <div class="dash-title">My Bookings</div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Review</th>
+                </tr>
+              </thead>
+              <tbody id="t-bookings-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PROVIDER DASHBOARD ===== -->
+  <div class="page" id="page-provider">
+    <div class="dash-layout">
+      <div class="sidebar">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">🏕️</div>
+          <div class="uname" id="p-username">Provider</div>
+          <div class="urole">Service Provider</div>
+        </div>
+        <nav class="sidebar-nav">
+          <a class="active" onclick="pNav('overview')" id="pnav-overview"><span class="icon">📊</span>Dashboard</a>
+          <a onclick="pNav('listings')" id="pnav-listings"><span class="icon">📝</span>My Listings</a>
+          <a onclick="pNav('bookings')" id="pnav-bookings"><span class="icon">📋</span>Bookings</a>
+          <a onclick="pNav('reviews')" id="pnav-reviews"><span class="icon">⭐</span>Reviews</a>
+          <div class="nav-sep"></div>
+          <a onclick="goHome()" style="color:rgba(245,239,224,0.6)!important;"><span class="icon">🏠</span>Home</a>
+          <a onclick="logout()" style="color:#ff7777!important;"><span class="icon">🚪</span>Logout</a>
+        </nav>
+      </div>
+      <div class="dash-main">
+        <div id="p-overview">
+          <div class="dash-title" id="p-welcome">Provider Dashboard</div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-icon">📝</div>
+              <div class="val" id="p-stat-list">0</div>
+              <div class="lbl">Listings</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📋</div>
+              <div class="val" id="p-stat-book">0</div>
+              <div class="lbl">Bookings</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">💰</div>
+              <div class="val" id="p-stat-earn">₹0</div>
+              <div class="lbl">Earnings</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">⭐</div>
+              <div class="val" id="p-stat-rev">0</div>
+              <div class="lbl">Reviews</div>
+            </div>
+          </div>
+        </div>
+        <div id="p-listings" style="display:none">
+          <div class="section-head">
+            <div class="dash-title" style="margin:0">My Listings</div>
+            <button class="btn-primary" onclick="openAddListing()">+ Add Listing</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Bookings</th>
+                </tr>
+              </thead>
+              <tbody id="p-listings-table"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="p-bookings" style="display:none">
+          <div class="dash-title">Manage Bookings</div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tourist</th>
+                  <th>Service</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="p-bookings-table"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="p-reviews" style="display:none">
+          <div class="dash-title">Reviews Received</div>
+          <div id="p-reviews-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ADMIN DASHBOARD ===== -->
+  <div class="page" id="page-admin">
+    <div class="dash-layout">
+      <div class="sidebar">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">🔴</div>
+          <div class="uname">Admin</div>
+          <div class="urole">Administrator</div>
+        </div>
+        <nav class="sidebar-nav">
+          <a class="active" onclick="aNav('overview')" id="anav-overview"><span class="icon">📊</span>Overview</a>
+          <a onclick="aNav('providers')" id="anav-providers"><span class="icon">✅</span>Providers</a>
+          <a onclick="aNav('tourists')" id="anav-tourists"><span class="icon">👥</span>Tourists</a>
+          <a onclick="aNav('bookings')" id="anav-bookings"><span class="icon">📋</span>All Bookings</a>
+          <a onclick="aNav('destinations')" id="anav-destinations"><span class="icon">🏞️</span>Destinations</a>
+          <a onclick="aNav('database')" id="anav-database"><span class="icon">🗄️</span>Login Database</a>
+          <div class="nav-sep"></div>
+          <a onclick="goHome()" style="color:rgba(245,239,224,0.6)!important;"><span class="icon">🏠</span>Home</a>
+          <a onclick="logout()" style="color:#ff7777!important;"><span class="icon">🚪</span>Logout</a>
+        </nav>
+      </div>
+      <div class="dash-main">
+        <div id="a-overview">
+          <div class="dash-title">Platform Overview</div>
+          <div id="a-pending-alert"></div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-icon">🌿</div>
+              <div class="val" id="a-stat-tourists">0</div>
+              <div class="lbl">Total Tourists</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🏕️</div>
+              <div class="val" id="a-stat-providers">0</div>
+              <div class="lbl">Active Providers</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">⏳</div>
+              <div class="val" id="a-stat-pending">0</div>
+              <div class="lbl">Pending Approvals</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📋</div>
+              <div class="val" id="a-stat-bookings">0</div>
+              <div class="lbl">Total Bookings</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🏞️</div>
+              <div class="val">9</div>
+              <div class="lbl">Destinations</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">💰</div>
+              <div class="val" id="a-stat-revenue">₹0</div>
+              <div class="lbl">Platform Revenue</div>
+            </div>
+          </div>
+        </div>
+        <div id="a-providers" style="display:none">
+          <div class="dash-title">Provider Management</div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Service</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="a-providers-table"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="a-tourists" style="display:none">
+          <div class="dash-title">Registered Tourists</div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Interest</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+              <tbody id="a-tourists-table"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="a-bookings" style="display:none">
+          <div class="dash-title">All Platform Bookings</div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tourist</th>
+                  <th>Provider</th>
+                  <th>Service</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="a-bookings-table"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="a-destinations" style="display:none">
+          <div class="dash-title">Manage Destinations</div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>District</th>
+                  <th>Rating</th>
+                  <th>Reviews</th>
+                </tr>
+              </thead>
+              <tbody id="a-dest-table"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="a-database" style="display:none">
+          <div class="db-header">
+            <div class="db-indicator"></div>
+            <div class="dash-title" style="margin:0">Live Login Database</div>
+          </div>
+          <p style="color:#aaa;margin-bottom:20px;font-size:14px;">All registered users on the platform.</p>
+          <div class="table-wrap">
+            <h3>👤 Tourist Accounts</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Interest</th>
+                  <th>Role</th>
+                  <th>Joined</th>
+                  <th>Last Login</th>
+                </tr>
+              </thead>
+              <tbody id="db-tourists"></tbody>
+            </table>
+          </div>
+          <div class="table-wrap">
+            <h3>🏕️ Provider Accounts</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Service</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                  <th>Role</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+              <tbody id="db-providers"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DESTINATION DETAIL PAGE ===== -->
+  <div class="page" id="page-dest-detail">
+    <button class="dest-detail-back" id="dest-back-btn" onclick="goBackFromDetail()">← Back</button>
+    <div class="dest-detail-hero">
+      <img id="detail-hero-img" src="" alt="" onerror="this.style.display='none'">
+      <div class="dest-detail-hero-overlay"></div>
+      <div class="dest-detail-hero-content">
+        <h1 id="detail-name"></h1>
+        <div class="meta-row">
+          <span class="dest-detail-meta-tag" id="detail-cat-badge"></span>
+          <span class="dest-detail-meta-tag" id="detail-district-badge"></span>
+          <span class="dest-detail-rating-tag" id="detail-rating-badge"></span>
+          <span class="dest-detail-meta-tag" id="detail-reviews-badge"></span>
+        </div>
+      </div>
+    </div>
+    <div class="dest-detail-body">
+      <div class="dest-detail-grid">
+        <div class="dest-detail-main">
+          <h2>About This Destination</h2>
+          <p id="detail-desc"></p>
+          <h2>Nearby Places</h2>
+          <div class="dest-nearby-grid" id="detail-nearby"></div>
+        </div>
+        <div class="dest-detail-sidebar">
+          <div class="dest-info-card">
+            <h3>📋 Quick Info</h3>
+            <div class="dest-info-row"><span class="key">📍 District</span><span class="val" id="d-district"></span>
+            </div>
+            <div class="dest-info-row"><span class="key">🗂️ Category</span><span class="val" id="d-cat"></span></div>
+            <div class="dest-info-row"><span class="key">🗓️ Best Time</span><span class="val" id="d-best"></span></div>
+            <div class="dest-info-row"><span class="key">⭐ Rating</span><span class="val" id="d-rating"></span></div>
+            <div class="dest-info-row"><span class="key">💬 Reviews</span><span class="val" id="d-reviews"></span></div>
+          </div>
+          <div class="dest-tip-box">
+            <h3>💡 Traveller Tips</h3>
+            <p id="detail-tips"></p>
+          </div>
+          <div id="detail-book-wrap"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD SELECTION PAGE ===== -->
+  <div class="page" id="page-dashselect">
+    <div class="dash-select-page">
+      <div class="dash-select-inner">
+        <div class="welcome-name" id="dashselect-greeting">Welcome back!</div>
+        <h1>Where would you<br>like to go <em>today</em>?</h1>
+        <p class="sub">Choose your dashboard to continue your journey</p>
+        <div class="dash-choice-grid" id="dashselect-grid">
+          <!-- filled by JS -->
+        </div>
+        <button class="dash-logout-link" onclick="logout()">← Sign out of account</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="modal-overlay" style="display:none" class="modal-overlay" onclick="closeModalOutside(event)">
+
+    <!-- LOGIN MODAL -->
+    <div class="modal" id="login-modal" style="display:none">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h2>Welcome Back</h2>
+      <p class="modal-sub">Sign in to continue your journey</p>
+      <div class="tab-row">
+        <button class="tab-btn active" id="ltab-tourist" onclick="setLoginTab('tourist')">🌿 Tourist</button>
+        <button class="tab-btn" id="ltab-provider" onclick="setLoginTab('provider')">🏕️ Provider</button>
+        <button class="tab-btn" id="ltab-admin" onclick="setLoginTab('admin')">🔴 Admin</button>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="l-email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="l-password" placeholder="Enter your password">
+          <button class="pw-toggle" onclick="togglePw('l-password',this)">👁️</button>
+        </div>
+      </div>
+      <div id="l-err" class="err-msg" style="display:none;margin-bottom:8px;"></div>
+      <button class="submit-btn" onclick="doLogin()">Login →</button>
+      <p style="text-align:center;margin-top:16px;font-size:13px;color:#aaa;">No account? <a href="#"
+          onclick="openModal('register')" style="color:var(--forest);font-weight:700;">Register here</a></p>
+      <!-- Demo credentials hint -->
+      <div
+        style="margin-top:16px;padding:12px;background:#f8f9fa;border-radius:8px;font-size:12px;color:#888;line-height:1.7;">
+        <strong style="color:#666;">Demo credentials:</strong><br>
+        Tourist: priya@gmail.com / Priya@123<br>
+        Provider: raju@gmail.com / Raju@123!<br>
+        Admin: admin@jharkhand.gov.in / Admin@123#
+      </div>
+    </div>
+
+    <!-- REGISTER MODAL -->
+    <div class="modal" id="register-modal" style="display:none">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h2>Create Account</h2>
+      <p class="modal-sub">Join thousands of explorers</p>
+      <div class="tab-row">
+        <button class="tab-btn active" id="rtab-tourist" onclick="setRegTab('tourist')">🌿 Tourist</button>
+        <button class="tab-btn" id="rtab-provider" onclick="setRegTab('provider')">🏕️ Provider</button>
+      </div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="r-name" placeholder="Your full name">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="r-email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="r-phone" placeholder="10-digit mobile number">
+      </div>
+      <div id="r-tourist-fields">
+        <div class="form-group">
+          <label>Travel Interest</label>
+          <select id="r-interest">
+            <option value="adventure">🏕️ Adventure</option>
+            <option value="culture">🎭 Culture</option>
+            <option value="religious">🙏 Religious</option>
+            <option value="eco">🌿 Eco-Tourism</option>
+          </select>
+        </div>
+      </div>
+      <div id="r-provider-fields" style="display:none">
+        <div class="form-group">
+          <label>Service Type</label>
+          <select id="r-service">
+            <option value="guide">Tour Guide</option>
+            <option value="homestay">Homestay</option>
+            <option value="transport">Transport</option>
+            <option value="artisan">Artisan</option>
+            <option value="event">Event Organizer</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>District / Location</label>
+          <input type="text" id="r-location" placeholder="e.g. Ranchi">
+        </div>
+        <div class="form-group">
+          <label>Service Description</label>
+          <input type="text" id="r-desc" placeholder="Brief description of your service">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="r-password" placeholder="Create a strong password" oninput="checkPwStrength()">
+          <button class="pw-toggle" onclick="togglePw('r-password',this)">👁️</button>
+        </div>
+        <div class="strength-bar">
+          <div class="strength-fill" id="strength-fill" style="width:0%;background:var(--rust)"></div>
+        </div>
+        <div class="pw-rules" id="pw-rules">
+          <span id="pr-len" class="fail">✗ Min 8 chars</span>
+          <span id="pr-upper" class="fail">✗ Uppercase</span>
+          <span id="pr-lower" class="fail">✗ Lowercase</span>
+          <span id="pr-num" class="fail">✗ Number</span>
+          <span id="pr-sym" class="fail">✗ Symbol</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="r-confirm" placeholder="Re-enter password">
+          <button class="pw-toggle" onclick="togglePw('r-confirm',this)">👁️</button>
+        </div>
+      </div>
+      <div id="r-err" class="err-msg" style="display:none;margin-bottom:8px;"></div>
+      <div id="r-success" class="success-msg" style="display:none"></div>
+      <button class="submit-btn" id="r-submit" onclick="doRegister()">Create Account →</button>
+    </div>
+
+    <!-- ADD LISTING MODAL -->
+    <div class="modal" id="listing-modal" style="display:none">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h2>Add New Listing</h2>
+      <p class="modal-sub">Showcase your service to tourists</p>
+      <div class="form-group"><label>Title</label><input type="text" id="nl-title"
+          placeholder="e.g. Ranchi Heritage Walk"></div>
+      <div class="form-group"><label>Category</label>
+        <select id="nl-cat">
+          <option value="guided">Guided Tour</option>
+          <option value="homestay">Homestay</option>
+          <option value="transport">Transport</option>
+          <option value="handicraft">Handicraft</option>
+          <option value="cultural">Cultural Event</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Price (₹)</label><input type="number" id="nl-price" placeholder="Amount in rupees">
+      </div>
+      <div class="form-group"><label>Description</label><input type="text" id="nl-desc"
+          placeholder="What does your service include?"></div>
+      <button class="submit-btn" onclick="addListing()">Add Listing →</button>
+    </div>
+
+    <!-- REVIEW MODAL -->
+    <div class="modal" id="review-modal" style="display:none">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h2>Write a Review</h2>
+      <p id="review-for" style="color:#aaa;margin-bottom:18px;font-size:14px;"></p>
+      <div class="stars-input" id="stars-input">
+        <button class="star-btn" onclick="setStar(1)">⭐</button>
+        <button class="star-btn" onclick="setStar(2)">⭐</button>
+        <button class="star-btn" onclick="setStar(3)">⭐</button>
+        <button class="star-btn" onclick="setStar(4)">⭐</button>
+        <button class="star-btn" onclick="setStar(5)">⭐</button>
+      </div>
+      <div class="form-group"><label>Your Experience</label>
+        <textarea class="form-ctrl" id="review-text" placeholder="Share your experience..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitReview()">Submit Review →</button>
+    </div>
+
+  </div>
+
+  <script>
+    // ===== DATA STORE =====
+    const DB = {
+      tourists: [
+        { name: "Priya Sharma", email: "priya@gmail.com", phone: "9876543210", password: "Priya@123", interest: "culture", joined: new Date().toLocaleDateString(), lastLogin: null, role: "tourist" }
+      ],
+      providers: [
+        { name: "Raju Guide", email: "raju@gmail.com", phone: "9876543211", password: "Raju@123!", service: "guide", location: "Ranchi", desc: "Expert heritage walk guide in Ranchi for 10+ years", status: "approved", joined: new Date().toLocaleDateString(), role: "provider", listings: [], bookings: [] },
+        { name: "Sita Homestay", email: "sita@gmail.com", phone: "9876543212", password: "Sita@1234", service: "homestay", location: "Netarhat", desc: "Cozy tribal homestay with authentic food", status: "pending", joined: new Date().toLocaleDateString(), role: "provider", listings: [], bookings: [] }
+      ],
+      admin: { email: "admin@jharkhand.gov.in", password: "Admin@123#" },
+      bookings: [],
+      reviews: [],
+      loginLog: []
+    };
+
+    // Real Unsplash image URLs for each destination
+    const DEST_IMAGES = {
+      "Hundru Falls": "https://images.unsplash.com/photo-1621789098261-d1b2e2fd98a1?w=600&q=75",
+      "Betla National Park": "https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=600&q=75",
+      "Netarhat": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=75",
+      "Deoghar": "https://images.unsplash.com/photo-1609340004050-5e53bacc6e22?w=600&q=75",
+      "Patratu Valley": "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=75",
+      "Jonha Falls": "https://images.unsplash.com/photo-1545389336-cf090694435e?w=600&q=75",
+      "Rajrappa": "https://images.unsplash.com/photo-1609340004050-5e53bacc6e22?w=600&q=75",
+      "Dalma Wildlife Sanctuary": "https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=600&q=75",
+      "Panchghagh Falls": "https://images.unsplash.com/photo-1546514355-7fdc90ccbd03?w=600&q=75"
+    };
+
+    // Product images
+    const PRODUCT_IMAGES = {
+      "Sohrai Painting": "https://images.unsplash.com/photo-1549490349-8643362247b5?w=400&q=75",
+      "Dokra Figurine": "https://images.unsplash.com/photo-1593011951180-12b29e2c1d3c?w=400&q=75",
+      "Sabai Grass Basket": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&q=75",
+      "Tribal Jewelry": "https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=400&q=75",
+      "Wild Forest Honey": "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&q=75",
+      "Handloom Shawl": "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400&q=75"
+    };
+
+    const DESTINATIONS = [
+      { name: "Hundru Falls", cat: "Waterfall", district: "Ranchi", rating: 4.7, reviews: 120, emoji: "🌊", desc: "A stunning 98-metre waterfall formed by the Subarnarekha river. Best visited during monsoon when water levels peak.", best: "July–October", tips: "Wear waterproof footwear. Avoid swimming near the falls." },
+      { name: "Betla National Park", cat: "Wildlife", district: "Latehar", rating: 4.6, reviews: 98, emoji: "🐯", desc: "Jharkhand's only national park, home to tigers, elephants, and diverse wildlife in lush Sal forests.", best: "November–March", tips: "Book jeep safari in advance. Carry binoculars." },
+      { name: "Netarhat", cat: "Hill Station", district: "Latehar", rating: 4.8, reviews: 145, emoji: "🏔️", desc: "Called the 'Queen of Chotanagpur', this hill station at 3,622 ft offers breathtaking sunrise and sunset views.", best: "October–February", tips: "Blankets essential in winter. Visit Magnolia Point for sunrise." },
+      { name: "Deoghar", cat: "Religious", district: "Deoghar", rating: 4.9, reviews: 210, emoji: "🙏", desc: "Sacred city housing the Baidyanath Jyotirlinga temple, one of the 12 sacred Shiva shrines in India.", best: "Shravan (July–August)", tips: "Visit early morning to avoid crowds. Dress modestly." },
+      { name: "Patratu Valley", cat: "Scenic", district: "Ramgarh", rating: 4.5, reviews: 87, emoji: "🌄", desc: "A spectacular valley surrounding the Patratu Lake, famous for winding mountain roads and lush landscapes.", best: "October–March", tips: "Best experienced by road trip. Photography paradise at dusk." },
+      { name: "Jonha Falls", cat: "Waterfall", district: "Ranchi", rating: 4.4, reviews: 76, emoji: "💦", desc: "Also known as Gautamdhara, this waterfall has a temple of Lord Buddha nearby, blending nature and spirituality.", best: "July–September", tips: "Climb the steps for the top view. Ideal for picnics." },
+      { name: "Rajrappa", cat: "Religious", district: "Ramgarh", rating: 4.6, reviews: 132, emoji: "⛩️", desc: "A sacred confluence of Damodar and Bhairavi rivers, housing the Chhinnamasta temple, a revered Shakti peeth.", best: "Throughout year", tips: "Major fairs held on Sundays. Very crowded during Navratri." },
+      { name: "Dalma Wildlife Sanctuary", cat: "Wildlife", district: "East Singhbhum", rating: 4.3, reviews: 61, emoji: "🐘", desc: "Home to wild elephants, leopards and over 150 bird species in the Eastern Ghats range near Jamshedpur.", best: "November–February", tips: "Elephant sightings most common at dawn. Guides mandatory." },
+      { name: "Panchghagh Falls", cat: "Waterfall", district: "West Singhbhum", rating: 4.2, reviews: 44, emoji: "🏞️", desc: "Five streams merging at one point creating a unique spectacle in tribal heartland Jharkhand.", best: "August–October", tips: "Remote location — hire local guide. Pack lunch." }
+    ];
+
+    const PRODUCTS = [
+      { name: "Sohrai Painting", price: 1200, emoji: "🎨", desc: "Traditional Hariyali art" },
+      { name: "Dokra Figurine", price: 850, emoji: "🔔", desc: "Lost-wax brass casting" },
+      { name: "Sabai Grass Basket", price: 450, emoji: "🧺", desc: "Handwoven tribal craft" },
+      { name: "Tribal Jewelry", price: 650, emoji: "📿", desc: "Silver & brass adornments" },
+      { name: "Wild Forest Honey", price: 380, emoji: "🍯", desc: "Pure Mahua forest honey" },
+      { name: "Handloom Shawl", price: 1500, emoji: "🧣", desc: "Tussar silk tribal weave" }
+    ];
+
+    const ITINERARIES = {
+      adventure: {
+        1: [["Day 1", "Full day adventure at Hundru Falls. Morning trek, waterfall photography, picnic lunch by the river."]],
+        2: [["Day 1", "Betla National Park jeep safari (morning). Spot tigers, elephants & deer. Evening campfire."], ["Day 2", "Jonha Falls trek and swimming at safe pools. Explore nearby Buddha temple."]],
+        3: [["Day 1", "Hundru Falls trek and photography."], ["Day 2", "Betla National Park full-day safari."], ["Day 3", "Patratu Valley road trip and Dalma Wildlife Sanctuary."]],
+        5: [["Day 1", "Arrive Ranchi. Hundru Falls."], ["Day 2", "Betla National Park safari."], ["Day 3", "Patratu Valley scenic drive."], ["Day 4", "Dalma Wildlife Sanctuary."], ["Day 5", "Jonha Falls & Panchghagh Falls."]]
+      },
+      culture: {
+        1: [["Day 1", "Explore tribal art market in Ranchi. Purchase Sohrai paintings and Dokra figurines. Folk dance evening."]],
+        2: [["Day 1", "Tribal marketplace, artisan workshops, and Dokra brass-casting demonstration."], ["Day 2", "Chotanagpur cultural museum and Sohrai painting workshop."]],
+        3: [["Day 1", "Ranchi tribal art tour."], ["Day 2", "Netarhat — experience nature and local Oraon culture."], ["Day 3", "Rajrappa temple and river confluence rituals."]],
+        5: [["Day 1", "Arrive & explore Ranchi bazaar."], ["Day 2", "Tribal artisan village visit."], ["Day 3", "Netarhat cultural heritage."], ["Day 4", "Deoghar city tour."], ["Day 5", "Rajrappa & folk performance."]]
+      },
+      religious: {
+        1: [["Day 1", "Visit Deoghar Baidyanath temple at dawn. Attend aarti at the sacred Shiva shrine."]],
+        2: [["Day 1", "Deoghar Baidyanath Jyotirlinga darshan."], ["Day 2", "Rajrappa Chhinnamasta temple and sacred river confluence."]],
+        3: [["Day 1", "Deoghar temple and Trikut Hills."], ["Day 2", "Rajrappa Shakti peeth."], ["Day 3", "Jonha Falls and Gautamdhara temple."]],
+        5: [["Day 1", "Arrive Deoghar."], ["Day 2", "Baidyanath temple full darshan."], ["Day 3", "Trikut Hills ropeway."], ["Day 4", "Rajrappa temple."], ["Day 5", "Parasnath temple, Giridih."]]
+      },
+      eco: {
+        1: [["Day 1", "Betla National Park eco safari. Bird watching and forest trail with certified eco guide."]],
+        2: [["Day 1", "Dalma Wildlife Sanctuary — elephant tracking."], ["Day 2", "Panchghagh Falls nature walk through tribal forest."]],
+        3: [["Day 1", "Betla eco safari."], ["Day 2", "Netarhat forest sunrise & flora walk."], ["Day 3", "Panchghagh Falls riverine ecosystem."]],
+        5: [["Day 1", "Arrive & acclimatize in Ranchi."], ["Day 2", "Betla safari."], ["Day 3", "Dalma sanctuary."], ["Day 4", "Netarhat hilltop."], ["Day 5", "Panchghagh & forest honey trail."]]
+      },
+      everything: {
+        1: [["Day 1", "Best of Ranchi: Hundru Falls morning + tribal market afternoon + folk music evening."]],
+        2: [["Day 1", "Betla safari + Deoghar evening aarti."], ["Day 2", "Netarhat sunrise + tribal artisan village."]],
+        3: [["Day 1", "Hundru Falls & Jonha Falls."], ["Day 2", "Deoghar pilgrimage & Rajrappa."], ["Day 3", "Betla safari & marketplace."]],
+        5: [["Day 1", "Ranchi city & marketplace."], ["Day 2", "Betla National Park."], ["Day 3", "Deoghar temples."], ["Day 4", "Netarhat sunset."], ["Day 5", "Rajrappa & Panchghagh Falls."]]
+      }
+    };
+
+    // ===== STATE =====
+    let currentUser = null;
+    let currentRole = null;
+    let loginTab = 'tourist';
+    let regTab = 'tourist';
+    let currentBookingId = null;
+    let selectedStar = 0;
+
+    // ===== PAGE NAVIGATION =====
+    function showPage(p) {
+      document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+      document.getElementById('page-' + p).classList.add('active');
+    }
+
+    // ===== MODAL =====
+    function openModal(type) {
+      document.getElementById('modal-overlay').style.display = 'flex';
+      ['login', 'register', 'listing', 'review'].forEach(m => document.getElementById(m + '-modal').style.display = 'none');
+      document.getElementById(type + '-modal').style.display = 'block';
+      if (type === 'register') clearRegForm();
+      // hide errors
+      const lerr = document.getElementById('l-err'); if (lerr) { lerr.style.display = 'none'; }
+    }
+    function openAddListing() { openModal('listing'); }
+    function closeModal() {
+      document.getElementById('modal-overlay').style.display = 'none';
+    }
+    function closeModalOutside(e) {
+      if (e.target.id === 'modal-overlay') closeModal();
+    }
+
+    // ===== PASSWORD =====
+    function togglePw(id, btn) {
+      const inp = document.getElementById(id);
+      if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+      else { inp.type = 'password'; btn.textContent = '👁️'; }
+    }
+
+    function checkPwStrength() {
+      const pw = document.getElementById('r-password').value;
+      const checks = {
+        len: pw.length >= 8,
+        upper: /[A-Z]/.test(pw),
+        lower: /[a-z]/.test(pw),
+        num: /[0-9]/.test(pw),
+        sym: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pw)
+      };
+      const map = { len: 'pr-len', upper: 'pr-upper', lower: 'pr-lower', num: 'pr-num', sym: 'pr-sym' };
+      const labels = { len: '✗ Min 8 chars', upper: '✗ Uppercase', lower: '✗ Lowercase', num: '✗ Number', sym: '✗ Symbol' };
+      const okLabels = { len: '✓ Min 8 chars', upper: '✓ Uppercase', lower: '✓ Lowercase', num: '✓ Number', sym: '✓ Symbol' };
+      let score = 0;
+      Object.keys(checks).forEach(k => {
+        const el = document.getElementById(map[k]);
+        if (checks[k]) { el.className = 'ok'; el.textContent = okLabels[k]; score++; }
+        else { el.className = 'fail'; el.textContent = labels[k]; }
+      });
+      const bar = document.getElementById('strength-fill');
+      bar.style.width = (score * 20) + '%';
+      const colors = ['#e53e3e', '#e53e3e', '#dd6b20', '#d69e2e', '#38a169', '#22c55e'];
+      bar.style.background = colors[score];
+    }
+
+    function validatePassword(pw) {
+      const errors = [];
+      if (pw.length < 8) errors.push('at least 8 characters');
+      if (!/[A-Z]/.test(pw)) errors.push('an uppercase letter');
+      if (!/[a-z]/.test(pw)) errors.push('a lowercase letter');
+      if (!/[0-9]/.test(pw)) errors.push('a number');
+      if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pw)) errors.push('a special symbol');
+      return errors;
+    }
+
+    // ===== TAB SWITCHING =====
+    function setLoginTab(t) {
+      loginTab = t;
+      ['tourist', 'provider', 'admin'].forEach(x => {
+        document.getElementById('ltab-' + x).className = 'tab-btn' + (x === t ? ' active' : '');
+      });
+    }
+    function setRegTab(t) {
+      regTab = t;
+      ['tourist', 'provider'].forEach(x => {
+        document.getElementById('rtab-' + x).className = 'tab-btn' + (x === t ? ' active' : '');
+      });
+      document.getElementById('r-tourist-fields').style.display = t === 'tourist' ? 'block' : 'none';
+      document.getElementById('r-provider-fields').style.display = t === 'provider' ? 'block' : 'none';
+    }
+
+    // ===== REGISTER =====
+    function clearRegForm() {
+      ['r-name', 'r-email', 'r-phone', 'r-password', 'r-confirm', 'r-location', 'r-desc'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.value = '';
+      });
+      const rerr = document.getElementById('r-err');
+      rerr.style.display = 'none'; rerr.textContent = '';
+      document.getElementById('r-success').style.display = 'none';
+      document.getElementById('r-submit').style.display = 'block';
+      checkPwStrength();
+    }
+
+    function showErr(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg; el.style.display = 'block';
+    }
+
+    function doRegister() {
+      const name = document.getElementById('r-name').value.trim();
+      const email = document.getElementById('r-email').value.trim().toLowerCase();
+      const phone = document.getElementById('r-phone').value.trim();
+      const pw = document.getElementById('r-password').value;
+      const cpw = document.getElementById('r-confirm').value;
+      const errEl = document.getElementById('r-err');
+      errEl.style.display = 'none';
+
+      if (!name || !email || !phone) return showErr('r-err', 'Please fill in all fields.');
+      if (!/^\d{10}$/.test(phone)) return showErr('r-err', 'Phone must be 10 digits.');
+      if (!email.includes('@')) return showErr('r-err', 'Enter a valid email address.');
+      const pwErrors = validatePassword(pw);
+      if (pwErrors.length > 0) return showErr('r-err', 'Password needs: ' + pwErrors.join(', ') + '.');
+      if (pw !== cpw) return showErr('r-err', 'Passwords do not match.');
+      const allEmails = [...DB.tourists, ...DB.providers].map(x => x.email);
+      if (allEmails.includes(email)) return showErr('r-err', 'This email is already registered.');
+
+      const today = new Date().toLocaleDateString();
+      if (regTab === 'tourist') {
+        const interest = document.getElementById('r-interest').value;
+        DB.tourists.push({ name, email, phone, password: pw, interest, joined: today, lastLogin: null, role: 'tourist' });
+        const suc = document.getElementById('r-success');
+        suc.style.display = 'block'; suc.textContent = '✅ Account created! You can login now.';
+        document.getElementById('r-submit').style.display = 'none';
+        setTimeout(() => { closeModal(); openModal('login'); setLoginTab('tourist'); }, 1800);
+      } else {
+        const service = document.getElementById('r-service').value;
+        const location = document.getElementById('r-location').value.trim();
+        const desc = document.getElementById('r-desc').value.trim();
+        if (!location || !desc) return showErr('r-err', 'Please fill location and description.');
+        DB.providers.push({ name, email, phone, password: pw, service, location, desc, status: 'pending', joined: today, role: 'provider', listings: [], bookings: [] });
+        const suc = document.getElementById('r-success');
+        suc.style.display = 'block'; suc.textContent = '✅ Registered! Your account is pending admin approval.';
+        document.getElementById('r-submit').style.display = 'none';
+      }
+    }
+
+    // ===== LOGIN =====
+    function doLogin() {
+      const email = document.getElementById('l-email').value.trim().toLowerCase();
+      const pw = document.getElementById('l-password').value;
+      const errEl = document.getElementById('l-err');
+      errEl.style.display = 'none';
+
+      if (!email || !pw) return showErr('l-err', 'Please enter email and password.');
+
+      if (loginTab === 'admin') {
+        if (email === DB.admin.email && pw === DB.admin.password) {
+          currentUser = { name: 'Admin', email, role: 'admin' };
+          currentRole = 'admin';
+          saveSession();
+          closeModal(); showPage('admin'); renderAdmin(); updateHeader();
+        } else showErr('l-err', 'Invalid admin credentials.');
+        return;
+      }
+      if (loginTab === 'tourist') {
+        const u = DB.tourists.find(x => x.email === email && x.password === pw);
+        if (!u) return showErr('l-err', 'Invalid email or password.');
+        u.lastLogin = new Date().toLocaleString();
+        currentUser = u; currentRole = 'tourist';
+        saveSession();
+        closeModal(); showDashSelect(); updateHeader();
+        return;
+      }
+      if (loginTab === 'provider') {
+        const u = DB.providers.find(x => x.email === email && x.password === pw);
+        if (!u) return showErr('l-err', 'Invalid email or password.');
+        if (u.status === 'pending') return showErr('l-err', 'Your account is pending admin approval.');
+        if (u.status === 'rejected') return showErr('l-err', 'Your account has been rejected. Contact admin.');
+        currentUser = u; currentRole = 'provider';
+        saveSession();
+        closeModal(); showDashSelect(); updateHeader();
+      }
+    }
+
+    // ===== SESSION PERSISTENCE =====
+    function saveSession() {
+      try {
+        localStorage.setItem('jh_session', JSON.stringify({ email: currentUser.email, role: currentRole }));
+      } catch (e) { }
+    }
+
+    function loadSession() {
+      try {
+        const s = JSON.parse(localStorage.getItem('jh_session') || 'null');
+        if (!s) return;
+        if (s.role === 'tourist') {
+          const u = DB.tourists.find(x => x.email === s.email);
+          if (u) { currentUser = u; currentRole = 'tourist'; updateHeader(); showDashSelect(); }
+        } else if (s.role === 'provider') {
+          const u = DB.providers.find(x => x.email === s.email && x.status === 'approved');
+          if (u) { currentUser = u; currentRole = 'provider'; updateHeader(); showDashSelect(); }
+        } else if (s.role === 'admin' && s.email === DB.admin.email) {
+          currentUser = { name: 'Admin', email: s.email, role: 'admin' };
+          currentRole = 'admin'; updateHeader(); showPage('admin'); renderAdmin();
+        }
+      } catch (e) { }
+    }
+
+    function logout() {
+      currentUser = null; currentRole = null;
+      try { localStorage.removeItem('jh_session'); } catch (e) { }
+      showPage('home'); updateHeader();
+    }
+
+    function goHome() {
+      showPage('home');
+      window.scrollTo(0, 0);
+    }
+
+    // ===== DASHBOARD SELECTION =====
+    function showDashSelect() {
+      if (!currentUser) return;
+      document.getElementById('dashselect-greeting').textContent = 'Welcome back, ' + currentUser.name + '! 👋';
+      const grid = document.getElementById('dashselect-grid');
+
+      if (currentRole === 'tourist') {
+        grid.innerHTML = `
+      <div class="dash-choice-card" onclick="goTouristDash()">
+        <span class="dash-choice-badge">Tourist</span>
+        <span class="dash-choice-icon">🌿</span>
+        <h3>Tourist Dashboard</h3>
+        <p>Explore destinations, plan trips, book guides, shop tribal crafts & manage your bookings</p>
+      </div>
+      <div class="dash-choice-card" onclick="openModal('register');setRegTab('provider')">
+        <span class="dash-choice-badge">Join</span>
+        <span class="dash-choice-icon">🏕️</span>
+        <h3>Become a Provider</h3>
+        <p>Register as a local guide, homestay owner, or artisan to offer your services to tourists</p>
+      </div>`;
+      } else if (currentRole === 'provider') {
+        grid.innerHTML = `
+      <div class="dash-choice-card" onclick="goProviderDash()">
+        <span class="dash-choice-badge">Provider</span>
+        <span class="dash-choice-icon">🏕️</span>
+        <h3>Provider Dashboard</h3>
+        <p>Manage your listings, view bookings, track earnings and respond to tourist reviews</p>
+      </div>
+      <div class="dash-choice-card" onclick="showPage('home')">
+        <span class="dash-choice-badge">Browse</span>
+        <span class="dash-choice-icon">🌿</span>
+        <h3>Explore Jharkhand</h3>
+        <p>Browse destinations and attractions across Jharkhand as a traveller</p>
+      </div>`;
+      } else if (currentRole === 'admin') {
+        showPage('admin'); renderAdmin(); return;
+      }
+      showPage('dashselect');
+    }
+
+    function goTouristDash() {
+      showPage('tourist'); renderTourist();
+    }
+
+    function goProviderDash() {
+      showPage('provider'); renderProvider();
+    }
+
+    function updateHeader() {
+      const nav = document.getElementById('headerNav');
+      if (currentUser) {
+        nav.innerHTML = `
+      <span style="color:rgba(245,239,224,0.6);font-size:13px;padding:8px 12px;">👤 ${currentUser.name}</span>
+      <button class="nav-btn" onclick="showDashSelect()">My Dashboard</button>
+      <button class="nav-btn" onclick="logout()">Logout</button>`;
+      } else {
+        nav.innerHTML = `
+      <button class="nav-btn" onclick="showPage('home')">Home</button>
+      <button class="nav-btn" onclick="openModal('login')">Login</button>
+      <button class="nav-btn nav-btn-primary" onclick="openModal('register')">Register Free</button>`;
+      }
+    }
+
+    // ===== TOURIST DASHBOARD =====
+    function tNav(section) {
+      ['overview', 'destinations', 'planner', 'guides', 'homestays', 'market', 'bookings'].forEach(s => {
+        document.getElementById('t-' + s).style.display = s === section ? 'block' : 'none';
+        const nav = document.getElementById('tnav-' + s);
+        if (nav) nav.className = s === section ? 'active' : '';
+      });
+      if (section === 'destinations') renderTDestinations();
+      if (section === 'guides') renderGuides();
+      if (section === 'market') renderMarket();
+      if (section === 'bookings') renderTBookings();
+    }
+
+    function renderTourist() {
+      document.getElementById('t-username').textContent = currentUser.name;
+      document.getElementById('t-welcome').textContent = 'Welcome, ' + currentUser.name + '! 🌿';
+      tNav('overview');
+      renderTStats();
+      renderTRecentBookings();
+      renderHomeDestinations();
+    }
+
+    function renderTStats() {
+      const myBookings = DB.bookings.filter(b => b.touristEmail === currentUser.email);
+      document.getElementById('t-stat-book').textContent = myBookings.length;
+      document.getElementById('t-stat-confirm').textContent = myBookings.filter(b => b.status === 'confirmed').length;
+      document.getElementById('t-stat-reviews').textContent = DB.reviews.filter(r => r.touristEmail === currentUser.email).length;
+    }
+
+    function renderTRecentBookings() {
+      const myBookings = DB.bookings.filter(b => b.touristEmail === currentUser.email).slice(-5).reverse();
+      const tbody = document.getElementById('t-recent-bookings');
+      if (!myBookings.length) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#ccc;padding:30px;">No bookings yet. Explore destinations to book!</td></tr>'; return; }
+      tbody.innerHTML = myBookings.map(b => `<tr><td>${b.service}</td><td>${b.date}</td><td>₹${b.amount}</td><td><span class="badge badge-${b.status}">${b.status}</span></td></tr>`).join('');
+    }
+
+    function renderTDestinations() {
+      const grid = document.getElementById('t-dest-grid');
+      grid.innerHTML = DESTINATIONS.map((d, i) => destCardHTML(d, true)).join('');
+    }
+
+    function generatePlan() {
+      const interest = document.getElementById('plan-interest').value;
+      const dur = parseInt(document.getElementById('plan-duration').value);
+      const plan = ITINERARIES[interest][dur] || ITINERARIES[interest][1];
+      const out = document.getElementById('plan-output');
+      out.innerHTML = `<h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;margin-bottom:16px;color:var(--forest);">${dur}-Day ${interest.charAt(0).toUpperCase() + interest.slice(1)} Itinerary</h3>`
+        + plan.map(([title, desc]) => `<div class="itin-day"><h4>📅 ${title}</h4><p>${desc}</p></div>`).join('')
+        + `<div style="margin-top:16px;padding:18px;background:#fff;border-radius:10px;box-shadow:var(--shadow-sm);border:1px solid #f0f0f0;">
+      <strong style="color:var(--forest);">🧭 Recommended Guides for this Trip:</strong><br>
+      <p style="font-size:13px;color:#888;margin-top:8px;">${DB.providers.filter(p => p.status === 'approved').map(p => p.name + ' (' + p.service + ', ' + p.location + ')').join(' · ') || 'No approved guides yet.'}</p>
+    </div>`;
+    }
+
+    function renderGuides() {
+      const list = document.getElementById('guide-list');
+      const providers = DB.providers.filter(p => p.status === 'approved');
+      if (!providers.length) { list.innerHTML = '<p style="color:#aaa;padding:20px;">No approved providers yet.</p>'; return; }
+      list.innerHTML = providers.map((p, i) => `
+    <div class="guide-card">
+      <div style="display:flex;align-items:center;gap:14px;flex:1;">
+        <div class="guide-avatar">👤</div>
+        <div class="guide-info">
+          <h4>${p.name}</h4>
+          <p>${p.service.charAt(0).toUpperCase() + p.service.slice(1)} · 📍 ${p.location}</p>
+          <p style="font-size:12px;color:#bbb;margin-top:2px;">${p.desc}</p>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div class="guide-price">₹${p.listings.length ? p.listings[0].price : 500}<span style="font-size:13px;color:#aaa;font-weight:400;font-family:'Outfit',sans-serif;">/day</span></div>
+        <button class="act-btn act-confirm" style="margin-top:8px;" onclick="quickBook('${p.email}','${p.name}',${p.listings.length ? p.listings[0].price : 500},'${p.listings.length ? p.listings[0].title : p.service}')">Book Now</button>
+      </div>
+    </div>`).join('');
+    }
+
+    function quickBook(provEmail, provName, amount, service) {
+      const date = new Date().toLocaleDateString();
+      const booking = { id: Date.now(), touristEmail: currentUser.email, touristName: currentUser.name, providerEmail: provEmail, providerName: provName, service, date, amount, status: 'pending', hasReview: false };
+      DB.bookings.push(booking);
+      const prov = DB.providers.find(p => p.email === provEmail);
+      if (prov) prov.bookings.push(booking.id);
+      renderTStats();
+      alert('✅ Booking Confirmed!\n\nService: ' + service + '\nProvider: ' + provName + '\nDate: ' + date + '\nAmount: ₹' + amount + '\nStatus: Pending (awaiting provider confirmation)');
+    }
+
+    function renderMarket() {
+      const grid = document.getElementById('prod-grid');
+      grid.innerHTML = PRODUCTS.map(p => `
+    <div class="prod-card">
+      <div class="prod-img">
+        <img src="${PRODUCT_IMAGES[p.name] || ''}" alt="${p.name}" loading="lazy"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="emoji-fallback" style="display:none;align-items:center;justify-content:center;width:100%;height:100%;font-size:48px;">${p.emoji}</div>
+      </div>
+      <div class="prod-body">
+        <h4>${p.name}</h4>
+        <div class="pdesc">${p.desc}</div>
+        <div class="price">₹${p.price}</div>
+        <button class="act-btn act-confirm" style="width:100%;" onclick="buyProduct('${p.name}',${p.price})">Add to Cart</button>
+      </div>
+    </div>`).join('');
+    }
+
+    function buyProduct(name, price) {
+      const date = new Date().toLocaleDateString();
+      const booking = { id: Date.now(), touristEmail: currentUser.email, touristName: currentUser.name, providerEmail: 'market@jharkhand.in', providerName: 'Tribal Marketplace', service: name, date, amount: price, status: 'confirmed', hasReview: false };
+      DB.bookings.push(booking);
+      renderTStats();
+      alert('🛒 Order placed!\n\n' + name + ' — ₹' + price + '\nDelivery in 5–7 business days.');
+    }
+
+    function renderTBookings() {
+      const myBookings = DB.bookings.filter(b => b.touristEmail === currentUser.email).reverse();
+      const tbody = document.getElementById('t-bookings-table');
+      if (!myBookings.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#ccc;padding:30px;">No bookings yet.</td></tr>'; return; }
+      tbody.innerHTML = myBookings.map((b, i) => {
+        const canReview = b.status === 'confirmed' && !b.hasReview;
+        return `<tr>
+      <td>${b.service}</td><td>${b.date}</td><td>₹${b.amount}</td>
+      <td><span class="badge badge-${b.status === 'confirmed' ? 'confirmed' : 'pending'}">${b.status}</span></td>
+      <td>${canReview ? `<button class="act-btn act-approve" onclick="openReviewModal(${b.id})">Write Review</button>` : '—'}</td>
+    </tr>`;
+      }).join('');
+    }
+
+    // ===== REVIEW =====
+    function openReviewModal(bookingId) {
+      currentBookingId = bookingId;
+      selectedStar = 0;
+      const booking = DB.bookings.find(b => b.id === bookingId);
+      document.getElementById('review-for').textContent = 'Reviewing: ' + booking.service + ' by ' + booking.providerName;
+      document.getElementById('review-text').value = '';
+      document.querySelectorAll('.star-btn').forEach(s => s.className = 'star-btn');
+      openModal('review');
+    }
+
+    function setStar(n) {
+      selectedStar = n;
+      document.querySelectorAll('.star-btn').forEach((s, i) => s.className = 'star-btn' + (i < n ? ' active' : ''));
+    }
+
+    function submitReview() {
+      if (!selectedStar) return alert('Please select a star rating.');
+      const text = document.getElementById('review-text').value.trim();
+      if (!text) return alert('Please write your experience.');
+      const booking = DB.bookings.find(b => b.id === currentBookingId);
+      booking.hasReview = true;
+      DB.reviews.push({ touristEmail: currentUser.email, touristName: currentUser.name, providerEmail: booking.providerEmail, service: booking.service, stars: selectedStar, text, date: new Date().toLocaleDateString() });
+      closeModal();
+      alert('✅ Review submitted! Thank you.');
+      renderTStats();
+      renderTBookings();
+    }
+
+    // ===== PROVIDER DASHBOARD =====
+    function pNav(section) {
+      ['overview', 'listings', 'bookings', 'reviews'].forEach(s => {
+        document.getElementById('p-' + s).style.display = s === section ? 'block' : 'none';
+        const nav = document.getElementById('pnav-' + s);
+        if (nav) nav.className = s === section ? 'active' : '';
+      });
+      if (section === 'listings') renderPListings();
+      if (section === 'bookings') renderPBookings();
+      if (section === 'reviews') renderPReviews();
+    }
+
+    function renderProvider() {
+      document.getElementById('p-username').textContent = currentUser.name;
+      document.getElementById('p-welcome').textContent = 'Welcome, ' + currentUser.name + '! 🏕️';
+      pNav('overview');
+      renderPStats();
+    }
+
+    function renderPStats() {
+      const myBookings = DB.bookings.filter(b => b.providerEmail === currentUser.email);
+      const earnings = myBookings.filter(b => b.status === 'confirmed').reduce((s, b) => s + b.amount, 0);
+      document.getElementById('p-stat-list').textContent = currentUser.listings.length;
+      document.getElementById('p-stat-book').textContent = myBookings.length;
+      document.getElementById('p-stat-earn').textContent = '₹' + earnings;
+      document.getElementById('p-stat-rev').textContent = DB.reviews.filter(r => r.providerEmail === currentUser.email).length;
+    }
+
+    function renderPListings() {
+      const tbody = document.getElementById('p-listings-table');
+      if (!currentUser.listings.length) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#ccc;padding:30px;">No listings yet. Click "Add Listing" to start.</td></tr>'; return; }
+      tbody.innerHTML = currentUser.listings.map(l => `<tr><td>${l.title}</td><td>${l.category}</td><td>₹${l.price}</td><td>${DB.bookings.filter(b => b.service === l.title).length}</td></tr>`).join('');
+    }
+
+    function addListing() {
+      const title = document.getElementById('nl-title').value.trim();
+      const cat = document.getElementById('nl-cat').value;
+      const price = parseInt(document.getElementById('nl-price').value);
+      const desc = document.getElementById('nl-desc').value.trim();
+      if (!title || !price || !desc) return alert('Please fill all fields.');
+      currentUser.listings.push({ title, category: cat, price, desc });
+      renderPStats();
+      closeModal();
+      pNav('listings');
+      alert('✅ Listing "' + title + '" is now live!');
+    }
+
+    function renderPBookings() {
+      const myBookings = DB.bookings.filter(b => b.providerEmail === currentUser.email).reverse();
+      const tbody = document.getElementById('p-bookings-table');
+      if (!myBookings.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ccc;padding:30px;">No bookings yet.</td></tr>'; return; }
+      tbody.innerHTML = myBookings.map(b => `<tr>
+    <td>${b.touristName}</td><td>${b.service}</td><td>${b.date}</td><td>₹${b.amount}</td>
+    <td><span class="badge badge-${b.status === 'confirmed' ? 'confirmed' : 'pending'}">${b.status}</span></td>
+    <td>${b.status === 'pending' ? `<button class="act-btn act-confirm" onclick="confirmBooking(${b.id})">Confirm</button>` : '✅'}</td>
+  </tr>`).join('');
+    }
+
+    function confirmBooking(id) {
+      const b = DB.bookings.find(x => x.id === id);
+      if (b) { b.status = 'confirmed'; renderPBookings(); renderPStats(); alert('✅ Booking confirmed!'); }
+    }
+
+    function renderPReviews() {
+      const myReviews = DB.reviews.filter(r => r.providerEmail === currentUser.email);
+      const list = document.getElementById('p-reviews-list');
+      if (!myReviews.length) { list.innerHTML = '<p style="color:#aaa;padding:20px;">No reviews yet.</p>'; return; }
+      list.innerHTML = myReviews.map(r => `<div class="review-card">
+    <div class="stars">${'⭐'.repeat(r.stars)}</div>
+    <div class="reviewer">${r.touristName} · ${r.date}</div>
+    <div class="text">${r.text}</div>
+  </div>`).join('');
+    }
+
+    // ===== ADMIN DASHBOARD =====
+    function aNav(section) {
+      ['overview', 'providers', 'tourists', 'bookings', 'destinations', 'database'].forEach(s => {
+        document.getElementById('a-' + s).style.display = s === section ? 'block' : 'none';
+        const nav = document.getElementById('anav-' + s);
+        if (nav) nav.className = s === section ? 'active' : '';
+      });
+      if (section === 'providers') renderAProviders();
+      if (section === 'tourists') renderATourists();
+      if (section === 'bookings') renderABookings();
+      if (section === 'destinations') renderADest();
+      if (section === 'database') renderADatabase();
+    }
+
+    function renderAdmin() {
+      aNav('overview');
+      renderAStats();
+    }
+
+    function renderAStats() {
+      const pending = DB.providers.filter(p => p.status === 'pending').length;
+      const active = DB.providers.filter(p => p.status === 'approved').length;
+      const revenue = DB.bookings.filter(b => b.status === 'confirmed').reduce((s, b) => s + b.amount, 0);
+      document.getElementById('a-stat-tourists').textContent = DB.tourists.length;
+      document.getElementById('a-stat-providers').textContent = active;
+      document.getElementById('a-stat-pending').textContent = pending;
+      document.getElementById('a-stat-bookings').textContent = DB.bookings.length;
+      document.getElementById('a-stat-revenue').textContent = '₹' + revenue;
+      const alertEl = document.getElementById('a-pending-alert');
+      alertEl.innerHTML = pending > 0 ? `<div class="alert">⚠️ <strong>${pending} provider(s)</strong> awaiting approval. <a onclick="aNav('providers')">Review now →</a></div>` : '';
+    }
+
+    function renderAProviders() {
+      const tbody = document.getElementById('a-providers-table');
+      tbody.innerHTML = DB.providers.map((p, i) => {
+        const actions = p.status === 'pending'
+          ? `<button class="act-btn act-approve" onclick="approveProvider(${i})">Approve</button><button class="act-btn act-reject" onclick="rejectProvider(${i})">Reject</button>`
+          : p.status === 'approved'
+            ? `<button class="act-btn act-revoke" onclick="revokeProvider(${i})">Revoke</button>`
+            : '<em style="color:#ccc;font-size:12px">Rejected</em>';
+        return `<tr><td><strong>${p.name}</strong></td><td>${p.email}</td><td>${p.service}</td><td>${p.location}</td>
+      <td><span class="badge badge-${p.status}">${p.status}</span></td><td>${actions}</td></tr>`;
+      }).join('');
+    }
+    function approveProvider(i) { DB.providers[i].status = 'approved'; renderAProviders(); renderAStats(); }
+    function rejectProvider(i) { DB.providers[i].status = 'rejected'; renderAProviders(); renderAStats(); }
+    function revokeProvider(i) { DB.providers[i].status = 'rejected'; renderAProviders(); renderAStats(); }
+
+    function renderATourists() {
+      const tbody = document.getElementById('a-tourists-table');
+      tbody.innerHTML = DB.tourists.map(t => `<tr><td><strong>${t.name}</strong></td><td>${t.email}</td><td>${t.phone}</td><td>${t.interest}</td><td>${t.joined}</td></tr>`).join('');
+    }
+
+    function renderABookings() {
+      const tbody = document.getElementById('a-bookings-table');
+      if (!DB.bookings.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ccc;padding:30px;">No bookings yet.</td></tr>'; return; }
+      tbody.innerHTML = DB.bookings.slice().reverse().map(b => `<tr>
+    <td>${b.touristName}</td><td>${b.providerName}</td><td>${b.service}</td><td>${b.date}</td><td>₹${b.amount}</td>
+    <td><span class="badge badge-${b.status === 'confirmed' ? 'confirmed' : 'pending'}">${b.status}</span></td>
+  </tr>`).join('');
+    }
+
+    function renderADest() {
+      const tbody = document.getElementById('a-dest-table');
+      tbody.innerHTML = DESTINATIONS.map(d => `<tr><td><strong>${d.emoji} ${d.name}</strong></td><td>${d.cat}</td><td>${d.district}</td><td>⭐ ${d.rating}</td><td>${d.reviews}</td></tr>`).join('');
+    }
+
+    function renderADatabase() {
+      const tbody1 = document.getElementById('db-tourists');
+      if (!DB.tourists.length) { tbody1.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#ccc;padding:30px;">No registered tourists yet.</td></tr>'; }
+      else tbody1.innerHTML = DB.tourists.map((t, i) => `<tr>
+    <td>${i + 1}</td><td><strong>${t.name}</strong></td><td>${t.email}</td><td>${t.phone}</td><td>${t.interest}</td>
+    <td><span class="badge badge-tourist">Tourist</span></td><td>${t.joined}</td><td>${t.lastLogin || '—'}</td>
+  </tr>`).join('');
+      const tbody2 = document.getElementById('db-providers');
+      if (!DB.providers.length) { tbody2.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#ccc;padding:30px;">No registered providers yet.</td></tr>'; }
+      else tbody2.innerHTML = DB.providers.map((p, i) => `<tr>
+    <td>${i + 1}</td><td><strong>${p.name}</strong></td><td>${p.email}</td><td>${p.service}</td><td>${p.location}</td>
+    <td><span class="badge badge-${p.status}">${p.status}</span></td>
+    <td><span class="badge badge-provider">Provider</span></td><td>${p.joined}</td>
+  </tr>`).join('');
+    }
+
+    // ===== DESTINATION CARD HTML =====
+    function destCardHTML(d, showBookBtn = false) {
+      const imgUrl = DEST_IMAGES[d.name] || '';
+      const truncDesc = d.desc.length > 90 ? d.desc.substring(0, 90) + '…' : d.desc;
+      const destIdx = DESTINATIONS.findIndex(x => x.name === d.name);
+      return `<div class="dest-card" onclick="openDestDetail(${destIdx})" style="cursor:pointer">
+    <div class="dest-img">
+      <img src="${imgUrl}" alt="${d.name}" loading="lazy"
+        onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,var(--forest),var(--leaf))'">
+      <div class="dest-img-overlay"></div>
+      <div class="dest-cat-badge">${d.cat}</div>
+      <div class="dest-rating-badge">⭐ ${d.rating}</div>
+    </div>
+    <div class="dest-body">
+      <h4>${d.name}</h4>
+      <div class="dest-meta">📍 ${d.district} <span class="dot">·</span> Best: ${d.best}</div>
+      <div class="dest-desc">${truncDesc}</div>
+      <div class="dest-footer">
+        <span class="dest-reviews">${d.reviews} reviews</span>
+        <button class="dest-btn" onclick="event.stopPropagation();openDestDetail(${destIdx})">View Details</button>
+      </div>
+    </div>
+  </div>`;
+    }
+
+    // ===== DESTINATION DETAIL PAGE =====
+    // Stores full navigation context so Back restores exact dashboard + section
+    let destDetailContext = { page: 'home', section: null };
+
+    function openDestDetail(idx) {
+      const d = DESTINATIONS[idx];
+      if (!d) return;
+
+      // Capture which page is active right now
+      const activePage = document.querySelector('.page.active');
+      const fromPage = activePage ? activePage.id.replace('page-', '') : 'home';
+
+      // Capture which sidebar SECTION is active inside that dashboard
+      let fromSection = null;
+      if (fromPage === 'tourist') {
+        const activeNav = document.querySelector('#page-tourist .sidebar-nav a.active');
+        if (activeNav) fromSection = activeNav.id ? activeNav.id.replace('tnav-', '') : null;
+      } else if (fromPage === 'provider') {
+        const activeNav = document.querySelector('#page-provider .sidebar-nav a.active');
+        if (activeNav) fromSection = activeNav.id ? activeNav.id.replace('pnav-', '') : null;
+      } else if (fromPage === 'admin') {
+        const activeNav = document.querySelector('#page-admin .sidebar-nav a.active');
+        if (activeNav) fromSection = activeNav.id ? activeNav.id.replace('anav-', '') : null;
+      }
+
+      destDetailContext = { page: fromPage, section: fromSection };
+
+      // Update back button label
+      const backBtn = document.getElementById('dest-back-btn');
+      const labels = { home: '← Home', tourist: '← Tourist Dashboard', provider: '← Provider Dashboard', admin: '← Admin Dashboard', dashselect: '← Dashboard' };
+      backBtn.textContent = labels[fromPage] || '← Back';
+
+      // Populate hero
+      document.getElementById('detail-hero-img').src = DEST_IMAGES[d.name] || '';
+      document.getElementById('detail-hero-img').alt = d.name;
+      document.getElementById('detail-name').textContent = d.name;
+      document.getElementById('detail-cat-badge').textContent = '🏷️ ' + d.cat;
+      document.getElementById('detail-district-badge').textContent = '📍 ' + d.district;
+      document.getElementById('detail-rating-badge').textContent = '⭐ ' + d.rating;
+      document.getElementById('detail-reviews-badge').textContent = d.reviews + ' reviews';
+
+      // Sidebar quick info
+      document.getElementById('d-district').textContent = d.district;
+      document.getElementById('d-cat').textContent = d.cat;
+      document.getElementById('d-best').textContent = d.best;
+      document.getElementById('d-rating').textContent = d.rating + ' / 5';
+      document.getElementById('d-reviews').textContent = d.reviews + ' verified reviews';
+
+      // Main content
+      document.getElementById('detail-desc').textContent = d.desc;
+      document.getElementById('detail-tips').textContent = d.tips;
+
+      // Nearby places
+      const nearby = DESTINATIONS.filter((x, i) => i !== idx).slice(0, 4);
+      document.getElementById('detail-nearby').innerHTML = nearby.map((n) => {
+        const ni2 = DESTINATIONS.findIndex(x => x.name === n.name);
+        return `<div class="dest-nearby-card" onclick="openDestDetail(${ni2})">
+      <div class="n-name">${n.emoji} ${n.name}</div>
+      <div class="n-cat">${n.cat} · ${n.district}</div>
+    </div>`;
+      }).join('');
+
+      // Book button
+      const bookWrap = document.getElementById('detail-book-wrap');
+      if (currentUser && currentRole === 'tourist') {
+        bookWrap.innerHTML = `<button class="dest-book-btn" onclick="bookFromDetail('${d.name}')">📋 Book a Guide for this Trip</button>`;
+      } else if (!currentUser) {
+        bookWrap.innerHTML = `<button class="dest-book-btn" onclick="openModal('login')">🔐 Login to Book</button>`;
+      } else {
+        bookWrap.innerHTML = '';
+      }
+
+      showPage('dest-detail');
+      window.scrollTo(0, 0);
+    }
+
+    function bookFromDetail(destName) {
+      const approved = DB.providers.filter(p => p.status === 'approved');
+      if (!approved.length) { alert('No guides available yet. Check back soon!'); return; }
+      const prov = approved[0];
+      const amount = prov.listings.length ? prov.listings[0].price : 500;
+      const service = prov.listings.length ? prov.listings[0].title : prov.service;
+      quickBook(prov.email, prov.name, amount, service + ' at ' + destName);
+    }
+
+    function goBackFromDetail() {
+      const { page, section } = destDetailContext;
+      // Safety: if somehow we looped from another detail, default to home
+      if (!page || page === 'dest-detail') { showPage('home'); window.scrollTo(0, 0); return; }
+
+      showPage(page);
+
+      // Restore the exact sidebar section the user was on
+      if (page === 'tourist' && section) {
+        tNav(section);
+      } else if (page === 'provider' && section) {
+        pNav(section);
+      } else if (page === 'admin' && section) {
+        aNav(section);
+      }
+
+      window.scrollTo(0, 0);
+    }
+
+    // ===== HOME DEST GRID =====
+    function renderHomeDestinations() {
+      const grid = document.getElementById('homeDestGrid');
+      if (!grid) return;
+      grid.innerHTML = DESTINATIONS.slice(0, 6).map(d => destCardHTML(d, false)).join('');
+    }
+
+    // ===== INIT =====
+    renderHomeDestinations();
+    DB.providers[0].listings = [{ title: 'Ranchi Heritage Walk', category: 'guided', price: 800, desc: '3-hour city history tour' }];
+    // Auto-login from session
+    loadSession();
+  </script>
+
+  <!-- ===== AI CHATBOT ===== -->
+
+  <!-- Floating Action Button -->
+  <button id="chat-fab" onclick="toggleChat()" title="Chat with AI Assistant">
+    🌿
+    <div class="chat-badge" id="chat-badge">1</div>
+  </button>
+
+  <!-- Chat Window -->
+  <div id="chat-window">
+    <div class="chat-header">
+      <div class="chat-avatar">🌿</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">Jharkhand AI Guide</div>
+        <div class="chat-header-status">
+          <div class="chat-online-dot"></div> Online · Powered by Claude AI
+        </div>
+      </div>
+      <button class="chat-close-btn" onclick="toggleChat()">✕</button>
+    </div>
+
+    <div class="chat-messages" id="chat-messages"></div>
+
+    <div class="chat-quick-btns" id="chat-quick-btns">
+      <button class="quick-btn" onclick="sendQuick('Best time to visit Jharkhand?')">🗓️ Best season</button>
+      <button class="quick-btn" onclick="sendQuick('Top waterfalls in Jharkhand')">💧 Waterfalls</button>
+      <button class="quick-btn" onclick="sendQuick('Tribal culture and festivals')">🎭 Culture</button>
+      <button class="quick-btn" onclick="sendQuick('How to reach Ranchi?')">✈️ How to reach</button>
+      <button class="quick-btn" onclick="sendQuick('Budget travel tips for Jharkhand')">💰 Budget tips</button>
+    </div>
+
+    <div class="chat-input-row">
+      <input type="text" id="chat-input" placeholder="Ask me anything about Jharkhand…"
+        onkeydown="if(event.key==='Enter')sendChatMsg()">
+      <button id="chat-send-btn" onclick="sendChatMsg()" title="Send">➤</button>
+    </div>
+  </div>
+
+  <script>
+    // ===== CHATBOT LOGIC =====
+    // API calls are proxied through Flask /chat endpoint — API key is secure on server
+
+    let chatHistory = [];
+    let chatOpen = false;
+    let chatInitialized = false;
+
+    function toggleChat() {
+      chatOpen = !chatOpen;
+      const win = document.getElementById('chat-window');
+      const badge = document.getElementById('chat-badge');
+      if (chatOpen) {
+        win.classList.add('open');
+        badge.style.display = 'none';
+        document.getElementById('chat-input').focus();
+        if (!chatInitialized) {
+          chatInitialized = true;
+          addBotMessage("Namaste! 🙏 I'm your AI travel guide for **Jharkhand** — India's land of waterfalls, forests, and tribal heritage.\n\nAsk me anything: places to visit, best time to travel, local food, cultural festivals, how to reach, or any travel tips!");
+        }
+      } else {
+        win.classList.remove('open');
+      }
+    }
+
+    function sendQuick(text) {
+      document.getElementById('chat-input').value = text;
+      sendChatMsg();
+    }
+
+    function addBotMessage(text, isTyping = false) {
+      const msgs = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = 'chat-msg bot';
+      div.innerHTML = `
+    <div class="msg-avatar bot-av">🌿</div>
+    <div class="msg-bubble">${isTyping
+          ? '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>'
+          : formatChatText(text)
+        }</div>`;
+      if (isTyping) div.id = 'typing-msg';
+      msgs.appendChild(div);
+      msgs.scrollTop = msgs.scrollHeight;
+      return div;
+    }
+
+    function addUserMessage(text) {
+      const msgs = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = 'chat-msg user';
+      div.innerHTML = `
+    <div class="msg-avatar user-av">👤</div>
+    <div class="msg-bubble">${escapeHtml(text)}</div>`;
+      msgs.appendChild(div);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function formatChatText(text) {
+      return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n- /g, '<br>• ')
+        .replace(/^- /g, '• ')
+        .replace(/\n/g, '<br>');
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    async function sendChatMsg() {
+      const input = document.getElementById('chat-input');
+      const sendBtn = document.getElementById('chat-send-btn');
+      const text = input.value.trim();
+      if (!text) return;
+
+      input.value = '';
+      sendBtn.disabled = true;
+      addUserMessage(text);
+
+      // Hide quick buttons after first real interaction
+      document.getElementById('chat-quick-btns').style.display = 'none';
+
+      // Add to history
+      chatHistory.push({ role: 'user', content: text });
+
+      // Show typing indicator
+      const typingEl = addBotMessage('', true);
+
+      try {
+        // ✅ Calls Flask /chat backend — API key stays secure on server
+        const response = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: chatHistory })
+        });
+
+        const data = await response.json();
+        typingEl.remove();
+
+        if (data.status === 'success' && data.reply) {
+          const reply = data.reply;
+          chatHistory.push({ role: 'assistant', content: reply });
+          // Keep history to last 20 messages
+          if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
+          addBotMessage(reply);
+        } else {
+          const errMsg = data.message || "I couldn't get a response right now. Please try again! 🙏";
+          addBotMessage("⚠️ " + errMsg);
+        }
+      } catch (err) {
+        typingEl.remove();
+        addBotMessage("Oops! Something went wrong. Please check your connection and try again. 🌐");
+        console.error('Chat error:', err);
+      } finally {
+        sendBtn.disabled = false;
+        document.getElementById('chat-input').focus();
+      }
+    }
+  </script>
+</body>
+
+</html>

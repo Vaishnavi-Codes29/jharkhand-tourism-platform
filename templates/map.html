@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jharkhand Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'DM Sans', sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background: rgba(26, 53, 32, 0.98);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4%;
+            height: 64px;
+            border-bottom: 2px solid #d4a843;
+        }
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #d4a843;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .nav-logo span {
+            color: #f5e6c8;
+            font-style: italic;
+        }
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-links a {
+            color: #f5e6c8;
+            text-decoration: none;
+            font-size: 0.83rem;
+            font-weight: 500;
+            padding: 6px 11px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #d4a843;
+            background: rgba(212, 168, 67, 0.1);
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-bookings-btn {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(212, 168, 67, 0.15);
+            border: 1px solid rgba(212, 168, 67, 0.4);
+            color: #d4a843;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 2rem;
+            background: #1e3c72;
+            color: white;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .page-header h1 {
+            margin: 0;
+            font-size: 1.75rem;
+        }
+        .page-header p {
+            margin: 0.35rem 0 0;
+            color: #dbeafe;
+            max-width: 40rem;
+        }
+        .map-container {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1.5rem;
+            padding: 1.5rem 2rem 2rem;
+        }
+        #map {
+            width: 100%;
+            min-height: 74vh;
+            border-radius: 18px;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+            overflow: hidden;
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .panel {
+            background: white;
+            border-radius: 18px;
+            padding: 1.25rem;
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+        }
+        .panel h2 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            font-size: 1.15rem;
+            color: #0f172a;
+        }
+        .panel p {
+            color: #475569;
+            line-height: 1.65;
+            margin-bottom: 1rem;
+        }
+        .destination-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 0.75rem;
+        }
+        .destination-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 1rem;
+            background: #ffffff;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+        .destination-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(15, 23, 42, 0.08);
+        }
+        .destination-item h3 {
+            margin: 0 0 0.35rem;
+            font-size: 1rem;
+            color: #1e293b;
+        }
+        .destination-item .meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            color: #475569;
+            font-size: 0.95rem;
+            flex-wrap: wrap;
+        }
+        .destination-item .meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .destination-item p {
+            margin: 0.75rem 0 0;
+            color: #475569;
+            line-height: 1.55;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .button-row a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #1e3c72;
+            color: white;
+            border-radius: 999px;
+            padding: 0.65rem 1rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        @media (max-width: 1024px) {
+            .map-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 640px) {
+            .page-header {
+                padding: 1rem;
+            }
+            .map-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">Jharkhand <span>Tourism</span></div>
+        <ul class="nav-links">
+            <li><a href="{{ home_url }}">Home</a></li>
+            <li><a href="/map" class="active">Map</a></li>
+            <li><a href="/homestays">Homestays</a></li>
+            <li><a href="/tourist_dashboard">Dashboard</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-right">
+            <a class="nav-bookings-btn" href="{{ home_url }}">Back</a>
+        </div>
+    </nav>
+    <div style="height: 64px;"></div>
+    <div class="page-header">
+        <div>
+            <h1>Jharkhand Map</h1>
+            <p>Explore the destinations and homestay clusters across Jharkhand. Click any marker to view place details and local highlights.</p>
+        </div>
+        <div class="button-row">
+            <a href="/{{ 'tourist_dashboard' if user_role == 'tourist' else 'homestay_dashboard' if user_role == 'homestay_owner' else 'provider_dashboard' if user_role in ['guide','artisan'] else 'admin_dashboard' if user_role in ['admin','government_official'] else '' }}">My Dashboard</a>
+            <a href="/homestays">Browse Homestays</a>
+            <a href="/map">Refresh Map</a>
+        </div>
+    </div>
+
+    <div class="map-container">
+        <div id="map"></div>
+        <aside class="sidebar">
+            <div class="panel">
+                <h2>Map Destinations</h2>
+                <p>These locations are plotted using the destinations database. Use the map to see what is nearby and where each tribal region is located.</p>
+                <ul class="destination-list" id="destinationList">
+                    {% for dest in destinations %}
+                        <li class="destination-item" data-lat="{{ dest.latitude }}" data-lng="{{ dest.longitude }}">
+                            <h3>{{ dest.name }}</h3>
+                            <div class="meta">
+                                <span>📍 {{ dest.location or 'Jharkhand' }}</span>
+                                <span>⭐ {{ dest.rating }}</span>
+                            </div>
+                            <p>{{ dest.description }}</p>
+                        </li>
+                    {% else %}
+                        <li class="destination-item">
+                            <h3>No mapped destinations</h3>
+                            <p>Latitude/longitude data is missing for destinations. Add coordinates to destination records to see them on the map.</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const destinations = {{ destinations | tojson | safe }};
+        const map = L.map('map').setView([23.6102, 85.2799], 7);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        const markers = [];
+        destinations.forEach(dest => {
+            const marker = L.marker([dest.latitude, dest.longitude]).addTo(map);
+            marker.bindPopup(`
+                <strong>${dest.name}</strong><br>
+                <small>${dest.location || 'Jharkhand'}</small><br>
+                <em>${dest.category || 'Destination'}</em><br>
+                ⭐ ${dest.rating}
+            `);
+            marker.on('click', () => {
+                map.setView([dest.latitude, dest.longitude], 10, { animate: true });
+            });
+            markers.push(marker);
+        });
+
+        document.querySelectorAll('.destination-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const lat = parseFloat(item.dataset.lat);
+                const lng = parseFloat(item.dataset.lng);
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    map.setView([lat, lng], 10, { animate: true });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

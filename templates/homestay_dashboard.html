@@ -1,0 +1,2637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experience Jharkhand – Local Culture & Homestay Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --forest: #1a3520;
+            --moss: #3a6b35;
+            --earth: #8b5e3c;
+            --clay: #c97d4e;
+            --gold: #d4a843;
+            --sand: #f5e6c8;
+            --cream: #fdf6ec;
+            --bark: #5c3d1e;
+            --leaf: #6aaa4e;
+            --white: #ffffff;
+            --danger: #c0392b;
+            --text-dark: #1e1008;
+            --text-mid: #5a3e28;
+            --text-light: #8b7355;
+            --radius: 12px;
+            --shadow: 0 4px 24px rgba(90, 60, 20, 0.13);
+            --shadow-lg: 0 12px 48px rgba(90, 60, 20, 0.18);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background: rgba(26, 53, 32, 0.98);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4%;
+            height: 64px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .nav-logo span {
+            color: var(--sand);
+            font-style: italic;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--sand);
+            text-decoration: none;
+            font-size: 0.83rem;
+            font-weight: 500;
+            padding: 6px 11px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--gold);
+            background: rgba(212, 168, 67, 0.1);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-bookings-btn {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(212, 168, 67, 0.15);
+            border: 1px solid rgba(212, 168, 67, 0.4);
+            color: var(--gold);
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-bookings-btn:hover {
+            background: rgba(212, 168, 67, 0.28);
+        }
+
+        .nav-badge {
+            background: var(--clay);
+            color: var(--white);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+        }
+
+        .nav-cta {
+            background: var(--clay);
+            color: var(--white);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.83rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-cta:hover {
+            background: var(--gold);
+            color: var(--forest);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(160deg, var(--forest) 0%, #2d5a27 40%, #4a7c3f 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 100px 5% 60px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cpolygon points='60,5 115,32 115,88 60,115 5,88 5,32' stroke='%23d4a843' stroke-width='0.6' stroke-opacity='0.12'/%3E%3Ccircle cx='60' cy='60' r='20' stroke='%23d4a843' stroke-width='0.5' stroke-opacity='0.1'/%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 680px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(212, 168, 67, 0.18);
+            border: 1px solid rgba(212, 168, 67, 0.4);
+            color: var(--gold);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            animation: fadeUp 0.7s ease both;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            color: var(--sand);
+            line-height: 1.15;
+            animation: fadeUp 0.7s 0.1s ease both;
+        }
+
+        .hero h1 em {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .hero p {
+            margin-top: 20px;
+            font-size: 1.05rem;
+            color: rgba(245, 230, 200, 0.82);
+            line-height: 1.7;
+            max-width: 520px;
+            animation: fadeUp 0.7s 0.2s ease both;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 36px;
+            flex-wrap: wrap;
+            animation: fadeUp 0.7s 0.3s ease both;
+        }
+
+        .btn-primary {
+            background: var(--clay);
+            color: var(--white);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold);
+            color: var(--forest);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--sand);
+            border: 1.5px solid rgba(245, 230, 200, 0.4);
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 56px;
+            flex-wrap: wrap;
+            animation: fadeUp 0.7s 0.4s ease both;
+        }
+
+        .stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: rgba(245, 230, 200, 0.65);
+            margin-top: 4px;
+        }
+
+        .hero-visual {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 45%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-visual-inner {
+            width: 380px;
+            height: 480px;
+            background: linear-gradient(135deg, rgba(212, 168, 67, 0.15), rgba(139, 94, 60, 0.2));
+            border-radius: 60% 40% 50% 60%/50% 60% 40% 50%;
+            border: 2px solid rgba(212, 168, 67, 0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 5rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-icons {
+            display: flex;
+            gap: 16px;
+            font-size: 3.5rem;
+        }
+
+        /* ===== SECTION BASE ===== */
+        section {
+            padding: 80px 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: rgba(139, 94, 60, 0.1);
+            color: var(--earth);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.9rem, 4vw, 2.8rem);
+            color: var(--forest);
+            line-height: 1.2;
+        }
+
+        .section-header p {
+            margin-top: 12px;
+            color: var(--text-light);
+            font-size: 1rem;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--clay), var(--gold));
+            margin: 16px auto 0;
+            border-radius: 2px;
+        }
+
+        /* ===== SEARCH BAR ===== */
+        .search-section {
+            background: var(--forest);
+            padding: 36px 5%;
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(212, 168, 67, 0.3);
+            border-radius: 16px;
+            padding: 24px 28px;
+            max-width: 960px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 14px;
+            align-items: end;
+        }
+
+        .search-field label {
+            display: block;
+            color: rgba(245, 230, 200, 0.7);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 7px;
+        }
+
+        .search-field input,
+        .search-field select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(212, 168, 67, 0.25);
+            color: var(--sand);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+        }
+
+        .search-field input::placeholder {
+            color: rgba(245, 230, 200, 0.4);
+        }
+
+        .search-field select option {
+            background: var(--forest);
+        }
+
+        .search-btn {
+            background: var(--clay);
+            color: var(--white);
+            border: none;
+            padding: 11px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .search-btn:hover {
+            background: var(--gold);
+            color: var(--forest);
+        }
+
+        /* ===== HOMESTAY CARDS ===== */
+        .homestays-section {
+            background: var(--cream);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 36px;
+        }
+
+        .filter-chip {
+            background: var(--white);
+            border: 1.5px solid rgba(139, 94, 60, 0.2);
+            color: var(--text-mid);
+            padding: 7px 18px;
+            border-radius: 24px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-chip.active,
+        .filter-chip:hover {
+            background: var(--forest);
+            color: var(--sand);
+            border-color: var(--forest);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 26px;
+        }
+
+        .homestay-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(139, 94, 60, 0.08);
+        }
+
+        .homestay-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-img {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .card-img-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            transition: transform 0.4s;
+        }
+
+        .homestay-card:hover .card-img-inner {
+            transform: scale(1.06);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(26, 53, 32, 0.88);
+            color: var(--gold);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+        }
+
+        .card-rating {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--earth);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .card-body {
+            padding: 18px;
+        }
+
+        .card-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-light);
+            font-size: 0.77rem;
+            margin-bottom: 7px;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--forest);
+            margin-bottom: 7px;
+        }
+
+        .card-desc {
+            font-size: 0.83rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .amenities-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .amenity-tag {
+            background: rgba(106, 170, 78, 0.12);
+            color: var(--moss);
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(139, 94, 60, 0.1);
+        }
+
+        .card-price {
+            color: var(--earth);
+            font-weight: 700;
+        }
+
+        .card-price span {
+            font-size: 0.73rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .card-price strong {
+            font-size: 1.15rem;
+        }
+
+        .btn-view {
+            background: var(--forest);
+            color: var(--white);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-view:hover {
+            background: var(--moss);
+        }
+
+        /* ===== CULTURE SECTION ===== */
+        .culture-section {
+            background: linear-gradient(180deg, var(--forest) 0%, #2a5225 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .culture-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4a843' fill-opacity='0.05'%3E%3Cpath d='M40 0L80 40L40 80L0 40z'/%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+
+        .culture-section .section-header h2 {
+            color: var(--sand);
+        }
+
+        .culture-section .section-tag {
+            background: rgba(212, 168, 67, 0.2);
+            color: var(--gold);
+        }
+
+        .culture-section .section-header p {
+            color: rgba(245, 230, 200, 0.7);
+        }
+
+        .tribe-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 36px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tribe-tab {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(245, 230, 200, 0.75);
+            border: 1px solid rgba(212, 168, 67, 0.2);
+            padding: 9px 20px;
+            border-radius: 30px;
+            font-size: 0.83rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tribe-tab.active,
+        .tribe-tab:hover {
+            background: var(--gold);
+            color: var(--forest);
+            border-color: var(--gold);
+            font-weight: 600;
+        }
+
+        .tribe-content {
+            display: none;
+            position: relative;
+            z-index: 2;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .tribe-content.active {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .tribe-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .tribe-tagline {
+            color: rgba(245, 230, 200, 0.6);
+            font-style: italic;
+            margin-bottom: 22px;
+            font-size: 0.93rem;
+        }
+
+        .tribe-feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .tribe-feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            color: rgba(245, 230, 200, 0.85);
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .tribe-feature-list li .icon {
+            width: 33px;
+            height: 33px;
+            min-width: 33px;
+            background: rgba(212, 168, 67, 0.15);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .tribe-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px;
+        }
+
+        .tribe-mini-card {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(212, 168, 67, 0.15);
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .tribe-mini-card h4 {
+            color: var(--gold);
+            font-size: 0.8rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .tribe-mini-card p {
+            color: rgba(245, 230, 200, 0.7);
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        /* ===== FOOD ===== */
+        .food-section {
+            background: var(--sand);
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 22px;
+        }
+
+        .food-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .food-icon-wrap {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.5rem;
+        }
+
+        .food-body {
+            padding: 16px;
+        }
+
+        .food-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--forest);
+            margin-bottom: 5px;
+        }
+
+        .food-desc {
+            font-size: 0.81rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .food-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .food-tag {
+            background: rgba(139, 94, 60, 0.1);
+            color: var(--earth);
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .food-avail {
+            margin-top: 10px;
+            font-size: 0.76rem;
+            color: var(--leaf);
+            font-weight: 600;
+        }
+
+        /* ===== FESTIVALS ===== */
+        .festivals-section {
+            background: var(--white);
+        }
+
+        .festival-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 22px;
+        }
+
+        .festival-card {
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid rgba(139, 94, 60, 0.12);
+            transition: box-shadow 0.3s;
+        }
+
+        .festival-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .festival-banner {
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2rem;
+        }
+
+        .festival-body {
+            padding: 16px;
+        }
+
+        .festival-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--forest);
+            margin-bottom: 3px;
+        }
+
+        .festival-date {
+            font-size: 0.76rem;
+            color: var(--clay);
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .festival-desc {
+            font-size: 0.81rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* ===== ECO ===== */
+        .eco-section {
+            background: linear-gradient(135deg, #e8f4e0, #d4ead0);
+            border-top: 4px solid var(--leaf);
+        }
+
+        .eco-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 22px;
+        }
+
+        .eco-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 26px 20px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border-bottom: 3px solid var(--leaf);
+        }
+
+        .eco-icon {
+            font-size: 2.3rem;
+            margin-bottom: 12px;
+        }
+
+        .eco-card h3 {
+            color: var(--forest);
+            font-size: 0.93rem;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .eco-card p {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 53, 32, 0.88);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 20px;
+            max-width: 960px;
+            width: 100%;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.35s ease;
+            margin: auto;
+        }
+
+        .modal-header {
+            position: relative;
+            background: linear-gradient(135deg, var(--forest), var(--moss));
+            padding: 32px 36px 26px;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: var(--white);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .modal-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--sand);
+            font-size: 1.8rem;
+            margin-bottom: 3px;
+        }
+
+        .modal-header p {
+            color: rgba(245, 230, 200, 0.7);
+            font-size: 0.88rem;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 14px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .modal-meta-item {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 5px 13px;
+            border-radius: 20px;
+            color: var(--sand);
+            font-size: 0.78rem;
+        }
+
+        .modal-body {
+            padding: 28px 36px;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        .modal-section {
+            margin-bottom: 24px;
+        }
+
+        .modal-section h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--forest);
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .gallery-strip {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-thumb {
+            width: 76px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--moss), var(--forest));
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.7rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .gallery-thumb:hover {
+            transform: scale(1.08);
+        }
+
+        .info-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 0.86rem;
+            color: var(--text-mid);
+        }
+
+        .info-list li .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--clay);
+            flex-shrink: 0;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+        }
+
+        .amenity-item {
+            background: rgba(106, 170, 78, 0.1);
+            border-radius: 6px;
+            padding: 7px 11px;
+            font-size: 0.8rem;
+            color: var(--moss);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .review-item {
+            background: var(--cream);
+            border-radius: 8px;
+            padding: 13px;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 5px;
+        }
+
+        .review-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--clay), var(--earth));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .review-name {
+            font-weight: 600;
+            font-size: 0.86rem;
+            color: var(--text-dark);
+        }
+
+        .review-date {
+            font-size: 0.73rem;
+            color: var(--text-light);
+        }
+
+        .review-stars {
+            color: var(--gold);
+            font-size: 0.83rem;
+        }
+
+        .review-text {
+            font-size: 0.81rem;
+            color: var(--text-mid);
+            line-height: 1.6;
+        }
+
+        /* ===== BOOKING FORM ===== */
+        .booking-form {
+            background: var(--cream);
+            border-radius: 12px;
+            padding: 22px;
+        }
+
+        .booking-form h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--forest);
+            font-size: 1.05rem;
+            margin-bottom: 18px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            margin-bottom: 13px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-mid);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            background: var(--white);
+            border: 1.5px solid rgba(139, 94, 60, 0.2);
+            color: var(--text-dark);
+            padding: 10px 13px;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--moss);
+        }
+
+        .form-group input.error,
+        .form-group select.error {
+            border-color: var(--danger) !important;
+        }
+
+        .field-error {
+            color: var(--danger);
+            font-size: 0.73rem;
+            margin-top: 4px;
+            display: none;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .field-error.show {
+            display: flex;
+        }
+
+        .price-summary {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 4px;
+            border: 1px solid rgba(139, 94, 60, 0.12);
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.83rem;
+            margin-bottom: 7px;
+            color: var(--text-mid);
+        }
+
+        .price-row.total {
+            color: var(--forest);
+            font-weight: 700;
+            font-size: 0.97rem;
+            padding-top: 8px;
+            border-top: 1px dashed rgba(139, 94, 60, 0.2);
+        }
+
+        .book-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--clay), var(--earth));
+            color: var(--white);
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 0.97rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 14px;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        .book-btn:hover {
+            background: linear-gradient(135deg, var(--earth), var(--bark));
+            transform: translateY(-1px);
+        }
+
+        /* ===== MY BOOKINGS MODAL ===== */
+        .bookings-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 53, 32, 0.88);
+            backdrop-filter: blur(6px);
+            z-index: 1100;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .bookings-modal-overlay.open {
+            display: flex;
+        }
+
+        .bookings-modal {
+            background: var(--white);
+            border-radius: 20px;
+            max-width: 720px;
+            width: 100%;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.35s ease;
+            margin: auto;
+        }
+
+        .bookings-modal-header {
+            background: linear-gradient(135deg, var(--forest), var(--moss));
+            padding: 28px 32px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bookings-modal-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--sand);
+            font-size: 1.6rem;
+        }
+
+        .bookings-modal-body {
+            padding: 28px 32px;
+        }
+
+        .no-bookings {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .no-bookings .nb-icon {
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+        }
+
+        .no-bookings p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .booking-record {
+            background: var(--cream);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--clay);
+        }
+
+        .booking-record-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .br-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--forest);
+        }
+
+        .br-status {
+            background: rgba(106, 170, 78, 0.15);
+            color: var(--leaf);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .br-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .br-item {
+            font-size: 0.82rem;
+            color: var(--text-mid);
+        }
+
+        .br-item strong {
+            color: var(--text-dark);
+        }
+
+        .br-total {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed rgba(139, 94, 60, 0.2);
+            font-weight: 700;
+            color: var(--forest);
+            font-size: 0.9rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--text-dark);
+            padding: 52px 5% 28px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 36px;
+            margin-bottom: 36px;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 1.35rem;
+            margin-bottom: 11px;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.48);
+            font-size: 0.83rem;
+            line-height: 1.7;
+            max-width: 270px;
+        }
+
+        .footer-col h4 {
+            color: var(--sand);
+            font-size: 0.83rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            margin-bottom: 14px;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.43);
+            text-decoration: none;
+            font-size: 0.83rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.28);
+            font-size: 0.78rem;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--forest);
+            color: var(--sand);
+            padding: 13px 22px;
+            border-radius: 10px;
+            border-left: 4px solid var(--gold);
+            font-size: 0.88rem;
+            z-index: 9999;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all 0.35s ease;
+            max-width: 340px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.error-toast {
+            border-left-color: var(--danger);
+            background: #3a1010;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-18px) rotate(3deg);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:980px) {
+            .nav-links li:nth-child(n+4) {
+                display: none;
+            }
+
+            .hero-visual {
+                display: none;
+            }
+
+            .search-box {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .search-btn {
+                grid-column: 1/-1;
+            }
+
+            .tribe-content.active {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:640px) {
+            nav {
+                padding: 0 4%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .search-box {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tribe-cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .br-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-body {
+                padding: 20px 18px;
+            }
+
+            .booking-form {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav id="mainNav">
+        <div class="nav-logo">Experience <span>Jharkhand</span></div>
+        <ul class="nav-links">
+            <li><a id="homeLink" href="{{ home_url }}">🏠 Home</a></li>
+            <li><a href="/map">🗺️ Map</a></li>
+            {% if user_role == 'tourist' %}
+                <li><a href="/tourist_dashboard">👤 My Dashboard</a></li>
+            {% elif user_role in ['guide', 'artisan', 'homestay_owner'] %}
+                <li><a href="/provider_dashboard">🏢 Provider Dashboard</a></li>
+            {% elif user_role in ['admin', 'government_official'] %}
+                <li><a href="/admin_dashboard">📊 Admin Dashboard</a></li>
+            {% endif %}
+            <li><a href="#homestays">🏡 Homestays</a></li>
+            <li><a href="#culture">🪘 Tribal Culture</a></li>
+            <li><a href="#food">🍛 Traditional Food</a></li>
+            <li><a href="#festivals">🎉 Festivals</a></li>
+            <li><a href="#eco">🌱 Eco Tourism</a></li>
+        </ul>
+        <div class="nav-right">
+            <button class="nav-bookings-btn" onclick="openBookingsModal()">
+                📋 My Bookings
+                <span class="nav-badge" id="bookingsBadge">{{ homestay_bookings_data|length }}</span>
+            </button>
+            <button class="nav-cta" onclick="showToast('Register as Host – coming soon!')">List Your Home</button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🌿 Jharkhand Eco & Cultural Tourism</div>
+            <h1>Discover <em>Authentic</em><br />Jharkhand</h1>
+            <p>Stay in tribal homes, taste forest flavors, witness ancient traditions. Connect directly with local
+                communities and support sustainable tourism.</p>
+            <div class="hero-actions">
+                <a href="#homestays" class="btn-primary">Explore Homestays</a>
+                <a href="#culture" class="btn-outline">Tribal Cultures</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-num">{{ homestay_services_data|length }}</div>
+                    <div class="stat-label">Your Listings</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">{{ booking_stats.total_bookings }}</div>
+                    <div class="stat-label">Total Bookings</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">₹{{ "%.0f" | format(booking_stats.revenue) }}</div>
+                    <div class="stat-label">Total Revenue</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-visual-inner">
+                <div>🌾</div>
+                <div class="hero-icons">🏡 🥁 🌿</div>
+                <div
+                    style="font-family:'Playfair Display',serif;font-size:1rem;color:rgba(245,230,200,0.6);margin-top:8px">
+                    The Land of Forests</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEARCH -->
+    <div class="search-section">
+        <div class="search-box">
+            <div class="search-field">
+                <label>Destination / District</label>
+                <input type="text" id="searchDist" placeholder="e.g. Ranchi, Dumka…" oninput="applyFilters()">
+            </div>
+            <div class="search-field">
+                <label>Tribal Category</label>
+                <select id="searchTribe" onchange="applyFilters()">
+                    <option value="">All Tribes</option>
+                    <option>Santhal</option>
+                    <option>Munda</option>
+                    <option>Oraon</option>
+                    <option>Ho</option>
+                    <option>Kharia</option>
+                    <option>Birhor</option>
+                </select>
+            </div>
+            <div class="search-field">
+                <label>Check-in Date</label>
+                <input type="date" id="searchDate">
+            </div>
+            <button class="search-btn" onclick="applyFilters()">🔍 Search</button>
+        </div>
+    </div>
+
+    <!-- HOMESTAYS -->
+    <section class="homestays-section" id="homestays">
+        <div class="section-header">
+            <div class="section-tag">🏡 Local Stays</div>
+            <h2>Authentic Homestays</h2>
+            <p>Sleep where the forest meets tradition. Every stay supports a local family and preserves a living
+                culture.</p>
+            <div class="divider"></div>
+        </div>
+        <div class="filter-bar" id="filterBar">
+            <button class="filter-chip active" data-filter="all" onclick="filterCards(this,'all')">All
+                Homestays</button>
+            <button class="filter-chip" data-filter="Santhal" onclick="filterCards(this,'Santhal')">🌾 Santhal</button>
+            <button class="filter-chip" data-filter="Munda" onclick="filterCards(this,'Munda')">🪘 Munda</button>
+            <button class="filter-chip" data-filter="Oraon" onclick="filterCards(this,'Oraon')">🌺 Oraon</button>
+            <button class="filter-chip" data-filter="Ho" onclick="filterCards(this,'Ho')">⛰️ Ho</button>
+            <button class="filter-chip" data-filter="Kharia" onclick="filterCards(this,'Kharia')">🌿 Kharia</button>
+            <button class="filter-chip" data-filter="Birhor" onclick="filterCards(this,'Birhor')">🪢 Birhor</button>
+        </div>
+        <div class="cards-grid" id="homestayGrid"></div>
+    </section>
+
+    <!-- CULTURE -->
+    <section class="culture-section" id="culture">
+        <div class="section-header">
+            <div class="section-tag">🪘 Heritage</div>
+            <h2>Tribal Cultures of Jharkhand</h2>
+            <p>Six major tribes, thousands of years of living wisdom, art, and celebration.</p>
+            <div class="divider"></div>
+        </div>
+        <div class="tribe-tabs" id="tribeTabs"></div>
+        <div id="tribeContents"></div>
+    </section>
+
+    <!-- FOOD -->
+    <section class="food-section" id="food">
+        <div class="section-header">
+            <div class="section-tag">🍛 Forest Kitchen</div>
+            <h2>Traditional Foods</h2>
+            <p>Flavors rooted in forest, farm, and fire — each dish tells a story of the land.</p>
+            <div class="divider"></div>
+        </div>
+        <div class="food-grid" id="foodGrid"></div>
+    </section>
+
+    <!-- FESTIVALS -->
+    <section class="festivals-section" id="festivals">
+        <div class="section-header">
+            <div class="section-tag">🎉 Calendar</div>
+            <h2>Festival Calendar</h2>
+            <p>Plan your visit around vibrant tribal festivals.</p>
+            <div class="divider"></div>
+        </div>
+        <div class="festival-grid" id="festivalGrid"></div>
+    </section>
+
+    <!-- ECO -->
+    <section class="eco-section" id="eco">
+        <div class="section-header">
+            <div class="section-tag">🌱 Sustainability</div>
+            <h2>Eco-Tourism Commitment</h2>
+            <p>Our platform pledges to protect nature, culture, and community.</p>
+            <div class="divider"></div>
+        </div>
+        <div class="eco-grid" id="ecoGrid"></div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>Experience Jharkhand</h3>
+                <p>Connecting travellers with the authentic heart of Jharkhand — its people, forests, food, and living
+                    cultures.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <ul class="footer-links">
+                    <li><a href="#homestays">Homestays</a></li>
+                    <li><a href="#culture">Tribal Culture</a></li>
+                    <li><a href="#food">Traditional Food</a></li>
+                    <li><a href="#festivals">Festivals</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Host Guidelines</a></li>
+                    <li><a href="#">Responsible Travel</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Register as Host</a></li>
+                    <li><a href="#" onclick="openBookingsModal();return false;">My Bookings</a></li>
+                    <li><a href="#">Partner with Us</a></li>
+                    <li><a href="#">Government Links</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Experience Jharkhand – Jharkhand Eco & Cultural Tourism Platform. All rights reserved.</p>
+            <p>Made with 🌿 for the people of Jharkhand</p>
+        </div>
+    </footer>
+
+    <!-- HOMESTAY DETAIL + BOOKING MODAL -->
+    <div class="modal-overlay" id="bookingModal">
+        <div class="modal">
+            <div class="modal-header" id="modalHeader">
+                <button class="modal-close" onclick="closeModal()">✕</button>
+                <h2 id="modalTitle"></h2>
+                <p id="modalSubtitle"></p>
+                <div class="modal-meta" id="modalMeta"></div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-grid">
+                    <!-- LEFT: Details -->
+                    <div>
+                        <div class="modal-section">
+                            <h3>📸 Gallery</h3>
+                            <div class="gallery-strip" id="modalGallery"></div>
+                        </div>
+                        <div class="modal-section">
+                            <h3>📋 About This Stay</h3>
+                            <p id="modalDesc" style="font-size:0.86rem;color:var(--text-mid);line-height:1.7;"></p>
+                        </div>
+                        <div class="modal-section">
+                            <h3>🏠 Owner & Location</h3>
+                            <ul class="info-list" id="modalOwner"></ul>
+                        </div>
+                        <div class="modal-section">
+                            <h3>✨ Amenities</h3>
+                            <div class="amenities-grid" id="modalAmenities"></div>
+                        </div>
+                        <div class="modal-section">
+                            <h3>🍽️ Traditional Food Offered</h3>
+                            <div class="amenities-row" id="modalFood"></div>
+                        </div>
+                        <div class="modal-section">
+                            <h3>📍 Nearby Attractions</h3>
+                            <ul class="info-list" id="modalAttractions"></ul>
+                        </div>
+                        <div class="modal-section">
+                            <h3>⭐ Guest Reviews</h3>
+                            <div class="reviews-list" id="modalReviews"></div>
+                        </div>
+                    </div>
+                    <!-- RIGHT: Booking -->
+                    <div>
+                        <div class="booking-form">
+                            <h3>📅 Book Your Stay</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Check-in Date</label>
+                                    <input type="date" id="checkIn" onchange="calcPrice()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Check-out Date</label>
+                                    <input type="date" id="checkOut" onchange="calcPrice()">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Adults</label>
+                                    <select id="adults" onchange="calcPrice()">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Children</label>
+                                    <select id="children" onchange="calcPrice()">
+                                        <option>0</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Food Package</label>
+                                <select id="foodPkg" onchange="calcPrice()">
+                                    <option value="0">No food (self-arranged)</option>
+                                    <option value="150">Breakfast only (+₹150/day)</option>
+                                    <option value="350">Breakfast + Dinner (+₹350/day)</option>
+                                    <option value="500">All meals – Full Traditional (+₹500/day)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Full Name *</label>
+                                <input type="text" id="guestName" placeholder="Your full name">
+                                <div class="field-error" id="nameErr">⚠ Name is required</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address *</label>
+                                <input type="email" id="guestEmail" placeholder="you@example.com">
+                                <div class="field-error" id="emailErr">⚠ Enter a valid email address</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Contact / WhatsApp *</label>
+                                <input type="tel" id="guestPhone" placeholder="+91 XXXXX XXXXX" maxlength="15"
+                                    oninput="validatePhone(this)" onkeypress="return filterPhoneKey(event)">
+                                <div class="field-error" id="phoneErr">⚠ Enter a valid 10-digit mobile number</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Special Requests</label>
+                                <textarea id="guestRemarks" rows="2" placeholder="Dietary needs, arrival time…"
+                                    style="resize:vertical;"></textarea>
+                            </div>
+                            <div class="price-summary">
+                                <div class="price-row"><span>Stay cost</span><span id="stayLine">—</span></div>
+                                <div class="price-row"><span>Food package</span><span id="foodLine">—</span></div>
+                                <div class="price-row"><span>Platform fee (5%)</span><span id="feeLine">—</span></div>
+                                <div class="price-row total"><span>Total</span><span id="totalLine">Select dates</span>
+                                </div>
+                            </div>
+                            <button class="book-btn" onclick="confirmBooking()">🌿 Confirm Booking</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MY BOOKINGS MODAL -->
+    <div class="bookings-modal-overlay" id="bookingsModal">
+        <div class="bookings-modal">
+            <div class="bookings-modal-header">
+                <h2>📋 My Bookings</h2>
+                <button class="modal-close" style="position:relative;top:auto;right:auto;"
+                    onclick="closeBookingsModal()">✕</button>
+            </div>
+            <div class="bookings-modal-body" id="bookingsBody"></div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        /* ==================== DATA ==================== */
+        const backendServices = {{ homestay_services_data | tojson | safe }};
+        const backendBookings = {{ homestay_bookings_data | tojson | safe }};
+
+        const homeLink = document.getElementById('homeLink');
+        if (homeLink && homeLink.getAttribute('href') === '/') {
+            try {
+                const storedUser = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || 'null');
+                const role = storedUser?.role;
+                if (role === 'tourist') {
+                    homeLink.href = '/tourist_dashboard';
+                } else if (role === 'homestay_owner') {
+                    homeLink.href = '/homestay_dashboard';
+                } else if (['guide', 'artisan'].includes(role)) {
+                    homeLink.href = '/provider_dashboard';
+                } else if (['admin', 'government_official'].includes(role)) {
+                    homeLink.href = '/admin_dashboard';
+                }
+            } catch (err) {
+                console.warn('Could not resolve home link role fallback', err);
+            }
+        }
+
+        const homestays = backendServices.length ? backendServices : [
+            {
+                id: 1, name: "Santhal Forest Hut", village: "Barhait", district: "Sahebganj", tribe: "Santhal",
+                price: 800, rating: 4.8, reviews: 34, emoji: "🌿", bgColor: "linear-gradient(135deg,#2d5a27,#1a3520)",
+                desc: "A traditional bamboo hut nestled inside dense sal forests. Wake up to birdsong and cooked breakfast on clay stoves. The Santhal host family shares stories, songs, and a lifestyle deeply connected to nature.",
+                amenities: ["🌐 Local Guide", "🔥 Bonfire", "🛏 2 Rooms", "🚿 Clean Toilets", "🌿 Organic Meals", "📶 Basic WiFi"],
+                food: ["Rugra Curry", "Pitha", "Handia", "Forest Vegetables"],
+                attractions: ["Rajmahal Hills (12 km)", "Sahebganj Ghat (8 km)", "Tribal Museum (5 km)"],
+                tags: ["Forest Stay", "Bamboo Hut", "Eco Stay"]
+            },
+            {
+                id: 2, name: "Munda Village Home", village: "Khunti", district: "Khunti", tribe: "Munda",
+                price: 650, rating: 4.6, reviews: 22, emoji: "🏡", bgColor: "linear-gradient(135deg,#7a3e1a,#4a2510)",
+                desc: "Live with a Munda family, participate in daily village life, learn traditional farming and handicraft-making. Evening Chhau dance performances are arranged for guests on request.",
+                amenities: ["🌾 Farm Tour", "🪘 Music Session", "🛏 3 Rooms", "🍳 Village Kitchen", "🏺 Pottery Demo", "🌄 Sunrise View"],
+                food: ["Chilka Roti", "Mahua Sweets", "Forest Rice", "Local Dal"],
+                attractions: ["Khunti Falls (6 km)", "Ulihatu (Birsa Munda Birthplace) (14 km)", "Sacred Grove (2 km)"],
+                tags: ["Village Life", "Tribal Art", "Family Stay"]
+            },
+            {
+                id: 3, name: "Oraon Eco Cottage", village: "Gumla", district: "Gumla", tribe: "Oraon",
+                price: 950, rating: 4.9, reviews: 41, emoji: "🌾", bgColor: "linear-gradient(135deg,#4a7c3f,#2d5a27)",
+                desc: "Mud-walled cottage with traditional Khovar art. The host family performs evening folk songs around a shared fire. Participate in herb collection and pottery-making.",
+                amenities: ["🎨 Khovar Art Class", "🌙 Night Safari", "🛏 2 Rooms", "🍂 Forest Walks", "🎵 Folk Music", "🌺 Herb Garden"],
+                food: ["Dhuska", "Thekua", "Bamboo Chicken", "Mahua"],
+                attractions: ["Netarhat (45 km)", "Palkot Wildlife Sanctuary (18 km)", "Gumla Fort (4 km)"],
+                tags: ["Mud Cottage", "Art Stay", "Folk Music"]
+            },
+            {
+                id: 4, name: "Ho Tribe River Camp", village: "Chakradharpur", district: "West Singhbhum", tribe: "Ho",
+                price: 700, rating: 4.7, reviews: 18, emoji: "🏕️", bgColor: "linear-gradient(135deg,#1a5060,#0d3040)",
+                desc: "Riverside camp where the Ho community hosts guests with traditional fishing experiences and riverside cooking. Sunrise over the river and nighttime stories around the fire.",
+                amenities: ["🎣 Fishing", "🚣 Boat Ride", "⛺ 4 Tents", "🔥 Campfire", "🦋 Nature Trail", "📸 Photography"],
+                food: ["Fish Curry", "River Crab", "Baked Corn", "Tribal Rice Beer"],
+                attractions: ["Dalma Wildlife Sanctuary (55 km)", "Jubilee Park (60 km)", "Kharsawan Fort (22 km)"],
+                tags: ["River Camp", "Fishing", "Adventure"]
+            },
+            {
+                id: 5, name: "Kharia Mountain Stay", village: "Simdega", district: "Simdega", tribe: "Kharia",
+                price: 750, rating: 4.5, reviews: 15, emoji: "⛰️", bgColor: "linear-gradient(135deg,#5c3d1e,#3a2510)",
+                desc: "High-altitude stay among coffee plantations. The Kharia family teaches guests about indigenous medicine plants and organic coffee processing. Spectacular valley views.",
+                amenities: ["☕ Coffee Tour", "🌿 Herbal Walk", "🛏 2 Rooms", "🔭 Stargazing", "🏔 Trek", "🍵 Herbal Tea"],
+                food: ["Forest Mushrooms", "Bamboo Rice", "Tribal Bread", "Herbal Kadha"],
+                attractions: ["Thethaitangar (20 km)", "Kolebira (35 km)", "Kelo River (8 km)"],
+                tags: ["Mountain Stay", "Coffee Farm", "Wellness"]
+            },
+            {
+                id: 6, name: "Birhor Forest Camp", village: "Hazaribagh", district: "Hazaribagh", tribe: "Birhor",
+                price: 600, rating: 4.4, reviews: 9, emoji: "🦌", bgColor: "linear-gradient(135deg,#2a4020,#1a2c14)",
+                desc: "Stay with one of India's most ancient semi-nomadic tribes. A rare opportunity to learn traditional rope-making and forest medicine. Guided night forest walks.",
+                amenities: ["🪢 Rope Making", "🌲 Forest Guide", "⛺ Tents", "🌙 Night Camp", "🪓 Tribal Skills", "📿 Craft Demo"],
+                food: ["Wild Tubers", "Forest Honey", "Bamboo Shoots", "Smoked Meat"],
+                attractions: ["Hazaribagh National Park (18 km)", "Canary Hill (6 km)", "Rajderwa Lake (10 km)"],
+                tags: ["Rare Experience", "Ancient Tribe", "Forest Camp"]
+            },
+            {
+                id: 7, name: "Patratu Lake Cottage", village: "Patratu", district: "Hazaribagh", tribe: "Local Host",
+                price: 820, rating: 4.7, reviews: 27, emoji: "🏞️", bgColor: "linear-gradient(135deg,#1d425b,#0f2233)",
+                desc: "A peaceful cottage beside Patratu Lake. Guests can enjoy boating, local lakeside cuisine, and soothing evenings with traditional songs by the water.",
+                amenities: ["🚣 Boat Ride", "🌅 Sunset Deck", "🛏 2 Rooms", "🍲 Local Food", "🔥 Bonfire", "📸 Photography Spot"],
+                food: ["Fish Curry", "Rice Pudding", "Seasonal Vegetables", "Masala Tea"],
+                attractions: ["Patratu Lake (0 km)", "Parasnath Hill (55 km)", "Kannua Falls (20 km)"],
+                tags: ["Lake View", "Family Stay", "Relaxing"],
+            },
+            {
+                id: 8, name: "Ranchi Riverside Retreat", village: "Kanke", district: "Ranchi", tribe: "Urban Homestay",
+                price: 980, rating: 4.8, reviews: 33, emoji: "🏡", bgColor: "linear-gradient(135deg,#244965,#1f3549)",
+                desc: "Comfortable riverside home stay near Ranchi city, blending modern amenities with authentic Jharkhand hospitality. Ideal for guests exploring both city sites and nearby tribal culture.",
+                amenities: ["📶 WiFi", "🛏 3 Rooms", "🍛 Home-cooked Meals", "🌳 Garden", "🚗 City Tours", "🧘 Yoga Spot"],
+                food: ["Sattu Paratha", "Dal Chawal", "Vegetable Curry", "Gur Sweets"],
+                attractions: ["Ranchi Lake (5 km)", "Jagannath Temple (6 km)", "Rock Garden (8 km)"],
+                tags: ["Riverside", "City Access", "Comfort"],
+            }
+        ];
+
+        const tribes = [
+            {
+                id: "santhal", name: "Santhal", tagline: "The largest tribal community of Jharkhand", emoji: "🌾",
+                features: [
+                    { icon: "👗", title: "Traditional Dress", desc: "Panchi (women's sari-style cloth) and Bhagta (men's dhoti). Vibrant floral and geometric embroidery." },
+                    { icon: "💃", title: "Santali Dance", desc: "Dasai and Baha dances performed in community circles, accompanied by flutes and drums." },
+                    { icon: "🥁", title: "Music", desc: "Tamak (drum), flute, and banam (violin-like string instrument) form the musical core." },
+                    { icon: "🌸", title: "Baha Festival", desc: "Spring festival celebrating the first flowers, where no fruit is eaten until offered to nature." },
+                ],
+                cards: [
+                    { title: "Sohrae Art", desc: "Ritual wall paintings with geometric motifs in black, white, and red clay." },
+                    { title: "Lifestyle", desc: "Settled farmers with deep animist beliefs. Villages governed by traditional Majhi headmen." },
+                    { title: "Handicrafts", desc: "Dokra metal casting, bamboo baskets, and wood carvings sold in local markets." },
+                    { title: "Language", desc: "Santali — recognized in the 8th Schedule of the Indian Constitution." },
+                ]
+            },
+            {
+                id: "munda", name: "Munda", tagline: "Ancient warriors and custodians of the forest", emoji: "🪘",
+                features: [
+                    { icon: "👗", title: "Traditional Dress", desc: "Women wear Pahhan sari with silver jewellery; men wear dhoti with colorful pagri." },
+                    { icon: "💃", title: "Chhau Dance", desc: "Martial dance form with elaborate masks, recognized by UNESCO." },
+                    { icon: "🥁", title: "Music", desc: "Nagara drums, mandar, and bamboo flute — music plays a role in every ritual." },
+                    { icon: "🌺", title: "Karma Festival", desc: "Harvest festival where branches are worshipped inside homes for prosperity." },
+                ],
+                cards: [
+                    { title: "Pita Painting", desc: "Yellow turmeric-based ceremonial paintings on walls and floors for festivals." },
+                    { title: "Lifestyle", desc: "Patrilineal clan system with deep forest management traditions and community land rights." },
+                    { title: "Handicrafts", desc: "Iron tools, bamboo crafts, and intricate bead jewellery making." },
+                    { title: "Language", desc: "Mundari — Austroasiatic language with rich oral literature tradition." },
+                ]
+            },
+            {
+                id: "oraon", name: "Oraon", tagline: "Dancers of the forest and keepers of flame", emoji: "🌺",
+                features: [
+                    { icon: "👗", title: "Traditional Dress", desc: "Women: Putang sari with elaborate silver ornaments; men: dhoti and gamcha." },
+                    { icon: "💃", title: "Jadur Dance", desc: "Pre-harvest dance performed at night around fires, with dramatic circular movements." },
+                    { icon: "🎵", title: "Music", desc: "Karam geet and Karma dance music played on mandar and singhi (horn instrument)." },
+                    { icon: "🪔", title: "Sarhul Festival", desc: "New Year celebration — sal tree flowers offered to ancestors at the sacred grove." },
+                ],
+                cards: [
+                    { title: "Khovar Art", desc: "Bridal chamber wall art using black, white, and yellow natural pigments." },
+                    { title: "Lifestyle", desc: "Totemistic clans tied to specific animals and plants; strong community governance." },
+                    { title: "Handicrafts", desc: "Terracotta figurines, grass weaving, and tribal jewelry from copper and silver." },
+                    { title: "Language", desc: "Kurukh (Oraon) — Dravidian language with unique phonology." },
+                ]
+            },
+            {
+                id: "ho", name: "Ho", tagline: "Sons of the mountain — proud and free", emoji: "⛰️",
+                features: [
+                    { icon: "👗", title: "Traditional Dress", desc: "Simple draped cotton cloth; women wear elaborate bead necklaces and brass rings." },
+                    { icon: "💃", title: "Mage Parab Dance", desc: "New Year dance performed at village grounds to invoke ancestral blessings." },
+                    { icon: "🥁", title: "Music", desc: "The dhumkuria youth dormitory is a center for musical training and folk song preservation." },
+                    { icon: "🌙", title: "Mage Parab", desc: "Post-harvest festival with community feasting, traditional games, and cattle racing." },
+                ],
+                cards: [
+                    { title: "Chali Art", desc: "Abstract body tattooing and geometric designs that mark clan identity." },
+                    { title: "Lifestyle", desc: "Dhumkuria (youth dormitory) system trains youth in cultural responsibilities." },
+                    { title: "Handicrafts", desc: "Weaving, cane furniture, and lac (shellac) items used for bangles and coatings." },
+                    { title: "Language", desc: "Ho language — Austroasiatic, written in Warang Citi script created by Lako Bodra in 1956." },
+                ]
+            },
+            {
+                id: "kharia", name: "Kharia", tagline: "Forest healers with ancient wisdom", emoji: "🌿",
+                features: [
+                    { icon: "👗", title: "Traditional Dress", desc: "Hill Kharia women wear woven cloth with floral motifs; plant-fiber ornaments in festivals." },
+                    { icon: "💃", title: "Karma Dance", desc: "Seasonal harvest dances using bamboo poles, performed in honor of the Karma tree deity." },
+                    { icon: "🎵", title: "Music", desc: "Dhol, dholak and flute used in ceremonial music; unique pentatonic scale songs." },
+                    { icon: "🌳", title: "Karama Festival", desc: "Tree-worship festival celebrating nature's abundance and giving thanks to the forest." },
+                ],
+                cards: [
+                    { title: "Herbal Medicine", desc: "Rich knowledge of 200+ medicinal plants used for common and rare ailments." },
+                    { title: "Lifestyle", desc: "Small close-knit village communities with animist beliefs centred on nature worship." },
+                    { title: "Handicrafts", desc: "Bamboo mats, rope-making using forest creepers, and leaf-plate making." },
+                    { title: "Language", desc: "Kharia — Austroasiatic language with major Hill Kharia and Dudh Kharia dialects." },
+                ]
+            },
+            {
+                id: "birhor", name: "Birhor", tagline: "The wandering rope-makers of ancient forests", emoji: "🪢",
+                features: [
+                    { icon: "👗", title: "Traditional Dress", desc: "Minimal forest cloth made from bark fiber and leaves; evolving with modern contact." },
+                    { icon: "💃", title: "Community Dance", desc: "Seasonal circular dances around fire to celebrate good hunts and forest spirits." },
+                    { icon: "🎶", title: "Music", desc: "Simple percussion instruments made from dried gourds and stretched animal skins." },
+                    { icon: "🌲", title: "Forest Festivals", desc: "Hunting festivals where successful hunters are celebrated by the entire community." },
+                ],
+                cards: [
+                    { title: "Rope Making", desc: "Birhor are renowned rope-makers using forest creepers — their name means 'forest people'." },
+                    { title: "Lifestyle", desc: "Semi-nomadic; communities move seasonally following forest game and edible plants." },
+                    { title: "Handicrafts", desc: "Tanda baskets, rope products, and hunting tools sold in weekly markets." },
+                    { title: "Language", desc: "Birhor — Austroasiatic language; critically endangered with fewer than 10,000 speakers." },
+                ]
+            },
+        ];
+
+        const foods = [
+            { name: "Dhuska", emoji: "🥞", desc: "Crispy rice-lentil fritters deep-fried in mustard oil — Jharkhand's beloved street snack.", ingredients: "Rice, Chana Dal, Spices, Mustard Oil", tags: ["Fried", "Street Food", "Popular"], avail: "Available at most homestays" },
+            { name: "Pitha", emoji: "🍥", desc: "Steamed or pan-fried rice flour dumplings with sweet or savory fillings — made for every festival.", ingredients: "Rice Flour, Sesame, Jaggery, Coconut", tags: ["Festival Food", "Sweet", "Steamed"], avail: "Seasonal – festivals only" },
+            { name: "Rugra", emoji: "🍄", desc: "Rare forest mushroom found only in Jharkhand's forests, cooked with onion and local spices.", ingredients: "Wild Mushroom, Onion, Garlic, Turmeric", tags: ["Forest Find", "Rare", "Seasonal"], avail: "Monsoon season only" },
+            { name: "Chilka Roti", emoji: "🫓", desc: "Thick lentil-crepe made on clay griddles — crispy outside, soft inside. A Jharkhand breakfast staple.", ingredients: "Rice, Urad Dal, Salt, Onion", tags: ["Breakfast", "Crispy", "Traditional"], avail: "All homestays daily" },
+            { name: "Bamboo Chicken", emoji: "🍖", desc: "Marinated chicken stuffed inside a bamboo tube and slow-roasted on open fire — smoky and extraordinary.", ingredients: "Chicken, Bamboo, Forest Herbs, Spices", tags: ["Non-Veg", "Smoky", "Adventure"], avail: "On request – 1 day advance" },
+            { name: "Thekua", emoji: "🍪", desc: "Fried wheat-jaggery cookies shaped with carved wooden moulds — the ritual sweet of Chhath Puja.", ingredients: "Wheat Flour, Jaggery, Coconut, Ghee", tags: ["Sweet", "Festival", "Fried"], avail: "Chhath season & on request" },
+            { name: "Mahua Dishes", emoji: "🌸", desc: "Mahua flower used in multiple forms — sweet fritters, traditional wine, and nutritious porridge.", ingredients: "Mahua Flowers, Water, Jaggery", tags: ["Flower", "Traditional Wine", "Unique"], avail: "Summer season only" },
+            { name: "Handia Rice Beer", emoji: "🍶", desc: "Traditional fermented rice beer brewed by tribal women — a cultural offering to guests and ancestors.", ingredients: "Fermented Rice, Ranu Tablets, Spring Water", tags: ["Cultural Drink", "Traditional", "Fermented"], avail: "Year-round at tribal stays" },
+        ];
+
+        const festivals = [
+            { name: "Sarhul", emoji: "🌸", month: "March–April", color: "#e8f4e0", desc: "The most sacred tribal festival – worship of sal trees. Jharkhand's own New Year marked by dance, flowers, and community prayer." },
+            { name: "Karma", emoji: "🌿", month: "August–September", color: "#f0e8d0", desc: "Harvest festival where karma tree branches are brought home and worshipped. Young men and women dance through the night." },
+            { name: "Baha / Bahag", emoji: "🌺", month: "February–March", color: "#fce8e8", desc: "Santhal spring festival of flowers. No fruit is consumed until the first flowers are offered to nature spirits." },
+            { name: "Tusu Parab", emoji: "🪔", month: "January", color: "#fff3d0", desc: "Harvest thanksgiving where young women float decorated floats in rivers. Songs, dances, and community feasting." },
+            { name: "Jawa Jitiya", emoji: "🌊", month: "September–October", color: "#d0eaf8", desc: "Women fast for the prosperity of their children, then immerse clay idols in rivers with singing and processions." },
+            { name: "Chhath Puja", emoji: "☀️", month: "October–November", color: "#fff0cc", desc: "Sun worship at riverbanks at sunrise and sunset. One of Jharkhand's grandest communal gatherings." },
+        ];
+
+        const ecoItems = [
+            { icon: "🌳", title: "Preserve Forests", desc: "Every booking plants one tree in the Saranda Forest with the host family." },
+            { icon: "♻️", title: "Zero Plastic", desc: "All homestays operate plastic-free. Visitors receive bamboo bottles and leaf plates." },
+            { icon: "💧", title: "Water Conservation", desc: "Rainwater harvesting at every registered homestay." },
+            { icon: "🐦", title: "Wildlife Respect", desc: "No tours disturb wildlife. Local guides follow ethical observation codes." },
+            { icon: "🤝", title: "Community First", desc: "100% of booking fees go directly to the host family. No middlemen." },
+            { icon: "📚", title: "Cultural Preservation", desc: "Revenue funds tribal language documentation and oral history recording." },
+            { icon: "🔋", title: "Solar Energy", desc: "Partner homestays equipped with solar panels through the Jharkhand Renewable Energy programme." },
+            { icon: "🌾", title: "Organic Farming", desc: "All food served is grown organically by the host family or sourced from the village." },
+        ];
+
+        /* ==================== STATE ==================== */
+        let currentHomestay = null;
+        let bookings = backendBookings || [];
+        let currentFilter = 'all';
+
+        /* ==================== RENDER ==================== */
+        function renderHomestays(list) {
+            const grid = document.getElementById('homestayGrid');
+            if (!list || list.length === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-light);">No homestays found matching your filter.</div>';
+                return;
+            }
+                        grid.innerHTML = list.map(h => {
+                                const availText = (typeof h.available === 'number') ? (`Available: ${h.available}/${h.capacity}`) : (h.capacity ? (`Capacity: ${h.capacity}`) : 'Capacity: N/A');
+                                const foodAvailable = (h.food && h.food.length) ? 'With local food' : 'No food option';
+                                const disabled = (typeof h.available === 'number' && h.available <= 0) ? 'disabled' : '';
+                                return `
+        <div class="homestay-card" ${disabled ? '' : `onclick="openModal(${h.id})"`}>
+            <div class="card-img">
+                <div class="card-img-inner" style="background:${h.bgColor};">${h.emoji}</div>
+                <div class="card-badge">${h.tribe}</div>
+                <div class="card-rating">⭐ ${h.rating}</div>
+            </div>
+            <div class="card-body">
+                <div class="card-location">📍 ${h.village}, ${h.district}</div>
+                <div class="card-title">${h.name}</div>
+                <div class="card-desc">${h.desc.substring(0, 120)}…</div>
+                <div style="margin-top:8px;font-size:0.82rem;color:var(--text-light)">${foodAvailable} • ${availText}</div>
+                <div class="amenities-row">${h.tags.map(t => `<span class="amenity-tag">${t}</span>`).join('')}</div>
+                <div class="card-footer">
+                    <div class="card-price"><strong>₹${h.price}</strong> <span>/night</span></div>
+                    <button class="btn-view" ${disabled ? 'disabled style="opacity:0.5;cursor:not-allowed"' : ''}>View Details →</button>
+                </div>
+            </div>
+        </div>`;
+                        }).join('');
+        }
+
+        function filterCards(el, tribe) {
+            currentFilter = tribe;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c === el));
+            const list = tribe === 'all' ? homestays : homestays.filter(h => h.tribe === tribe);
+            renderHomestays(list);
+        }
+
+        function applyFilters() {
+            const dist = document.getElementById('searchDist').value.toLowerCase().trim();
+            const tribe = document.getElementById('searchTribe').value;
+            let list = homestays;
+            if (tribe) list = list.filter(h => h.tribe === tribe);
+            if (dist) list = list.filter(h => h.village.toLowerCase().includes(dist) || h.district.toLowerCase().includes(dist));
+            renderHomestays(list);
+        }
+
+        function renderTribes() {
+            document.getElementById('tribeTabs').innerHTML = tribes.map((t, i) =>
+                `<button class="tribe-tab ${i === 0 ? 'active' : ''}" onclick="switchTribe('${t.id}')">${t.emoji} ${t.name}</button>`
+            ).join('');
+            document.getElementById('tribeContents').innerHTML = tribes.map((t, i) => `
+    <div class="tribe-content ${i === 0 ? 'active' : ''}" id="tribe-${t.id}">
+      <div>
+        <div class="tribe-name">${t.emoji} ${t.name}</div>
+        <div class="tribe-tagline">${t.tagline}</div>
+        <ul class="tribe-feature-list">
+          ${t.features.map(f => `<li><div class="icon">${f.icon}</div><div><strong style="color:var(--gold)">${f.title}:</strong> ${f.desc}</div></li>`).join('')}
+        </ul>
+      </div>
+      <div class="tribe-cards-grid">
+        ${t.cards.map(c => `<div class="tribe-mini-card"><h4>${c.title}</h4><p>${c.desc}</p></div>`).join('')}
+      </div>
+    </div>`).join('');
+        }
+
+        function switchTribe(id) {
+            document.querySelectorAll('.tribe-tab').forEach((t, i) => t.classList.toggle('active', tribes[i].id === id));
+            document.querySelectorAll('.tribe-content').forEach(c => c.classList.toggle('active', c.id === `tribe-${id}`));
+        }
+
+        function renderFood() {
+            document.getElementById('foodGrid').innerHTML = foods.map(f => `
+    <div class="food-card">
+      <div class="food-icon-wrap" style="background:linear-gradient(135deg,rgba(139,94,60,0.08),rgba(26,53,32,0.06))">${f.emoji}</div>
+      <div class="food-body">
+        <div class="food-name">${f.name}</div>
+        <div class="food-desc">${f.desc}</div>
+        <div class="food-tags">${f.tags.map(t => `<span class="food-tag">${t}</span>`).join('')}</div>
+        <div style="margin-top:9px;font-size:0.76rem;color:var(--text-light)"><strong>Ingredients:</strong> ${f.ingredients}</div>
+        <div class="food-avail">✓ ${f.avail}</div>
+      </div>
+    </div>`).join('');
+        }
+
+        function renderFestivals() {
+            document.getElementById('festivalGrid').innerHTML = festivals.map(f => `
+    <div class="festival-card">
+      <div class="festival-banner" style="background:${f.color}">${f.emoji}</div>
+      <div class="festival-body">
+        <div class="festival-name">${f.name}</div>
+        <div class="festival-date">📅 ${f.month}</div>
+        <div class="festival-desc">${f.desc}</div>
+      </div>
+    </div>`).join('');
+        }
+
+        function renderEco() {
+            document.getElementById('ecoGrid').innerHTML = ecoItems.map(e => `
+    <div class="eco-card">
+      <div class="eco-icon">${e.icon}</div>
+      <h3>${e.title}</h3>
+      <p>${e.desc}</p>
+    </div>`).join('');
+        }
+
+        /* ==================== MODAL ==================== */
+        function openModal(id) {
+            currentHomestay = homestays.find(h => h.id === id);
+            const h = currentHomestay;
+
+            document.getElementById('modalTitle').textContent = h.name;
+            document.getElementById('modalSubtitle').textContent = `${h.village} • ${h.district} • ${h.tribe} Tribe`;
+            document.getElementById('modalMeta').innerHTML = `
+    <span class="modal-meta-item">⭐ ${h.rating} (${h.reviews} reviews)</span>
+    <span class="modal-meta-item">💰 ₹${h.price}/night</span>
+    <span class="modal-meta-item">🏡 ${h.tribe} Stay</span>
+    <span class="modal-meta-item">✅ Available</span>`;
+            document.getElementById('modalDesc').textContent = h.desc;
+            document.getElementById('modalGallery').innerHTML = ['🌿', '🏡', '🍃', '☀️', '🌙', '🌸'].map(e =>
+                `<div class="gallery-thumb">${e}</div>`).join('');
+            document.getElementById('modalOwner').innerHTML = [
+                `Family: ${h.tribe} Local Host Family`,
+                `Village: ${h.village}, ${h.district} District`,
+                `Languages: ${h.tribe}, Hindi, local dialect`,
+                `Check-in: 12:00 PM | Check-out: 11:00 AM`,
+                `Registered Host since 2023`
+            ].map(i => `<li><span class="dot"></span>${i}</li>`).join('');
+            document.getElementById('modalAmenities').innerHTML = h.amenities.map(a =>
+                `<div class="amenity-item">${a}</div>`).join('');
+            document.getElementById('modalFood').innerHTML = h.food.map(f =>
+                `<span class="amenity-tag">${f}</span>`).join('');
+            document.getElementById('modalAttractions').innerHTML = h.attractions.map(a =>
+                `<li><span class="dot"></span>${a}</li>`).join('');
+            document.getElementById('modalReviews').innerHTML = [
+                { n: 'Priya S.', d: 'March 2025', s: '⭐⭐⭐⭐⭐', t: 'Magical experience. The family treated us like their own. The traditional food was unforgettable.' },
+                { n: 'Rahul M.', d: 'January 2025', s: '⭐⭐⭐⭐', t: 'Authentic and peaceful. Loved the morning forest walk with the host. Highly recommend.' },
+                { n: 'Sneha T.', d: 'December 2024', s: '⭐⭐⭐⭐⭐', t: 'Perfect escape from city life. Simple living, rich culture. Will visit again next year!' },
+            ].map(r => `
+    <div class="review-item">
+      <div class="review-header">
+        <div class="review-avatar">${r.n[0]}</div>
+        <div><div class="review-name">${r.n}</div><div class="review-date">${r.d}</div></div>
+        <div class="review-stars" style="margin-left:auto">${r.s}</div>
+      </div>
+      <div class="review-text">${r.t}</div>
+    </div>`).join('');
+
+            // Reset form
+            ['checkIn', 'checkOut', 'guestName', 'guestEmail', 'guestPhone', 'guestRemarks'].forEach(id => {
+                const el = document.getElementById(id); if (el) el.value = '';
+            });
+            document.getElementById('adults').value = '1';
+            document.getElementById('children').value = '0';
+            document.getElementById('foodPkg').value = '0';
+            clearErrors();
+            calcPrice();
+
+            document.getElementById('bookingModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        /* ==================== PRICE CALC ==================== */
+        function calcPrice() {
+            if (!currentHomestay) return;
+            const ci = document.getElementById('checkIn').value;
+            const co = document.getElementById('checkOut').value;
+            const fp = parseInt(document.getElementById('foodPkg').value) || 0;
+            if (ci && co && new Date(co) > new Date(ci)) {
+                const nights = Math.round((new Date(co) - new Date(ci)) / (1000 * 60 * 60 * 24));
+                const stay = nights * currentHomestay.price;
+                const food = nights * fp;
+                const fee = Math.round((stay + food) * 0.05);
+                const total = stay + food + fee;
+                document.getElementById('stayLine').textContent = `₹${stay} (${nights}N × ₹${currentHomestay.price})`;
+                document.getElementById('foodLine').textContent = fp ? `₹${food}` : '₹0';
+                document.getElementById('feeLine').textContent = `₹${fee}`;
+                document.getElementById('totalLine').textContent = `₹${total}`;
+            } else {
+                ['stayLine', 'foodLine', 'feeLine'].forEach(id => document.getElementById(id).textContent = '—');
+                document.getElementById('totalLine').textContent = 'Select valid dates';
+            }
+        }
+
+        /* ==================== PHONE VALIDATION ==================== */
+        function filterPhoneKey(e) {
+            // Allow: digits, +, -, space, backspace, delete, arrow keys
+            const allowed = /[\d\+\-\s]/;
+            if (e.key.length === 1 && !allowed.test(e.key)) { e.preventDefault(); return false; }
+            return true;
+        }
+
+        function validatePhone(input) {
+            // Strip non-digit characters to count
+            const digits = input.value.replace(/\D/g, '');
+            const errEl = document.getElementById('phoneErr');
+            if (digits.length > 10) {
+                // Trim to 10 digits maintaining +91 prefix if present
+                const hasPrefix = input.value.trim().startsWith('+91') || input.value.trim().startsWith('0');
+                if (hasPrefix && digits.length > 12) {
+                    showFieldError('phoneErr', '⚠ Number too long. Enter 10-digit mobile number only');
+                    input.classList.add('error');
+                } else if (!hasPrefix && digits.length > 10) {
+                    showFieldError('phoneErr', '⚠ Mobile number cannot exceed 10 digits');
+                    input.classList.add('error');
+                }
+            } else {
+                hideFieldError('phoneErr');
+                input.classList.remove('error');
+            }
+        }
+
+        function getPhoneDigits(val) {
+            let v = val.replace(/\D/g, '');
+            if (v.startsWith('91') && v.length === 12) v = v.slice(2);
+            if (v.startsWith('0') && v.length === 11) v = v.slice(1);
+            return v;
+        }
+
+        /* ==================== FORM VALIDATION ==================== */
+        function showFieldError(id, msg) {
+            const el = document.getElementById(id);
+            el.textContent = msg || el.textContent;
+            el.classList.add('show');
+        }
+        function hideFieldError(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+        function clearErrors() {
+            ['nameErr', 'emailErr', 'phoneErr'].forEach(hideFieldError);
+            ['guestName', 'guestEmail', 'guestPhone'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('error');
+            });
+        }
+
+        function validateForm() {
+            let valid = true;
+            clearErrors();
+
+            const name = document.getElementById('guestName').value.trim();
+            const email = document.getElementById('guestEmail').value.trim();
+            const phone = document.getElementById('guestPhone').value.trim();
+            const ci = document.getElementById('checkIn').value;
+            const co = document.getElementById('checkOut').value;
+
+            if (!ci || !co) { showToast('⚠ Please select check-in and check-out dates', 'error'); valid = false; }
+            if (ci && co && new Date(co) <= new Date(ci)) { showToast('⚠ Check-out must be after check-in', 'error'); valid = false; }
+
+            if (!name) {
+                showFieldError('nameErr', '⚠ Full name is required');
+                document.getElementById('guestName').classList.add('error'); valid = false;
+            }
+
+            const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email) {
+                showFieldError('emailErr', '⚠ Email address is required');
+                document.getElementById('guestEmail').classList.add('error'); valid = false;
+            } else if (!emailReg.test(email)) {
+                showFieldError('emailErr', '⚠ Enter a valid email (e.g. name@example.com)');
+                document.getElementById('guestEmail').classList.add('error'); valid = false;
+            }
+
+            const digits = getPhoneDigits(phone);
+            if (!phone) {
+                showFieldError('phoneErr', '⚠ Contact number is required');
+                document.getElementById('guestPhone').classList.add('error'); valid = false;
+            } else if (digits.length !== 10) {
+                showFieldError('phoneErr', digits.length > 10
+                    ? '⚠ Number too long — enter exactly 10 digits'
+                    : '⚠ Number too short — enter exactly 10 digits');
+                document.getElementById('guestPhone').classList.add('error'); valid = false;
+            } else if (!/^[6-9]/.test(digits)) {
+                showFieldError('phoneErr', '⚠ Invalid Indian mobile number — must start with 6, 7, 8 or 9');
+                document.getElementById('guestPhone').classList.add('error'); valid = false;
+            }
+
+            return valid;
+        }
+
+        /* ==================== BOOKING ==================== */
+        function confirmBooking() {
+            if (!validateForm()) return;
+
+            const name = document.getElementById('guestName').value.trim();
+            const email = document.getElementById('guestEmail').value.trim().toLowerCase();
+            const h = currentHomestay;
+
+            // Duplicate check: same homestay + same name + same email
+            const dup = bookings.find(b =>
+                b.homestayId === h.id &&
+                b.name.toLowerCase() === name.toLowerCase() &&
+                b.email === email
+            );
+            if (dup) {
+                showToast('⚠ Already booked! This homestay is already booked by ' + name + ' (' + email + ').', 'error');
+                return;
+            }
+
+            const ci = document.getElementById('checkIn').value;
+            const co = document.getElementById('checkOut').value;
+            const adults = document.getElementById('adults').value;
+            const children = document.getElementById('children').value;
+            const foodPkg = document.getElementById('foodPkg').options[document.getElementById('foodPkg').selectedIndex].text;
+            const remarks = document.getElementById('guestRemarks').value.trim();
+            const fp = parseInt(document.getElementById('foodPkg').value) || 0;
+            const nights = Math.round((new Date(co) - new Date(ci)) / (1000 * 60 * 60 * 24));
+            const stay = nights * h.price;
+            const food = nights * fp;
+            const fee = Math.round((stay + food) * 0.05);
+            const total = stay + food + fee;
+            const bookingId = 'JH' + Date.now().toString().slice(-6);
+
+            bookings.push({
+                id: bookingId,
+                homestayId: h.id,
+                name,
+                email,
+                phone: document.getElementById('guestPhone').value.trim(),
+                homestayName: h.name,
+                service_name: h.name,
+                destination_name: `${h.village}, ${h.district}`,
+                checkIn: ci,
+                checkOut: co,
+                adults,
+                children,
+                guests: parseInt(adults, 10) + parseInt(children, 10),
+                foodPkg,
+                remarks,
+                accommodation_type: 'Homestay',
+                special_requests: remarks,
+                status: 'confirmed',
+                nights,
+                total,
+                created_at: new Date().toLocaleDateString('en-IN')
+            });
+
+            updateBadge();
+            closeModal();
+            showToast(`✅ Booking confirmed for ${h.name}! Booking ID: ${bookingId}`);
+            // Attempt to persist booking to backend if available
+            try {
+                const payload = {
+                    destination_id: h.destination_id || null,
+                    service_id: h.id,
+                    start_date: ci,
+                    end_date: co,
+                    guests: parseInt(adults, 10) + parseInt(children, 10),
+                    total_price: total,
+                    phone: document.getElementById('guestPhone').value.trim(),
+                    accommodation_type: h.tags ? h.tags.join(',') : 'Homestay',
+                    special_requests: remarks
+                };
+
+                // Try authenticated endpoint first, fall back to dev test endpoint if unauthorized
+                fetch('/bookings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }).then(async r => {
+                    if (r.status === 201) return r.json();
+                    if (r.status === 401 || r.status === 403) {
+                        // fallback to test route (development only)
+                        try {
+                            const r2 = await fetch('/bookings/test', {
+                                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+                            });
+                            return r2.json();
+                        } catch (e) { return { status: 'error', message: e.message }; }
+                    }
+                    return r.json();
+                }).then(res => {
+                    if (res && res.status === 'success') {
+                        showToast('Saved booking to server (id: ' + (res.booking_id || '') + ')');
+                        // update local bookings with server id if returned
+                        if (res.booking_id) {
+                            const last = bookings[bookings.length - 1];
+                            if (last) last.id = res.booking_id;
+                        }
+                    } else if (res && res.message) {
+                        showToast('Server: ' + res.message, 'error');
+                    }
+                }).catch(e => {
+                    console.warn('Could not save booking to server', e);
+                });
+            } catch (e) { console.warn(e); }
+        }
+
+        function updateBadge() {
+            document.getElementById('bookingsBadge').textContent = bookings.length;
+        }
+
+        /* ==================== MY BOOKINGS MODAL ==================== */
+        function openBookingsModal() {
+                        const body = document.getElementById('bookingsBody');
+                        if (bookings.length === 0) {
+                                body.innerHTML = `<div class="no-bookings">
+            <div class="nb-icon">📋</div>
+            <p>No bookings found yet.<br>Once travelers reserve your homestays, they will appear here.</p>
+            <button class="btn-primary" style="margin-top:20px" onclick="closeBookingsModal();document.getElementById('homestays').scrollIntoView()">Browse Homestays</button>
+        </div>`;
+                        } else {
+                                body.innerHTML = bookings.map(b => {
+                                        const totalNum = (typeof b.total === 'number') ? b.total : (b.total_price || 0);
+                                        const totalDisplay = (typeof totalNum === 'number' && !isNaN(totalNum)) ? totalNum.toLocaleString('en-IN') : totalNum;
+                                        return `
+            <div class="booking-record">
+                <div class="booking-record-header">
+                    <div class="br-name">🏡 ${b.service_name || b.homestayName || ''}</div>
+                    <div class="br-status">${(b.status === 'confirmed') ? '✅ Confirmed' : (b.status ? '⏳ ' + (b.status.charAt(0).toUpperCase() + b.status.slice(1)) : '⏳ Pending')}</div>
+                </div>
+                <div class="br-grid">
+                    <div class="br-item"><strong>Booking ID:</strong> ${b.id}</div>
+                    <div class="br-item"><strong>Booked On:</strong> ${b.created_at || b.createdAt || ''}</div>
+                    <div class="br-item"><strong>Location:</strong> ${b.destination_name || b.homestayName || 'Local'}</div>
+                    <div class="br-item"><strong>Guests:</strong> ${b.guests || (parseInt(b.adults||0) + parseInt(b.children||0))}</div>
+                    <div class="br-item"><strong>Contact:</strong> ${b.phone || b.contact || 'N/A'}</div>
+                    <div class="br-item"><strong>Stay Type:</strong> ${b.accommodation_type || 'Homestay'}</div>
+                    <div class="br-item"><strong>Check-in:</strong> ${b.checkIn || b.start_date || 'TBA'}</div>
+                    <div class="br-item"><strong>Check-out:</strong> ${b.checkOut || b.end_date || 'TBA'}</div>
+                    ${ (b.special_requests || b.remarks) ? `<div class="br-item" style="grid-column:1/-1"><strong>Special Requests:</strong> ${b.special_requests || b.remarks}</div>` : '' }
+                </div>
+                <div class="br-total">Total Paid: ₹${totalDisplay}</div>
+            </div>`;
+                                }).join('');
+                        }
+                        document.getElementById('bookingsModal').classList.add('open');
+                        document.body.style.overflow = 'hidden';
+                }
+
+        function closeBookingsModal() {
+            document.getElementById('bookingsModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        /* ==================== TOAST ==================== */
+        function showToast(msg, type = '') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast' + (type === 'error' ? ' error-toast' : '');
+            t.classList.add('show');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => t.classList.remove('show'), 4000);
+        }
+
+        /* ==================== CLOSE ON OVERLAY ==================== */
+        document.getElementById('bookingModal').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
+        document.getElementById('bookingsModal').addEventListener('click', function (e) { if (e.target === this) closeBookingsModal(); });
+
+        /* ==================== NAV ACTIVE ON SCROLL ==================== */
+        const sections = ['homestays', 'culture', 'food', 'festivals', 'eco'];
+        window.addEventListener('scroll', () => {
+            let cur = '';
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && window.scrollY >= el.offsetTop - 80) cur = id;
+            });
+            document.querySelectorAll('.nav-links a').forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+            });
+        });
+
+        /* ==================== INIT ==================== */
+        renderHomestays(homestays);
+        renderTribes();
+        renderFood();
+        renderFestivals();
+        renderEco();
+        updateBadge();
+    </script>
+</body>
+
+</html>

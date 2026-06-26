@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Jharkhand Tourism</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .welcome-section {
+            background: linear-gradient(135deg, #1a237e 0%, #00bcd4 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-section h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 4px solid #00bcd4;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid #00bcd4;
+            padding-bottom: 0.5rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        th {
+            background: #f0f0f0;
+            padding: 1rem;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-icon {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            background: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-icon:hover {
+            background: #0097a7;
+        }
+        
+        .btn-icon.delete {
+            background: #e74c3c;
+        }
+        
+        .btn-icon.delete:hover {
+            background: #c0392b;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #1a237e 0%, #00bcd4 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 188, 212, 0.4);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+        
+        .search-box {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .filter-select {
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+        }
+        
+        .chart-container {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 9999;
+        }
+
+        .modal-card {
+            width: min(100%, 700px);
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 18px 45px rgba(0,0,0,0.18);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #eee;
+            background: #fafafa;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            max-height: 60vh;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+
+        .detail-row {
+            margin-bottom: 0.85rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .modal-actions {
+            padding: 1rem 1.5rem 1.5rem;
+            text-align: right;
+            border-top: 1px solid #eee;
+            background: #fafafa;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            table {
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar will be included here -->
+    <div id="navbar"></div>
+    
+    <div class="dashboard-container">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <h1>🏛️ Admin Dashboard</h1>
+            <p>Manage users, bookings, and platform analytics</p>
+        </section>
+        
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ user_stats.total_users }}</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ booking_stats.total_bookings }}</div>
+                <div class="stat-label">Total Bookings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ pending_approvals|length }}</div>
+                <div class="stat-label">Pending Approvals</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">₹{{ "%.2f" | format(booking_stats.revenue) }}</div>
+                <div class="stat-label">Total Revenue</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ dest_stats.total_destinations }}</div>
+                <div class="stat-label">Live Destinations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ service_count }}</div>
+                <div class="stat-label">Service Listings</div>
+            </div>
+        </div>
+        
+        <div class="dashboard-grid">
+            <!-- Users Management -->
+            <section class="section" style="grid-column: 1/-1;">
+                <div class="section-title">👥 Users Management</div>
+                
+                <div class="controls">
+                    <input type="text" class="search-box" placeholder="Search users..." id="userSearch">
+                    <select class="filter-select" id="userFilter">
+                        <option value="">All Roles</option>
+                        <option value="tourist">Tourist</option>
+                        <option value="provider">Provider</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <button class="btn">+ Add User</button>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersList">
+                        {% if recent_users %}
+                            {% for user in recent_users %}
+                                <tr>
+                                    <td>{{ user.name }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.role }}</td>
+                                    <td>
+                                        {% if user.verified %}
+                                            <span class="status-badge status-active">Verified</span>
+                                        {% else %}
+                                            <span class="status-badge status-pending">Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                                    <td class="action-buttons">
+                                        <button class="btn-icon">View</button>
+                                        <button class="btn-icon delete">Remove</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="empty-state">No users found</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- Bookings Management -->
+            <section class="section" style="grid-column: 1/-1;">
+                <div class="section-title">📅 Bookings Management</div>
+                
+                <div class="controls">
+                    <input type="text" class="search-box" id="bookingSearch" placeholder="Search destination, tourist, provider...">
+                    <select class="filter-select" id="bookingFilter">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                    <select class="filter-select" id="providerRoleFilter">
+                        <option value="">All Providers</option>
+                        <option value="homestay_owner">Homestay Owners</option>
+                        <option value="guide">Guides</option>
+                        <option value="artisan">Artisans</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <input type="date" class="filter-select" id="fromDate" title="Created after">
+                    <input type="date" class="filter-select" id="toDate" title="Created before">
+                    <button class="btn" id="exportBookingsBtn">📊 Export Bookings</button>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Destination</th>
+                            <th>Tourist</th>
+                            <th>Provider</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsList">
+                                {% if recent_bookings %}
+                            {% for booking in recent_bookings %}
+                                <tr>
+                                    <td>#{{ booking.id }}</td>
+                                    <td>{{ booking.destination or 'Unknown' }}</td>
+                                    <td>{{ booking.tourist.name if booking.tourist else 'Guest' }}</td>
+                                    <td>{{ booking.service.provider.name if booking.service and booking.service.provider else 'N/A' }}</td>
+                                    <td>{{ booking.created_at.strftime('%Y-%m-%d') }}</td>
+                                    <td>
+                                        <span class="status-badge {% if booking.status == 'confirmed' %}status-active{% elif booking.status == 'pending' %}status-pending{% else %}status-inactive{% endif %}">{{ booking.status.title() }}</span>
+                                    </td>
+                                    <td>₹{{ booking.total_price or 0 }}</td>
+                                    <td class="action-buttons">
+                                        <button class="btn-icon" onclick="showBookingDetails({{ booking.id }})">View</button>
+                                        {% if booking.status == 'pending' %}
+                                            <button class="btn-icon" onclick="adminBookingAction({{ booking.id }}, 'confirmed')">Confirm</button>
+                                            <button class="btn-icon delete" onclick="adminBookingAction({{ booking.id }}, 'cancelled')">Cancel</button>
+                                        {% elif booking.status == 'confirmed' %}
+                                            <button class="btn-icon" onclick="adminBookingAction({{ booking.id }}, 'completed')">Complete</button>
+                                            <button class="btn-icon delete" onclick="adminBookingAction({{ booking.id }}, 'cancelled')">Cancel</button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="8" class="empty-state">No bookings found</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- Pending Provider Approvals -->
+            <section class="section">
+                <div class="section-title">✅ Provider Approvals</div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Provider</th>
+                            <th>Type</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="approvalsList">
+                        {% if pending_approvals %}
+                            {% for approval in pending_approvals %}
+                                <tr>
+                                    <td>{{ approval.user.name if approval.user else 'Unknown' }}</td>
+                                    <td>{{ approval.user.role if approval.user else 'Unknown' }}</td>
+                                    <td>{{ approval.submitted_at.strftime('%Y-%m-%d') }}</td>
+                                    <td class="action-buttons">
+                                        <button class="btn-icon">Approve</button>
+                                        <button class="btn-icon delete">Reject</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="empty-state">No pending approvals</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- System Analytics -->
+            <section class="section">
+                <div class="section-title">📊 System Analytics</div>
+                
+                <div class="chart-container">
+                    <p><strong>Monthly Bookings:</strong> {{ monthly_bookings }}</p>
+                    <p><strong>User Growth:</strong> {{ user_growth }}%</p>
+                    <p><strong>Avg. Rating:</strong> {{ avg_rating }}⭐</p>
+                    <p><strong>Platform Health:</strong> ✅ Good</p>
+                </div>
+            </section>
+            
+            <!-- Quick Actions -->
+            <section class="section">
+                <div class="section-title">⚡ Quick Actions</div>
+                
+                <div style="display: grid; gap: 0.75rem;">
+                    <button class="btn" style="width: 100%; text-align: left;">📧 Send Announcement</button>
+                    <button class="btn" style="width: 100%; text-align: left;">🔧 System Settings</button>
+                    <button class="btn" style="width: 100%; text-align: left;">📋 View Reports</button>
+                    <button class="btn" style="width: 100%; text-align: left;">🔐 Security Settings</button>
+                </div>
+            </section>
+
+            <div id="bookingDetailModal" class="modal-overlay" style="display:none;">
+                <div class="modal-card">
+                    <div class="modal-header">
+                        <h3>Booking Details</h3>
+                        <button class="btn-icon delete" onclick="closeBookingModal()">✕</button>
+                    </div>
+                    <div class="modal-body" id="bookingDetailBody"></div>
+                    <div class="modal-actions">
+                        <button class="btn" onclick="closeBookingModal()">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section" style="grid-column: 1/-1;">
+                <div class="section-title">🌄 Featured Destinations & Hotels</div>
+                <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 1rem;">
+                    <div style="background:#fff; padding:1rem; border-radius:8px; border:1px solid #eee;">
+                        <h4>Betla National Park</h4>
+                        <p>Wildlife safaris, tribal culture tours and premium lodge options for nature seekers.</p>
+                    </div>
+                    <div style="background:#fff; padding:1rem; border-radius:8px; border:1px solid #eee;">
+                        <h4>Netarhat Hill Station</h4>
+                        <p>Scenic hill stays, sunrise viewpoints and cozy retreats for couples and families.</p>
+                    </div>
+                    <div style="background:#fff; padding:1rem; border-radius:8px; border:1px solid #eee;">
+                        <h4>Ranchi Riverside Stay</h4>
+                        <p>Modern hospitality with cultural day trips, local cuisine, and riverfront relaxation.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBookingTable();
+
+            document.getElementById('bookingFilter').addEventListener('change', loadBookingTable);
+            document.getElementById('providerRoleFilter').addEventListener('change', loadBookingTable);
+            document.getElementById('bookingSearch').addEventListener('input', debounce(loadBookingTable, 300));
+            document.getElementById('fromDate').addEventListener('change', loadBookingTable);
+            document.getElementById('toDate').addEventListener('change', loadBookingTable);
+            document.getElementById('exportBookingsBtn').addEventListener('click', exportBookingsCsv);
+        });
+
+        let latestBookings = [];
+        let latestSearch = '';
+
+        function loadBookingTable() {
+            const status = document.getElementById('bookingFilter').value;
+            const providerRole = document.getElementById('providerRoleFilter').value;
+            const search = document.getElementById('bookingSearch').value.trim();
+            const fromDate = document.getElementById('fromDate').value;
+            const toDate = document.getElementById('toDate').value;
+            const query = new URLSearchParams();
+            if (status) query.set('status', status);
+            if (providerRole) query.set('provider_role', providerRole);
+            if (search) query.set('q', search);
+            if (fromDate) query.set('from_date', fromDate);
+            if (toDate) query.set('to_date', toDate);
+
+            fetch(`/admin/bookings?${query.toString()}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status !== 'success') {
+                        console.error('Failed to load bookings');
+                        return;
+                    }
+                    latestBookings = data.bookings;
+                    renderBookings(data.bookings);
+                })
+                .catch(error => {
+                    console.error('Error loading bookings:', error);
+                });
+        }
+
+        function renderBookings(bookings) {
+            const tbody = document.getElementById('bookingsList');
+            tbody.innerHTML = '';
+
+            if (!bookings.length) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No bookings found</td></tr>';
+                return;
+            }
+
+            bookings.forEach(booking => {
+                const row = document.createElement('tr');
+                const statusText = booking.status ? booking.status.charAt(0).toUpperCase() + booking.status.slice(1) : 'Unknown';
+                const actionButtons = [];
+                actionButtons.push(`<button class="btn-icon" onclick="showBookingDetails(${booking.id})">View</button>`);
+                if (booking.status === 'pending') {
+                    actionButtons.push(`<button class="btn-icon" onclick="adminBookingAction(${booking.id}, 'confirmed')">Confirm</button>`);
+                    actionButtons.push(`<button class="btn-icon delete" onclick="adminBookingAction(${booking.id}, 'cancelled')">Cancel</button>`);
+                } else if (booking.status === 'confirmed') {
+                    actionButtons.push(`<button class="btn-icon" onclick="adminBookingAction(${booking.id}, 'completed')">Complete</button>`);
+                    actionButtons.push(`<button class="btn-icon delete" onclick="adminBookingAction(${booking.id}, 'cancelled')">Cancel</button>`);
+                }
+
+                row.innerHTML = `
+                    <td>#${booking.id}</td>
+                    <td>${booking.destination || 'Unknown'}</td>
+                    <td>${booking.tourist || 'Guest'}</td>
+                    <td>${booking.provider || 'N/A'}</td>
+                    <td>${booking.start_date}</td>
+                    <td><span class="status-badge ${getStatusClass(booking.status)}">${statusText}</span></td>
+                    <td>₹${booking.total_price.toFixed(2)}</td>
+                    <td class="action-buttons">${actionButtons.join('')}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function getStatusClass(status) {
+            if (status === 'confirmed') return 'status-active';
+            if (status === 'pending') return 'status-pending';
+            return 'status-inactive';
+        }
+
+        function debounce(fn, delay) {
+            let timer;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+
+        function exportBookingsCsv() {
+            if (!latestBookings.length) {
+                alert('No bookings available to export.');
+                return;
+            }
+
+            const headers = ['Booking ID', 'Destination', 'Tourist', 'Provider', 'Start Date', 'End Date', 'Status', 'Amount'];
+            const rows = latestBookings.map(booking => [
+                booking.id,
+                booking.destination || '',
+                booking.tourist || '',
+                booking.provider || '',
+                booking.start_date,
+                booking.end_date,
+                booking.status,
+                booking.total_price.toFixed(2)
+            ]);
+
+            let csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))].join('\n');
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'admin_bookings.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function showBookingDetails(bookingId) {
+            const booking = latestBookings.find(b => b.id === bookingId);
+            if (!booking) {
+                alert('Booking not found');
+                return;
+            }
+
+            document.getElementById('bookingDetailBody').innerHTML = `
+                <div class="detail-row"><strong>Booking ID:</strong> #${booking.id}</div>
+                <div class="detail-row"><strong>Destination:</strong> ${booking.destination || 'Unknown'}</div>
+                <div class="detail-row"><strong>Tourist:</strong> ${booking.tourist || 'Guest'}</div>
+                <div class="detail-row"><strong>Provider:</strong> ${booking.provider || 'N/A'}</div>
+                <div class="detail-row"><strong>Service:</strong> ${booking.service_name || 'N/A'}</div>
+                <div class="detail-row"><strong>Guests:</strong> ${booking.guests || ''}</div>
+                <div class="detail-row"><strong>Start:</strong> ${booking.start_date}</div>
+                <div class="detail-row"><strong>End:</strong> ${booking.end_date}</div>
+                <div class="detail-row"><strong>Status:</strong> ${booking.status}</div>
+                <div class="detail-row"><strong>Amount:</strong> ₹${booking.total_price.toFixed(2)}</div>
+                <div class="detail-row"><strong>Phone:</strong> ${booking.phone || 'N/A'}</div>
+                <div class="detail-row"><strong>Requests:</strong> ${booking.special_requests || 'None'}</div>
+            `;
+            document.getElementById('bookingDetailModal').style.display = 'flex';
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingDetailModal').style.display = 'none';
+        }
+
+        function adminBookingAction(bookingId, status) {
+            if (!confirm(`Are you sure you want to ${status} booking #${bookingId}?`)) return;
+            fetch(`/bookings/${bookingId}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(`Booking ${status} successfully.`);
+                    loadBookingTable();
+                } else {
+                    alert(`Failed to ${status} booking: ${data.message || 'Unknown error'}`);
+                }
+            })
+            .catch(error => {
+                console.error('Booking action error:', error);
+                alert('Unable to update booking status.');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Provider Dashboard - Jharkhand Tourism</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .welcome-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-section h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #f5576c;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid #f5576c;
+            padding-bottom: 0.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+        }
+        
+        .booking-request {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-left: 4px solid #f5576c;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .booking-details h4 {
+            color: #f5576c;
+            margin-bottom: 0.5rem;
+        }
+        
+        .booking-details p {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0.25rem 0;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 4px;
+        }
+        
+        .btn-accept {
+            background: #27ae60;
+        }
+        
+        .btn-accept:hover {
+            background: #229954;
+        }
+        
+        .btn-decline {
+            background: #e74c3c;
+        }
+        
+        .btn-decline:hover {
+            background: #c0392b;
+        }
+        
+        .services-list {
+            list-style: none;
+        }
+        
+        .service-item {
+            background: #f0f0f0;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .service-info h4 {
+            margin-bottom: 0.25rem;
+        }
+        
+        .service-info p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .service-price {
+            font-weight: bold;
+            color: #f5576c;
+            font-size: 1.1rem;
+        }
+        
+        .hotel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .hotel-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            border: 1px solid #eef2f7;
+            transition: transform 0.25s ease;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .hotel-card h4 {
+            margin-bottom: 0.65rem;
+            color: #1a2330;
+        }
+
+        .hotel-card p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .hotel-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            color: #777;
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+        }
+
+        .hotel-price {
+            color: #f5576c;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+        }
+        
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .link-btn {
+            padding: 1rem;
+            background: #f0f0f0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .link-btn:hover {
+            background: #f5576c;
+            color: white;
+            border-color: #f5576c;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-request {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .action-buttons {
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar will be included here -->
+    <div id="navbar"></div>
+    
+    <div class="dashboard-container">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <h1>Provider Dashboard 🏢</h1>
+            <p>Manage your services and bookings</p>
+        </section>
+        
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ dashboard_stats.total_bookings }}</div>
+                <div class="stat-label">Total Bookings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ dashboard_stats.pending_bookings }}</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ dashboard_stats.confirmed_bookings }}</div>
+                <div class="stat-label">Confirmed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">₹{{ "%.2f" | format(dashboard_stats.revenue) }}</div>
+                <div class="stat-label">Revenue</div>
+            </div>
+        </div>
+        
+        <div class="dashboard-grid">
+            <!-- Booking Requests -->
+            <section class="section">
+                <div class="section-title">📬 Booking Requests</div>
+                
+                <div id="bookingRequests">
+                    {% if provider_bookings | selectattr('status', 'equalto', 'pending') | list | length > 0 %}
+                        {% for booking in provider_bookings if booking.status == 'pending' %}
+                            <div class="booking-request">
+                                <div class="booking-details">
+                                    <h4>{{ booking.destination or 'Unknown destination' }}</h4>
+                                    <p>👤 {{ booking.tourist.name if booking.tourist else 'Guest' }}</p>
+                                    <p>📅 {{ booking.start_date }} – {{ booking.end_date }}</p>
+                                    <p>👥 {{ booking.guests }} guests</p>
+                                </div>
+                                <div class="action-buttons">
+                                    <button class="btn btn-small btn-accept" onclick="handleBookingAction({{ booking.id }}, 'confirmed')">Accept</button>
+                                    <button class="btn btn-small btn-decline" onclick="handleBookingAction({{ booking.id }}, 'cancelled')">Decline</button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <p>No pending requests</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+            
+            <!-- My Services -->
+            <section class="section">
+                <div class="section-title">🎯 My Services</div>
+                
+                <ul class="services-list" id="servicesList">
+                    {% if provider_services %}
+                        {% for service in provider_services %}
+                            <li class="service-item">
+                                <div class="service-info">
+                                    <h4>{{ service.name }}</h4>
+                                    <p>{{ service.service_type | capitalize }} • ₹{{ service.price_per_day }} / day</p>
+                                </div>
+                                <div class="service-price">⭐ {{ "%.1f" | format(service.rating or 0) }}</div>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty-state">
+                            <p>No services added yet</p>
+                        </li>
+                    {% endif %}
+                </ul>
+                
+                <button class="btn" onclick="window.location.href='/provider_profile'" style="width: 100%; margin-top: 1rem;">
+                    + Add Service
+                </button>
+            </section>
+            
+            <!-- Quick Actions -->
+            <section class="section">
+                <div class="section-title">⚡ Quick Actions</div>
+                
+                <div class="quick-links">
+                    <a href="/provider_profile" class="link-btn">📋 Manage Services</a>
+                    <a href="/homestay_dashboard" class="link-btn">🏡 My Homestay</a>
+                    <a href="#" class="link-btn">📊 Analytics</a>
+                    <a href="#" class="link-btn">💬 Messages</a>
+                    <a href="#" class="link-btn">⭐ Reviews</a>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-title">🏨 Trending Stay Listings</div>
+                <div class="hotel-grid">
+                    <div class="hotel-card">
+                        <h4>Hillside Homestay, Netarhat</h4>
+                        <div class="hotel-meta"><span>Netarhat</span><span class="hotel-price">₹2,500/night</span></div>
+                        <p>Authentic homestay in the hills with local meals, guided village walks and sunset views.</p>
+                    </div>
+                    <div class="hotel-card">
+                        <h4>Riverside Lodge, Ranchi</h4>
+                        <div class="hotel-meta"><span>Ranchi</span><span class="hotel-price">₹3,000/night</span></div>
+                        <p>Comfortable lodge near the river with easy access to city attractions and traditional museums.</p>
+                    </div>
+                    <div class="hotel-card">
+                        <h4>Forest Craft Retreat, Hazaribagh</h4>
+                        <div class="hotel-meta"><span>Hazaribagh</span><span class="hotel-price">₹2,200/night</span></div>
+                        <p>Rustic stay with craft workshops, forest treks and a quiet escape from busy town centers.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Recent Activity -->
+            <section class="section">
+                <div class="section-title">📈 Recent Activity</div>
+                
+                <div id="recentActivity" style="margin-top: 1rem;">
+                    <p style="color: #999; text-align: center;">No recent activity</p>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+            if (!user.id) {
+                window.location.href = '/login';
+            }
+        });
+
+        function handleBookingAction(bookingId, status) {
+            fetch(`/bookings/${bookingId}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(`Booking ${status} successfully.`);
+                    window.location.reload();
+                } else {
+                    alert(`Failed to ${status} booking: ${data.message || 'Unknown error'}`);
+                }
+            })
+            .catch(error => {
+                console.error('Booking action error:', error);
+                alert('Unable to update booking status.');
+            });
+        }
+    </script>
+</body>
+</html>
